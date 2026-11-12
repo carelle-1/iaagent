@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IA Agent Studio — Vos pages Facebook, pilotées par des agents IA</title>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070b; --panel:#101016; --panel-2:#0c0c12; --border:#1f1f29;
+  --text:#f2f2f6; --muted:#9a9aab; --muted-2:#6f6f80;
+  --violet:#8b7bf0; --cyan:#35d4e8; --cyan-solid:#22c7e8;
+  --pill-bg:rgba(139,123,240,.12); --pill-border:rgba(139,123,240,.35);
+}
+html{box-sizing:border-box; scroll-padding-top:env(safe-area-inset-top,0px);}
+*,*::before,*::after{box-sizing:inherit;}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:'JetBrains Mono',monospace;}
+.wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+a{color:inherit;}
+img{max-width:100%;}
+
+/* NAV */
+header{border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(7,7,11,.85); backdrop-filter:blur(10px); z-index:20;}
+.navbar{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1180px; margin:0 auto;}
+.brand{display:flex; align-items:center; gap:10px;}
+.brand-mark{font-weight:800; font-size:17px; letter-spacing:-.01em;}
+.brand-tag{font-size:11px; color:var(--muted); background:var(--panel); border:1px solid var(--border); padding:4px 10px; border-radius:20px;}
+nav.links{display:flex; align-items:center; gap:28px;}
+nav.links a.navlink{font-size:14px; color:#cfcfe0; text-decoration:none;}
+.btn{display:inline-flex; align-items:center; justify-content:center; font-weight:600; font-size:14px; border-radius:10px; cursor:pointer; border:1px solid transparent; text-decoration:none; white-space:nowrap;}
+.btn-primary{background:var(--cyan-solid); color:#031015; padding:10px 18px;}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-outline{background:transparent; color:var(--text); border-color:var(--border); padding:10px 18px;}
+.btn-outline:hover{border-color:#3a3a4a;}
+.btn-block{width:100%; padding:15px 0; font-size:15px;}
+
+/* HERO */
+.hero{padding:72px 0 64px;}
+.hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:start;}
+.eyebrow-pill{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; color:#cbb8ff; background:var(--pill-bg); border:1px solid var(--pill-border); padding:6px 14px; border-radius:20px; margin-bottom:22px;}
+.eyebrow-pill .dot{width:6px; height:6px; border-radius:50%; background:var(--violet);}
+h1.headline{font-size:54px; line-height:1.07; font-weight:800; letter-spacing:-.02em; margin:0 0 22px;}
+h1.headline .grad{background:linear-gradient(90deg,var(--violet),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.hero-copy{font-size:16.5px; line-height:1.6; color:var(--muted); max-width:52ch; margin:0 0 30px;}
+.hero-actions{display:flex; gap:12px; margin-bottom:26px; flex-wrap:wrap;}
+.hero-bullets{display:flex; flex-wrap:wrap; gap:22px; font-size:13px; color:var(--muted-2); margin-bottom:28px;}
+.hero-bullets span{display:flex; align-items:center; gap:7px;}
+.hero-bullets span::before{content:"◆"; color:var(--violet); font-size:9px;}
+
+.demo-card{border:1px solid var(--border); background:var(--panel-2); border-radius:14px; padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+.demo-card .label{font-weight:600; font-size:14px;}
+.demo-card .detail{color:var(--muted); font-size:13.5px; font-weight:400;}
+.demo-card .admin{color:var(--cyan); font-size:13.5px; text-decoration:none; white-space:nowrap;}
+
+/* HERO VISUAL */
+.visual{border:1px solid var(--border); border-radius:18px; background:radial-gradient(120% 120% at 70% 0%, #0d1620 0%, #07070b 60%); padding:22px; position:relative; overflow:hidden;}
+.tooltip{position:absolute; top:22px; left:22px; max-width:200px; background:#0c1116; border:1px solid #233038; border-radius:12px; padding:13px 15px; font-size:12.5px; line-height:1.5; z-index:3;}
+.tooltip b{display:block; font-size:12.5px; margin-bottom:5px;}
+.tooltip span{color:#aab3bb;}
+.orb-stage{height:300px; display:flex; align-items:center; justify-content:center; position:relative;}
+.orb{
+  width:260px; height:260px; border-radius:50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,.95), rgba(255,255,255,0) 18%),
+    radial-gradient(circle at 70% 75%, #0a6fa3 0%, #0a6fa3 0%, transparent 40%),
+    radial-gradient(circle at 38% 40%, #5fd6f5 0%, #1ba8e0 38%, #0a63a0 75%, #073a63 100%);
+  box-shadow:0 0 70px 10px rgba(53,212,232,.35), inset -20px -25px 50px rgba(0,30,50,.55);
+  position:relative;
+}
+.orb::before,.orb::after{
+  content:""; position:absolute; top:40%; width:26px; height:42px; border-radius:50%;
+  background:rgba(255,255,255,.96); filter:blur(1px);
+}
+.orb::before{left:34%;}
+.orb::after{left:54%;}
+.visual-foot{display:flex; align-items:flex-end; justify-content:space-between; margin-top:14px; gap:10px; flex-wrap:wrap;}
+.visual-foot .tag{font-size:11px; letter-spacing:.08em; color:var(--muted-2); text-transform:uppercase; margin-bottom:4px;}
+.visual-foot h3{margin:0; font-size:19px; font-weight:700;}
+.badge-ok{font-size:12.5px; background:rgba(60,200,140,.12); border:1px solid rgba(60,200,140,.35); color:#7fe0b4; padding:5px 12px; border-radius:20px; white-space:nowrap;}
+
+/* SECTIONS */
+section{padding:60px 0;}
+.eyebrow{font-size:12.5px; font-weight:600; letter-spacing:.06em; color:var(--violet); margin-bottom:10px;}
+h2.section-title{font-size:30px; font-weight:800; letter-spacing:-.01em; margin:0 0 36px;}
+
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+.card{border:1px solid var(--border); background:var(--panel); border-radius:14px; padding:24px;}
+.step-num{display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:8px; background:var(--pill-bg); border:1px solid var(--pill-border); color:#cbb8ff; font-weight:700; font-size:13px; margin-bottom:18px;}
+.card h3{font-size:16px; margin:0 0 10px; font-weight:700;}
+.card p{font-size:14px; line-height:1.6; color:var(--muted); margin:0;}
+.feat-icon{width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center; background:var(--pill-bg); border:1px solid var(--pill-border); margin-bottom:18px; color:#cbb8ff;}
+
+/* BOTTOM SPLIT */
+.split{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+.panel{border:1px solid var(--border); background:var(--panel); border-radius:16px; padding:32px;}
+.panel p{color:var(--muted); font-size:14.5px; line-height:1.65; margin:0 0 22px;}
+.panel h2{font-size:23px; font-weight:800; margin:0 0 14px; letter-spacing:-.01em;}
+.code-box{background:#060608; border:1px solid var(--border); border-radius:10px; padding:18px 20px; font-size:13px; line-height:1.75; color:#b9c3c6; min-height:170px; overflow:auto; position:relative;}
+.code-box em{color:#e7e9ea; font-style:italic;}
+.code-box .tag-line{color:var(--cyan);}
+ul.check{list-style:none; margin:0 0 26px; padding:0; display:flex; flex-direction:column; gap:12px;}
+ul.check li{font-size:14px; color:#d7d7e4; display:flex; gap:9px;}
+ul.check li::before{content:"◆"; color:var(--violet); font-size:9px; margin-top:5px;}
+
+footer{border-top:1px solid var(--border); padding:28px 0; font-size:13px; color:var(--muted-2); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+@media (max-width:860px){
+  nav.links{display:none;}
+  .hero-grid{grid-template-columns:1fr;}
+  h1.headline{font-size:38px;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:1fr;}
+  .split{grid-template-columns:1fr;}
+}
+@media (max-width:480px){
+  .grid-4{grid-template-columns:1fr;}
+  h1.headline{font-size:32px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="brand">
+      <img src="/assets/1.png" alt="IA Agent Studio" class="brand-logo" style="height:48px; width:auto;">
+      <span class="brand-tag">SaaS · Agents IA</span>
+    </div>
+    <nav class="links">
+      <a class="navlink" href="#fonctionnement">Fonctionnement</a>
+      <a class="navlink" href="#fonctionnalites">Fonctionnalités</a>
+      <a class="btn btn-primary" href="/login">Se connecter</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow-pill"><span class="dot"></span> Agents IA · Facebook Page Management</span>
+        <h1 class="headline">Vos pages<br><span class="grad">Facebook,</span><br>pilotées par des<br>agents IA.</h1>
+        <p class="hero-copy">IA Agent Studio transforme votre stratégie sociale en calendrier exécutable. L'agent prépare les textes et les visuels, l'intelligence éditoriale est automatisée, la validation reste humaine. Vous ne publiez que ce que vous avez approuvé.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#connexion">Entrer dans la plateforme</a>
+          <a class="btn btn-outline" href="#fonctionnement">Découvrir le fonctionnement</a>
+        </div>
+        <div class="hero-bullets">
+          <span>Validation web avant chaque publication</span>
+          <span>Jeton Meta chiffré</span>
+          <span>Multi-pages</span>
+        </div>
+        <div class="demo-card">
+          <div><span class="label">Agent de démonstration actif :</span> <span class="detail">IA Agent Studio · page Ghostroar · 14 publications / semaine</span></div>
+          <a class="admin" href="#connexion">Admin / Babady 86 →</a>
+        </div>
+      </div>
+
+      <div class="visual">
+        <div class="tooltip"><b>Hook proposé</b><span>« Une entreprise digitale ne travaille pas plus vite. Elle décide plus vite. »</span></div>
+        <div class="orb-stage">
+          <video src="/assets/mascotte1.mp4" autoplay loop muted playsinline style="width:260px; height:260px; border-radius:50%; object-fit:cover;"></video>
+        </div>
+        <div class="visual-foot">
+          <div>
+            <div class="tag">Cette semaine</div>
+            <h3>14 publications proposées</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fonctionnement">
+    <div class="eyebrow">LE CYCLE DE TRAVAIL</div>
+    <h2 class="section-title">Quatre étapes, une seule validation</h2>
+    <div class="grid-4">
+      <div class="card">
+        <div class="step-num">01</div>
+        <h3>Configurez l'agent</h3>
+        <p>Activité, audience, ton, objectifs, pages Facebook, nombre de publications et prompts : tout ce que l'agent doit savoir est centralisé dans une fiche de configuration.</p>
+      </div>
+      <div class="card">
+        <div class="step-num">02</div>
+        <h3>Recevez le calendrier</h3>
+        <p>Chaque semaine, l'agent propose un calendrier complet : piliers éditoriaux, hooks, créneaux optimisés et pages concernées.</p>
+      </div>
+      <div class="card">
+        <div class="step-num">03</div>
+        <h3>Ajustez le contenu et les visuels</h3>
+        <p>Réécrivez, mettez en forme (gras, italique, polices, listes), modifiez le prompt du visuel ou demandez une autre proposition à l'agent.</p>
+      </div>
+      <div class="card">
+        <div class="step-num">04</div>
+        <h3>Validez, puis publiez</h3>
+        <p>Seul le contenu validé est diffusé sur Facebook. La publication part automatiquement à la date et l'heure optimales de la page.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="fonctionnalites">
+    <div class="eyebrow">FONCTIONNALITÉS</div>
+    <h2 class="section-title">Tout ce qu'un agent doit savoir faire</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <h3>Calendrier hebdomadaire intelligent</h3>
+        <p>Répartition automatique des piliers (pédagogie, preuve, offre, coulisses) sur les fenêtres de lecture des décideurs.</p>
+      </div>
+      <div class="card">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <h3>Rédaction Facebook native</h3>
+        <p>Hooks accrocheurs, structure lisible, CTA explicite, hashtags pertinents et conversion de la mise en forme en rendu compatible Facebook.</p>
+      </div>
+      <div class="card">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+        </div>
+        <h3>Visuels générés et versionnés</h3>
+        <p>Chaque publication arrive avec un visuel 1200×630 à la charte de la marque. Modifiez le prompt ou demandez une variante.</p>
+      </div>
+      <div class="card">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3>Multi-pages, multi-utilisateurs</h3>
+        <p>Un agent peut piloter plusieurs pages. Chaque compte dispose de son espace, de ses agents et de ses validations.</p>
+      </div>
+      <div class="card">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h3>Jetons Meta chiffrés</h3>
+        <p>App ID, secret et jeton d'accès stockés chiffrés. Mode sandbox pour tester sans risque, mode live pour publier via l'API Graph.</p>
+      </div>
+      <div class="card">
+        <div class="feat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <h3>Publication planifiée</h3>
+        <p>Un cron cPanel appelle l'endpoint de publication : les contenus validés partent seuls au meilleur moment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="connexion">
+    <div class="split">
+      <div class="panel">
+        <div class="eyebrow">ESPACE DE VALIDATION</div>
+        <h2>Un texte structuré, prêt pour Facebook</h2>
+        <p>L'agent propose un hook, un développement, une liste de bénéfices, un CTA et des hashtags. Votre éditeur applique la mise en forme (gras, italique, polices, listes) puis la convertit en rendu compatible avec le composeur Facebook.</p>
+<div class="code-box mono">
+          <em>Une entreprise digitale ne travaille pas plus vite.<br>Elle décide plus vite.</em><br><br>
+          Un ERP ne remplace pas vos équipes : il relie les fonctions.<br><br>
+          • Ventes & CRM : pipeline fiable<br>
+          • Finance : trésorerie consolidée<br>
+          • Opérations : stocks synchronisés<br><br>
+          Réservez un diagnostic gratuit de votre système d'information.<br>
+          <span class="tag-line">#ERP #Digitalisation #Ghostroar</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">PRÊT À DÉMARRER</div>
+        <h2>Votre plateforme est déjà initialisée</h2>
+        <p>Le compte super administrateur, l'agent IA Agent Studio, la page Ghostroar et le calendrier des trois prochaines semaines sont créés automatiquement au premier démarrage.</p>
+        <ul class="check">
+          <li>14 publications / semaine planifiées</li>
+          <li>Descriptions rédigées et visuels au format 1200×630</li>
+          <li>Validation publication par publication ou en bloc</li>
+          <li>Publication planifiée via l'API Graph (mode sandbox par défaut)</li>
+        </ul>
+        <a class="btn btn-primary btn-block" href="/login">Se connecter maintenant</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>IA Agent Studio · plateforme d'agents IA pour Ghostroar Digital</span>
+  <span>React · Vite · MySQL · API Graph Meta · Hébergement cPanel documenté</span>
+</footer>
+
+</body>
+</html>
