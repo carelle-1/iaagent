@@ -6,6 +6,9 @@ use App\Http\Controllers\MetaAccountController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\UserAgentController;
+use App\Http\Controllers\UserAgentCalendarController;
+use App\Http\Controllers\UserAgentIdentityController;
+use App\Http\Controllers\UserAgentPublicationController;
 
 Route::get('/', function () {
     return view('index');
@@ -309,6 +312,13 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::post('/{metaAccount}/reconnect', [MetaAccountController::class, 'reconnect'])->name('reconnect');
     });
 
+    Route::middleware(['role:user'])->prefix('user/publications')->name('user.publications.')->group(function () {
+        Route::get('/validated', [UserAgentPublicationController::class, 'index'])->name('validated');
+        Route::post('/{entry}/generate', [UserAgentPublicationController::class, 'generate'])->name('generate');
+        Route::post('/{entry}/visual', [UserAgentPublicationController::class, 'generateVisual'])->name('visual');
+        Route::get('/visuals/{visual}', [UserAgentPublicationController::class, 'visualStatus'])->name('visuals.status');
+    });
+
     Route::middleware(['role:user'])->prefix('user/agents')->name('user.agents.')->group(function () {
         Route::get('/', [UserAgentController::class, 'index'])->name('index');
         Route::post('/', [UserAgentController::class, 'store'])->name('store');
@@ -317,5 +327,21 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::delete('/{userAgent}', [UserAgentController::class, 'destroy'])->name('destroy');
         Route::get('/admin-agents', [UserAgentController::class, 'adminAgents'])->name('admin-agents');
         Route::get('/photo/{filename}', [UserAgentController::class, 'servePhoto'])->name('photo');
+        Route::get('/logo/{filename}', [UserAgentIdentityController::class, 'serveLogo'])->name('logo');
+        Route::get('/identity-image/{filename}', [UserAgentIdentityController::class, 'serveImage'])->name('identity.images.serve');
+        Route::get('/calendar/models', [UserAgentCalendarController::class, 'models'])->name('calendar.models');
+        Route::get('/{userAgent}/calendar', [UserAgentCalendarController::class, 'index'])->name('calendar.index');
+        Route::post('/{userAgent}/calendar/generate', [UserAgentCalendarController::class, 'generate'])->name('calendar.generate');
+        Route::delete('/{userAgent}/calendar', [UserAgentCalendarController::class, 'destroy'])->name('calendar.destroy');
+        Route::patch('/{userAgent}/calendar/{entry}', [UserAgentCalendarController::class, 'update'])->name('calendar.entries.update');
+        Route::patch('/{userAgent}/calendar/{entry}/status', [UserAgentCalendarController::class, 'updateStatus'])->name('calendar.entries.status');
+        Route::delete('/{userAgent}/calendar/{entry}', [UserAgentCalendarController::class, 'destroyEntry'])->name('calendar.entries.destroy');
+        Route::get('/{userAgent}/identity', [UserAgentIdentityController::class, 'show'])->name('identity.show');
+        Route::post('/{userAgent}/identity', [UserAgentIdentityController::class, 'store'])->name('identity.store');
+        Route::post('/{userAgent}/identity/accounts', [UserAgentIdentityController::class, 'storeAccount'])->name('identity.accounts.store');
+        Route::post('/{userAgent}/identity/images', [UserAgentIdentityController::class, 'uploadImages'])->name('identity.images.store');
+        Route::delete('/{userAgent}/identity/images/{image}', [UserAgentIdentityController::class, 'destroyImage'])->name('identity.images.destroy');
+        Route::put('/{userAgent}/identity/accounts/{account}', [UserAgentIdentityController::class, 'updateAccount'])->name('identity.accounts.update');
+        Route::delete('/{userAgent}/identity/accounts/{account}', [UserAgentIdentityController::class, 'destroyAccount'])->name('identity.accounts.destroy');
     });
 });

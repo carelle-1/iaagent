@@ -96,6 +96,10 @@ class UserAgentController extends Controller
             Storage::disk('public')->delete($userAgent->profile_photo);
         }
 
+        if ($userAgent->identity && $userAgent->identity->logo_path) {
+            Storage::disk('public')->delete($userAgent->identity->logo_path);
+        }
+
         $userAgent->delete();
 
         return response()->json(['success' => true, 'message' => 'Agent supprimé.']);

@@ -35,10 +35,29 @@ return [
         ],
     ],
 
-    'meta' => [
+'meta' => [
         'app_id' => env('META_APP_ID'),
         'app_secret' => env('META_APP_SECRET'),
         'graph_version' => env('META_GRAPH_VERSION', 'v21.0'),
+    ],
+
+    'ollama' => [
+        'url' => env('OLLAMA_URL', 'http://127.0.0.1:11434'),
+        'model' => env('OLLAMA_MODEL'),
+        'timeout' => (int) env('OLLAMA_TIMEOUT', 420),
+    ],
+
+    'comfyui' => [
+        'url' => env('COMFYUI_URL', 'http://127.0.0.1:8188'),
+        'checkpoint' => env('COMFYUI_CHECKPOINT', 'v1-5-pruned-emaonly.safetensors'),
+        'steps' => (int) env('COMFYUI_STEPS', 10),
+        'cfg' => (float) env('COMFYUI_CFG', 7),
+        'width' => (int) env('COMFYUI_WIDTH', 512),
+        'height' => (int) env('COMFYUI_HEIGHT', 512),
+        'sampler' => env('COMFYUI_SAMPLER', 'euler'),
+        'scheduler' => env('COMFYUI_SCHEDULER', 'normal'),
+        'timeout' => (int) env('COMFYUI_TIMEOUT', 300),
+        'negative_prompt' => env('COMFYUI_NEGATIVE_PROMPT', 'text, watermark, logo, signature, low quality, blurry, deformed, extra limbs, bad anatomy, cropped, out of frame, worst quality, jpeg artifacts'),
     ],
 
 ];

@@ -150,10 +150,46 @@ html[data-theme="light"] .brand-logo-light{display:block !important;}
 table.data{width:100%; border-collapse:collapse; font-size:13.5px;}
 table.data th{text-align:left; color:var(--muted); font-weight:600; font-size:12px; padding:10px 14px; border-bottom:1px solid var(--border);}
 table.data td{padding:12px 14px; border-bottom:1px solid var(--border);}
-.pill{padding:4px 10px; border-radius:20px; font-size:11.5px; font-weight:600;}
+.pill{padding:4px 10px; border-radius:20px; font-size:11.5px; font-weight:600; white-space:nowrap;}
 .pill.g{background:rgba(52,194,122,.12); color:var(--green);}
 .pill.o{background:rgba(240,169,60,.12); color:var(--orange);}
 .pill.v{background:rgba(139,123,240,.15); color:var(--violet);}
+table.data .col-statut{width:150px; min-width:150px; white-space:nowrap;}
+.cal-menu-btn{min-width:42px; justify-content:center; font-size:16px; letter-spacing:1px; line-height:1;}
+.cal-action-menu{position:fixed; z-index:300; display:none; min-width:160px; padding:6px; background:var(--panel); border:1px solid var(--border-2); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,.45);}
+.cal-action-menu.open{display:block;}
+.cal-action-menu button{display:flex; align-items:center; gap:8px; width:100%; padding:9px 10px; border:0; background:none; color:var(--text); font:inherit; font-size:13px; text-align:left; border-radius:7px; cursor:pointer;}
+.cal-action-menu button:hover{background:var(--dropdown-hover);}
+.cal-action-menu button.danger{color:var(--red);}
+.cal-action-menu button.primary{color:var(--cyan);}
+.cal-action-menu button .ico{width:15px; height:15px;}
+.identity-images-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:10px;}
+.identity-image-card{border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--panel-2);}
+.identity-image-card img{display:block; width:100%; height:110px; object-fit:cover;}
+.identity-image-caption{padding:8px 8px 0; font-size:12px; color:var(--muted); word-break:break-word;}
+.identity-image-actions{padding:8px; display:flex; justify-content:flex-end;}
+.studio-layout{display:grid; grid-template-columns:minmax(260px, 340px) 1fr; gap:16px; align-items:start;}
+.studio-list{display:flex; flex-direction:column; gap:8px; max-height:72vh; overflow-y:auto; padding-right:4px;}
+.studio-list .empty-box{width:100%;}
+.studio-list-item{display:flex; gap:10px; align-items:flex-start; width:100%; text-align:left; border:1px solid var(--border); border-radius:12px; padding:10px; background:var(--panel-2); cursor:pointer; font:inherit; color:inherit; transition:border-color .15s, background .15s;}
+.studio-list-item:hover{border-color:var(--border-2);}
+.studio-list-item.active{border-color:var(--cyan); box-shadow:0 0 0 1px var(--cyan) inset;}
+.studio-list-thumb{width:54px; height:54px; flex:0 0 auto; border-radius:9px; object-fit:cover; background:var(--panel); border:1px solid var(--border); display:block;}
+.studio-list-body{min-width:0; flex:1;}
+.studio-list-body h4{margin:0 0 4px; font-size:13.5px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.studio-list-meta{font-size:11.5px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.studio-detail{border:1px solid var(--border); border-radius:14px; background:var(--panel-2); padding:18px; min-height:320px;}
+.studio-detail-empty{display:flex; align-items:center; justify-content:center; min-height:280px; color:var(--muted); font-size:13.5px; text-align:center; padding:20px;}
+.studio-detail-head{margin-bottom:14px;}
+.studio-detail-title{margin:10px 0 0; font-size:18px; line-height:1.3;}
+.studio-generated{margin-top:6px; padding:12px; border:1px dashed var(--border-2); border-radius:10px; background:var(--panel);}
+.studio-meta{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:8px; color:var(--muted); font-size:12.5px;}
+.studio-actions{display:flex; justify-content:flex-end; margin-top:auto; padding-top:10px;}
+.studio-card-thumb{display:block; width:100%; height:120px; object-fit:cover; border-radius:10px; border:1px solid var(--border); background:var(--panel); margin-bottom:10px;}
+.studio-visual-box{margin-top:12px; border-top:1px solid var(--border); padding-top:12px;}
+.studio-visual-preview{display:none; width:100%; max-height:320px; object-fit:cover; border-radius:12px; border:1px solid var(--border); background:var(--panel-2); margin-top:10px;}
+.studio-visual-meta{font-size:12.5px; color:var(--muted); margin-top:6px; white-space:pre-wrap;}
+@media (max-width: 860px){ .studio-layout{grid-template-columns:1fr;} .studio-list{max-height:none;} }
 .form-row{display:flex; flex-direction:column; gap:6px; margin-bottom:16px; max-width:420px.}
 .form-row label{font-size:13px; color:var(--muted);}
 .form-row input,.form-row select,.form-row textarea{background:var(--panel-2); border:1px solid var(--border-2); color:var(--text); border-radius:9px; padding:10px 12px; font-size:13.5px; font-family:inherit;}
@@ -252,6 +288,8 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
     <symbol id="i-arrow-tr" viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></symbol>
     <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M7 16V9"/><path d="M12 16V5"/><path d="M17 16v-4"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
     <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></symbol>
@@ -378,33 +416,236 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
       </section>
 
       <section class="page" id="page-calendrier">
-        <div class="page-head"><h1>Calendrier Éditorial</h1><p>Vue hebdomadaire des publications proposées par l'agent.</p></div>
-        <table class="data">
-          <tr><th>Date</th><th>Page</th><th>Pilier</th><th>Statut</th></tr>
-          <tr><td>Lun. 10/11 — 09:00</td><td>Ghostroar FB</td><td>Pédagogie</td><td><span class="pill o">En attente</span></td></tr>
-          <tr><td>Mar. 11/11 — 12:30</td><td>Ghostroar FB</td><td>Preuve</td><td><span class="pill o">En attente</span></td></tr>
-          <tr><td>Mer. 12/11 — 18:00</td><td>Ghostroar IG</td><td>Offre</td><td><span class="pill g">Validée</span></td></tr>
-          <tr><td>Jeu. 13/11 — 09:00</td><td>Ghostroar FB</td><td>Coulisses</td><td><span class="pill v">Planifiée</span></td></tr>
-        </table>
+        <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;">
+          <div><h1>Calendrier Éditorial</h1><p>Générez un calendrier à partir de l'objectif, de la charte et des comptes inspirants de votre agent.</p></div>
+          <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+            <div class="field" style="margin:0;min-width:220px;">
+              <label>Agent</label>
+              <select id="calendarAgentSelect"><option value="">Sélectionnez un agent</option></select>
+            </div>
+            <div class="field" style="margin:0;min-width:220px;">
+              <label>Modèle Ollama</label>
+              <select id="calendarModelSelect"><option value="">Chargement…</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:16px;">
+          <div class="panel-head"><div><h2>Génération IA</h2><p>Le calendrier est construit à partir de l'identité de l'agent et du modèle Ollama local.</p></div></div>
+          <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+            <div class="field" style="margin:0;min-width:150px;">
+              <label>Date de début</label>
+              <input type="date" id="calendarStartDate">
+            </div>
+            <div class="field" style="margin:0;min-width:110px;">
+              <label>Semaines</label>
+              <input type="number" id="calendarWeeks" min="1" max="4" value="1">
+            </div>
+            <div class="field" style="margin:0;min-width:130px;">
+              <label>Posts / semaine</label>
+              <input type="number" id="calendarPostsPerWeek" min="1" max="10" value="3">
+            </div>
+            <button class="btn-inline primary" id="calendarGenerateBtn"><svg class="ico"><use href="#i-bolt"/></svg> Générer avec Ollama</button>
+            <button class="btn-inline danger" id="calendarClearBtn"><svg class="ico"><use href="#i-trash"/></svg> Vider</button>
+          </div>
+          <div id="calendarStatus" style="margin-top:10px;font-size:12.5px;color:var(--muted);">Ollama local : vérification…</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div><h2>Calendrier généré</h2><p>Publications proposées par l'agent, à valider avant publication.</p></div><span id="calendarCount" class="pill v">0 publication(s)</span></div>
+          <div id="calendarList"><div class="empty-box">Aucun calendrier généré. Cliquez sur « Générer avec Ollama ».</div></div>
+        </div>
       </section>
 
+      <div class="modal-backdrop" id="calendarEditModal">
+        <div class="modal">
+          <div class="modal-head"><h3>Modifier la publication</h3><button class="btn-inline" id="calendarEditClose" type="button">Fermer</button></div>
+          <form id="calendarEditForm">
+            <input type="hidden" id="calendarEditId">
+            <div class="modal-body">
+              <div class="field"><label>Date et heure</label><input type="datetime-local" id="calendarEditPublishedAt" required></div>
+              <div class="field">
+                <label>Plateforme</label>
+                <select id="calendarEditPlatform">
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="youtube">YouTube</option>
+                  <option value="x">X (Twitter)</option>
+                  <option value="other">Autre</option>
+                </select>
+              </div>
+              <div class="field"><label>Pilier</label><input id="calendarEditPillar" maxlength="100" placeholder="Ex : Pédagogie"></div>
+              <div class="field"><label>Titre</label><input id="calendarEditTitle" maxlength="255" placeholder="Titre de la publication"></div>
+              <div class="field"><label>Légende</label><textarea id="calendarEditCaption" rows="4" maxlength="1000" placeholder="Légende à publier"></textarea></div>
+              <div class="field"><label>Prompt visuel</label><textarea id="calendarEditVisual" rows="2" maxlength="500" placeholder="Description du visuel"></textarea></div>
+              <div class="field"><label>Hashtags</label><input id="calendarEditHashtags" maxlength="300" placeholder="#hashtag1 #hashtag2"></div>
+              <div class="field" style="margin-bottom:0;">
+                <label>Statut</label>
+                <select id="calendarEditStatus">
+                  <option value="pending">En attente</option>
+                  <option value="validated">Validée</option>
+                  <option value="published">Publiée</option>
+                  <option value="draft">Brouillon</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-foot"><button type="button" class="btn-inline" id="calendarEditCancel">Annuler</button><button type="submit" class="btn-inline primary">Enregistrer</button></div>
+          </form>
+        </div>
+      </div>
+
+      <div class="cal-action-menu" id="calendarActionMenu">
+        <button type="button" data-menu-action="edit"><svg class="ico"><use href="#i-edit"/></svg> Modifier</button>
+        <button type="button" data-menu-action="delete" class="danger"><svg class="ico"><use href="#i-trash"/></svg> Supprimer</button>
+        <button type="button" data-menu-action="validate" class="primary"><svg class="ico"><use href="#i-check"/></svg> Valider</button>
+        <button type="button" data-menu-action="publish" class="primary" style="display:none;"><svg class="ico"><use href="#i-check"/></svg> Publier</button>
+      </div>
+
       <section class="page" id="page-studio">
-        <div class="page-head"><h1>Studio des Publications</h1><p>Éditez le texte et le visuel avant validation.</p></div>
-        <div class="panel" style="max-width:640px">
-          <div class="form-row"><label>Texte de la publication</label><textarea rows="5">Un ERP ne remplace pas vos équipes : il relie les fonctions…</textarea></div>
-          <div class="form-row"><label>Prompt du visuel</label><input value="Illustration moderne, bleu/violet, style flat design"></div>
-          <button class="hbtn" style="background:var(--cyan); color:#031015;">Régénérer le visuel</button>
+        <div class="page-head">
+          <div><h1>Studio des Publications</h1><p>Publications validées dans le calendrier éditorial, prêtes à générer.</p></div>
+          <button type="button" class="btn-inline" id="studioRefreshBtn"><svg class="ico"><use href="#i-calendar"/></svg> Actualiser</button>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <div><h2>Publications validées</h2><p>Sélectionnez une publication pour afficher ses informations jusqu'au visuel.</p></div>
+            <span id="studioCount" class="pill v">0 publication(s)</span>
+          </div>
+          <div class="studio-layout">
+            <div id="studioPublicationsList" class="studio-list"><div class="empty-box">Chargement…</div></div>
+            <div id="studioDetail" class="studio-detail">
+              <div class="studio-detail-empty">Sélectionnez une publication dans la liste pour afficher toutes ses informations jusqu'au visuel.</div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section class="page" id="page-identite">
-        <div class="page-head"><h1>Identité & Inspiration</h1><p>Ton de marque, valeurs et références qui guident l'agent.</p></div>
-        <div class="card-grid">
-          <div class="simple-card"><h3>Ton de voix</h3><p>Professionnel, chaleureux, orienté résultats concrets.</p></div>
-          <div class="simple-card"><h3>Palette & charte</h3><p>Bleu cyan, violet, fond sombre — cohérent avec la plateforme.</p></div>
-          <div class="simple-card"><h3>Comptes inspirants</h3><p>3 comptes de référence suivis pour nourrir le style éditorial.</p></div>
+        <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;">
+          <div><h1>Identité & Inspiration</h1><p>Objectif, palette & charte, logo et comptes inspirants qui guident l'agent.</p></div>
+          <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+            <div class="field" style="margin:0;min-width:220px;">
+              <label>Agent</label>
+              <select id="identityAgentSelect"><option value="">Sélectionnez un agent</option></select>
+            </div>
+            <button class="btn-inline primary" id="identitySaveBtn"><svg class="ico"><use href="#i-check"/></svg> Enregistrer l'identité</button>
+          </div>
+        </div>
+
+        <div id="identityEmpty" class="empty-box" style="display:none;">Aucun agent configuré. Créez d'abord un agent dans « Gérer mes agents ».</div>
+
+        <div id="identityContent" style="display:none;">
+          <div class="two-col" style="align-items:start;">
+            <div>
+              <div class="panel" style="margin-bottom:16px;">
+                <div class="panel-head"><div><h2>Objectif</h2><p>La mission principale assignée à l'agent.</p></div></div>
+                <div class="field" style="margin:0;">
+                  <label>Objectif de l'agent</label>
+                  <textarea id="identityObjective" rows="3" maxlength="5000" placeholder="Ex : Générer des leads qualifiés pour l'offre ERP et nourrir la relation client."></textarea>
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-head"><div><h2>Palette & charte</h2><p>Couleurs et règles visuelles de la marque.</p></div></div>
+                <div class="field">
+                  <label>Couleurs</label>
+                  <div id="paletteList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;"></div>
+                  <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;">
+                    <div style="flex:1;min-width:160px;">
+                      <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;">Nom</label>
+                      <input id="paletteName" maxlength="60" placeholder="Ex : Primaire">
+                    </div>
+                    <div>
+                      <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;">Couleur</label>
+                      <input id="paletteColor" type="color" value="#2bc7e8" style="width:54px;height:40px;padding:2px;">
+                    </div>
+                    <button type="button" class="btn-inline" id="paletteAddBtn"><svg class="ico"><use href="#i-plus"/></svg> Ajouter</button>
+                  </div>
+                </div>
+                <div class="field" style="margin:0;">
+                  <label>Charte éditoriale & visuelle</label>
+                  <textarea id="identityCharter" rows="3" maxlength="5000" placeholder="Typographie, ton, règles de composition, éléments interdits..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="panel" style="margin-bottom:16px;">
+                <div class="panel-head"><div><h2>Logo</h2><p>Logo utilisé par l'agent.</p></div></div>
+                <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                  <div id="identityLogoPreview" style="width:84px;height:84px;border-radius:12px;background:var(--panel-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">
+                    <svg class="ico" style="width:28px;height:28px;color:var(--muted);"><use href="#i-identity"/></svg>
+                  </div>
+                  <div>
+                    <input type="file" id="identityLogoInput" accept="image/*" style="display:none;">
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                      <button type="button" class="btn-inline" id="identityLogoSelectBtn"><svg class="ico"><use href="#i-plus"/></svg> Choisir un logo</button>
+                      <button type="button" class="btn-inline danger" id="identityLogoRemoveBtn" style="display:none;"><svg class="ico"><use href="#i-trash"/></svg> Retirer</button>
+                    </div>
+                    <div class="sub" style="margin-top:6px;color:var(--muted);font-size:12.5px;">JPG, PNG, WebP. Max 2 Mo. Carré recommandé.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel" style="margin-bottom:16px;">
+                <div class="panel-head">
+                  <div><h2>Images</h2><p>Visuels de référence uploadés pour l'agent.</p></div>
+                  <button type="button" class="btn-inline" id="identityImagesAddBtn"><svg class="ico"><use href="#i-plus"/></svg> Ajouter des images</button>
+                </div>
+                <input type="file" id="identityImagesInput" accept="image/*" multiple style="display:none;">
+                <div id="identityImagesList" class="identity-images-grid"><div class="empty-box">Aucune image.</div></div>
+                <div class="sub" style="margin-top:8px;color:var(--muted);font-size:12.5px;">JPG, PNG, WebP. Max 5 Mo par image. 10 images maximum par envoi.</div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-head">
+                  <div><h2>Comptes inspirants</h2><p>Comptes de référence pour le style éditorial.</p></div>
+                  <button type="button" class="btn-inline" id="accountAddBtn"><svg class="ico"><use href="#i-plus"/></svg> Ajouter</button>
+                </div>
+                <div id="inspiringAccountsList"><div class="empty-box">Aucun compte inspirant.</div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
+      <div class="modal-backdrop" id="accountModal">
+        <div class="modal">
+          <div class="modal-head"><h3 id="accountModalTitle">Compte inspirant</h3><button class="btn-inline" id="accountModalClose" type="button">Fermer</button></div>
+          <form id="accountForm">
+            <input type="hidden" id="accountId">
+            <div class="modal-body">
+              <div class="field">
+                <label>Plateforme</label>
+                <select id="accountPlatform">
+                  <option value="instagram">Instagram</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="youtube">YouTube</option>
+                  <option value="x">X (Twitter)</option>
+                  <option value="other">Autre</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Pseudo / Nom <span style="color:var(--red)">*</span></label>
+                <input id="accountHandle" required maxlength="255" placeholder="Ex : @marque-inspirante">
+              </div>
+              <div class="field">
+                <label>URL du profil</label>
+                <input id="accountUrl" type="url" maxlength="500" placeholder="https://instagram.com/...">
+              </div>
+              <div class="field" style="margin:0;">
+                <label>Notes</label>
+                <textarea id="accountNotes" maxlength="2000" placeholder="Pourquoi ce compte inspire-t-il ?"></textarea>
+              </div>
+            </div>
+            <div class="modal-foot"><button type="button" class="btn-inline" id="accountCancelBtn">Annuler</button><button type="submit" class="btn-inline primary" id="accountSaveBtn">Enregistrer</button></div>
+          </form>
+        </div>
+      </div>
 
       <section class="page" id="page-veille">
         <div class="page-head"><h1>Veille & Tendances</h1><p>Signaux marché et contenus concurrents détectés par l'agent.</p></div>
@@ -554,6 +795,11 @@ sidebar.addEventListener('click', function(e){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   var page = document.getElementById('page-'+target);
   if(page){ page.classList.add('active'); }
+  var selectedAgentId = el.getAttribute('data-agent-id');
+  if(selectedAgentId){
+    window.currentAgentId = selectedAgentId;
+    document.dispatchEvent(new CustomEvent('useragent:change', {detail:{id:selectedAgentId}}));
+  }
   if(window.innerWidth <= 760){ sidebar.classList.remove('open'); }
   window.scrollTo(0,0);
 });
@@ -1146,6 +1392,1138 @@ function agentPill(st){
     }
   });
   if(document.getElementById('page-my-agents') && document.getElementById('page-my-agents').classList.contains('active')) ensureAgentsLoad();
+})();
+
+// Identité & Inspiration handling
+(function(){
+  var pageEl = document.getElementById('page-identite');
+  var contentEl = document.getElementById('identityContent');
+  var emptyEl = document.getElementById('identityEmpty');
+  var agentSelect = document.getElementById('identityAgentSelect');
+  var saveBtn = document.getElementById('identitySaveBtn');
+  var paletteListEl = document.getElementById('paletteList');
+  var accountsListEl = document.getElementById('inspiringAccountsList');
+  var imagesListEl = document.getElementById('identityImagesList');
+  var imagesInput = document.getElementById('identityImagesInput');
+  var accountModal = document.getElementById('accountModal');
+  var accountForm = document.getElementById('accountForm');
+  if(!pageEl || !contentEl || !emptyEl || !agentSelect || !saveBtn || !paletteListEl || !accountsListEl || !imagesListEl || !imagesInput || !accountModal || !accountForm) return;
+
+  var csrf = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
+  var placeholderLogo = '<svg class="ico" style="width:28px;height:28px;color:var(--muted);"><use href="#i-identity"/></svg>';
+  var agents = [];
+  var currentAgentId = window.currentAgentId ? String(window.currentAgentId) : '';
+  var identity = null;
+  var palette = [];
+  var accounts = [];
+  var images = [];
+  var logoFile = null;
+  var removeLogo = false;
+  var editingAccountId = null;
+  var loaded = false;
+
+  function notify(msg, type){
+    if(window.Swal){
+      return Swal.fire({toast:true,position:'bottom',icon:type||'success',title:msg,showConfirmButton:false,timer:type==='error'?3500:1800,timerProgressBar:true});
+    }
+  }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&','<':'<','>':'>','"':'"',"'":'\''}[c]; }); }
+
+  async function api(url, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({'Accept':'application/json','X-CSRF-TOKEN':csrf,'X-Requested-With':'XMLHttpRequest'}, opts.headers||{});
+    if(opts.body && !(opts.body instanceof FormData) && !opts.headers['Content-Type']){
+      opts.headers['Content-Type'] = 'application/json';
+    }
+    var res = await fetch(url, opts);
+    var data = {};
+    try{ data = await res.json(); }catch(e){}
+    if(!res.ok) throw Object.assign(new Error(data.message||'Erreur'), {data:data,status:res.status});
+    return data;
+  }
+
+  function showContent(){
+    contentEl.style.display = 'block';
+    emptyEl.style.display = 'none';
+  }
+  function showEmpty(){
+    contentEl.style.display = 'none';
+    emptyEl.style.display = 'block';
+  }
+
+  function setFields(){
+    document.getElementById('identityObjective').value = identity && identity.objective ? identity.objective : '';
+    document.getElementById('identityCharter').value = identity && identity.charter ? identity.charter : '';
+  }
+
+  function renderLogo(){
+    var preview = document.getElementById('identityLogoPreview');
+    var removeBtn = document.getElementById('identityLogoRemoveBtn');
+    if(logoFile){
+      var reader = new FileReader();
+      reader.onload = function(ev){
+        preview.innerHTML = '<img src="'+ev.target.result+'" alt="" style="width:100%;height:100%;object-fit:cover;">';
+      };
+      reader.readAsDataURL(logoFile);
+      removeBtn.style.display = 'inline-flex';
+      return;
+    }
+    if(!removeLogo && identity && identity.logo_url){
+      preview.innerHTML = '<img src="'+esc(identity.logo_url)+'" alt="" style="width:100%;height:100%;object-fit:cover;">';
+      removeBtn.style.display = 'inline-flex';
+      return;
+    }
+    preview.innerHTML = placeholderLogo;
+    removeBtn.style.display = 'none';
+  }
+
+  function renderPalette(){
+    if(!palette.length){
+      paletteListEl.innerHTML = '<div style="font-size:12.5px;color:var(--muted);">Aucune couleur enregistrée.</div>';
+      return;
+    }
+    paletteListEl.innerHTML = palette.map(function(c, i){
+      return '<div style="display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:var(--panel-2);">'
+        + '<span style="width:26px;height:26px;border-radius:7px;border:1px solid var(--border-2);background:'+esc(c.hex)+';flex-shrink:0;"></span>'
+        + '<span style="flex:1;font-size:13px;">'+esc(c.name||c.hex)+' <span style="color:var(--muted);">'+esc(c.hex)+'</span></span>'
+        + '<button type="button" class="btn-inline danger" data-palette-remove="'+i+'"><svg class="ico"><use href="#i-trash"/></svg> Retirer</button>'
+        + '</div>';
+    }).join('');
+  }
+
+  function renderAccounts(){
+    if(!accounts.length){
+      accountsListEl.innerHTML = '<div class="empty-box">Aucun compte inspirant.</div>';
+      return;
+    }
+    accountsListEl.innerHTML = accounts.map(function(a){
+      var platform = esc((a.platform||'other').toUpperCase());
+      var link = a.url
+        ? '<div class="sub"><a href="'+esc(a.url)+'" target="_blank" rel="noopener" style="color:var(--cyan);word-break:break-all;">'+esc(a.url)+'</a></div>'
+        : '';
+      var notes = a.notes ? '<div class="sub">'+esc(a.notes)+'</div>' : '';
+      return '<div class="meta-card">'
+        + '<div class="info"><div class="nm">'+esc(a.handle)+' <span class="tag-fb">'+platform+'</span></div>'+link+notes+'</div>'
+        + '<div class="meta-actions">'
+        + '<button class="btn-inline" data-account-edit="'+a.id+'"><svg class="ico"><use href="#i-edit"/></svg> Modifier</button>'
+        + '<button class="btn-inline danger" data-account-delete="'+a.id+'"><svg class="ico"><use href="#i-trash"/></svg> Supprimer</button>'
+        + '</div></div>';
+    }).join('');
+  }
+
+  function renderImages(){
+    if(!images.length){
+      imagesListEl.innerHTML = '<div class="empty-box">Aucune image.</div>';
+      return;
+    }
+    imagesListEl.innerHTML = images.map(function(img){
+      var caption = img.caption ? '<div class="identity-image-caption">'+esc(img.caption)+'</div>' : '';
+      return '<div class="identity-image-card">'
+        + '<img src="'+esc(img.url||'')+'" alt="'+esc(img.caption||'')+'">'
+        + caption
+        + '<div class="identity-image-actions"><button type="button" class="btn-inline danger" data-identity-image-delete="'+img.id+'"><svg class="ico"><use href="#i-trash"/></svg> Supprimer</button></div>'
+        + '</div>';
+    }).join('');
+  }
+
+  function openAccountModal(account){
+    editingAccountId = account ? account.id : null;
+    document.getElementById('accountModalTitle').textContent = account ? 'Modifier le compte inspirant' : 'Ajouter un compte inspirant';
+    document.getElementById('accountPlatform').value = account ? (account.platform||'instagram') : 'instagram';
+    document.getElementById('accountHandle').value = account ? (account.handle||'') : '';
+    document.getElementById('accountUrl').value = account ? (account.url||'') : '';
+    document.getElementById('accountNotes').value = account ? (account.notes||'') : '';
+    accountModal.classList.add('open');
+  }
+  function closeAccountModal(){
+    accountModal.classList.remove('open');
+    accountForm.reset();
+    editingAccountId = null;
+  }
+
+  async function loadAgents(){
+    try{
+      var data = await api('/user/agents');
+      agents = data.userAgents || [];
+      agentSelect.innerHTML = '<option value="">Sélectionnez un agent</option>' + agents.map(function(a){
+        var name = a.custom_name || (a.agent && a.agent.name) || ('Agent #' + a.id);
+        return '<option value="'+a.id+'">'+esc(name)+'</option>';
+      }).join('');
+      if(!agents.length){
+        currentAgentId = '';
+        agentSelect.value = '';
+        showEmpty();
+        return;
+      }
+      if(!currentAgentId || !agents.some(function(a){ return String(a.id)===String(currentAgentId); })){
+        currentAgentId = String(agents[0].id);
+      }
+      window.currentAgentId = currentAgentId;
+      agentSelect.value = currentAgentId;
+      showContent();
+      await loadIdentity(true);
+    }catch(e){
+      showEmpty();
+      notify("Impossible de charger vos agents.", 'error');
+    }
+  }
+
+  async function loadIdentity(force){
+    if(!currentAgentId){ showEmpty(); return; }
+    if(loaded && !force){ return; }
+    loaded = true;
+    try{
+      var data = await api('/user/agents/'+currentAgentId+'/identity');
+      identity = data.identity || null;
+      accounts = data.accounts || [];
+      images = data.images || [];
+      palette = (identity && Array.isArray(identity.palette)) ? identity.palette : [];
+      logoFile = null;
+      removeLogo = false;
+      var logoInput = document.getElementById('identityLogoInput');
+      if(logoInput) logoInput.value = '';
+      setFields();
+      renderPalette();
+      renderAccounts();
+      renderImages();
+      renderLogo();
+    }catch(e){
+      loaded = false;
+      notify("Impossible de charger l'identité.", 'error');
+    }
+  }
+
+  saveBtn.addEventListener('click', async function(){
+    if(!currentAgentId){ notify('Sélectionnez un agent.', 'error'); return; }
+    var fd = new FormData();
+    fd.append('_token', csrf);
+    fd.append('objective', document.getElementById('identityObjective').value.trim());
+    fd.append('charter', document.getElementById('identityCharter').value.trim());
+    fd.append('palette', JSON.stringify(palette));
+    if(logoFile) fd.append('logo', logoFile);
+    if(removeLogo) fd.append('remove_logo', '1');
+    try{
+      var data = await api('/user/agents/'+currentAgentId+'/identity', {method:'POST', body:fd});
+      identity = data.identity || identity;
+      palette = (identity && Array.isArray(identity.palette)) ? identity.palette : [];
+      logoFile = null;
+      removeLogo = false;
+      var logoInput = document.getElementById('identityLogoInput');
+      if(logoInput) logoInput.value = '';
+      renderPalette();
+      renderLogo();
+      notify(data.message || 'Identité enregistrée', 'success');
+    }catch(err){
+      if(err.data && err.data.errors){
+        notify(Object.values(err.data.errors).flat().join('\n'), 'error');
+      } else {
+        notify(err.message || "Erreur lors de l'enregistrement", 'error');
+      }
+    }
+  });
+
+  document.getElementById('paletteAddBtn').addEventListener('click', function(){
+    var nameInput = document.getElementById('paletteName');
+    var colorInput = document.getElementById('paletteColor');
+    var name = nameInput.value.trim();
+    var hex = colorInput.value.toUpperCase();
+    if(!/^#[0-9A-F]{6}$/.test(hex)){ notify('Couleur invalide.', 'error'); return; }
+    if(!name) name = hex;
+    if(palette.some(function(c){ return String(c.hex).toUpperCase()===hex; })){ notify('Cette couleur existe déjà.', 'error'); return; }
+    palette.push({name:name, hex:hex});
+    nameInput.value = '';
+    renderPalette();
+  });
+
+  paletteListEl.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-palette-remove]');
+    if(!btn) return;
+    var idx = parseInt(btn.getAttribute('data-palette-remove'), 10);
+    if(!isNaN(idx)) palette.splice(idx, 1);
+    renderPalette();
+  });
+
+  document.getElementById('identityLogoSelectBtn').addEventListener('click', function(){
+    document.getElementById('identityLogoInput').click();
+  });
+  document.getElementById('identityLogoInput').addEventListener('change', function(e){
+    var file = e.target.files && e.target.files[0];
+    if(!file) return;
+    logoFile = file;
+    removeLogo = false;
+    renderLogo();
+  });
+  document.getElementById('identityLogoRemoveBtn').addEventListener('click', function(){
+    logoFile = null;
+    removeLogo = true;
+    document.getElementById('identityLogoInput').value = '';
+    renderLogo();
+  });
+
+  document.getElementById('identityImagesAddBtn').addEventListener('click', function(){
+    if(!currentAgentId){ notify('Sélectionnez un agent.', 'error'); return; }
+    imagesInput.click();
+  });
+
+  imagesInput.addEventListener('change', async function(e){
+    var files = Array.from(e.target.files || []);
+    if(!files.length) return;
+    if(!currentAgentId){ notify('Sélectionnez un agent.', 'error'); return; }
+
+    var addBtn = document.getElementById('identityImagesAddBtn');
+    addBtn.disabled = true;
+    addBtn.style.opacity = '0.6';
+
+    var fd = new FormData();
+    fd.append('_token', csrf);
+    files.forEach(function(file){ fd.append('images[]', file); });
+
+    try{
+      var data = await api('/user/agents/'+currentAgentId+'/identity/images', {method:'POST', body:fd});
+      images = data.images || [];
+      renderImages();
+      notify(data.message || 'Images ajoutées', 'success');
+    }catch(err){
+      if(err.data && err.data.errors){
+        notify(Object.values(err.data.errors).flat().join('\n'), 'error');
+      } else {
+        notify(err.message || "Erreur lors de l'upload", 'error');
+      }
+    }finally{
+      addBtn.disabled = false;
+      addBtn.style.opacity = '1';
+      imagesInput.value = '';
+    }
+  });
+
+  imagesListEl.addEventListener('click', async function(e){
+    var btn = e.target.closest('[data-identity-image-delete]');
+    if(!btn) return;
+
+    var id = btn.getAttribute('data-identity-image-delete');
+
+    if(window.Swal){
+      var r = await Swal.fire({title:'Supprimer cette image ?', text:'Cette action est irréversible.', icon:'warning', showCancelButton:true, confirmButtonText:'Supprimer', cancelButtonText:'Annuler', confirmButtonColor:'#e85a5a'});
+      if(!r.isConfirmed) return;
+    }
+
+    try{
+      var data = await api('/user/agents/'+currentAgentId+'/identity/images/'+id, {method:'DELETE'});
+      images = data.images || [];
+      renderImages();
+      notify(data.message || 'Image supprimée', 'success');
+    }catch(err){
+      notify(err.message || 'Erreur', 'error');
+    }
+  });
+
+  agentSelect.addEventListener('change', async function(){
+    currentAgentId = agentSelect.value || '';
+    window.currentAgentId = currentAgentId;
+    if(currentAgentId){
+      showContent();
+      await loadIdentity(true);
+    } else {
+      showEmpty();
+    }
+  });
+
+  document.getElementById('accountAddBtn').addEventListener('click', function(){
+    if(!currentAgentId){ notify('Sélectionnez un agent.', 'error'); return; }
+    openAccountModal(null);
+  });
+  document.getElementById('accountModalClose').addEventListener('click', closeAccountModal);
+  document.getElementById('accountCancelBtn').addEventListener('click', closeAccountModal);
+  accountModal.addEventListener('click', function(e){ if(e.target===accountModal) closeAccountModal(); });
+
+  accountForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(!currentAgentId){ notify('Sélectionnez un agent.', 'error'); return; }
+    var handle = document.getElementById('accountHandle').value.trim();
+    if(!handle){ notify('Renseignez le pseudo / nom du compte.', 'error'); return; }
+    var payload = {
+      platform: document.getElementById('accountPlatform').value,
+      handle: handle,
+      url: document.getElementById('accountUrl').value.trim() || null,
+      notes: document.getElementById('accountNotes').value.trim() || null
+    };
+    try{
+      var url = editingAccountId
+        ? '/user/agents/'+currentAgentId+'/identity/accounts/'+editingAccountId
+        : '/user/agents/'+currentAgentId+'/identity/accounts';
+      var data = editingAccountId
+        ? await api(url, {method:'PUT', body:JSON.stringify(payload)})
+        : await api(url, {method:'POST', body:JSON.stringify(payload)});
+      notify(data.message || 'Compte enregistré', 'success');
+      closeAccountModal();
+      await loadIdentity(true);
+    }catch(err){
+      if(err.data && err.data.errors){
+        notify(Object.values(err.data.errors).flat().join('\n'), 'error');
+      } else {
+        notify(err.message || 'Erreur lors de l\'enregistrement', 'error');
+      }
+    }
+  });
+
+  accountsListEl.addEventListener('click', async function(e){
+    var editBtn = e.target.closest('[data-account-edit]');
+    if(editBtn){
+      var acc = accounts.find(function(a){ return String(a.id)===String(editBtn.getAttribute('data-account-edit')); });
+      if(acc) openAccountModal(acc);
+      return;
+    }
+    var delBtn = e.target.closest('[data-account-delete]');
+    if(delBtn){
+      var id = delBtn.getAttribute('data-account-delete');
+      if(window.Swal){
+        var r = await Swal.fire({title:'Supprimer ce compte inspirant ?', text:'Cette action est irréversible.', icon:'warning', showCancelButton:true, confirmButtonText:'Supprimer', cancelButtonText:'Annuler', confirmButtonColor:'#e85a5a'});
+        if(!r.isConfirmed) return;
+      }
+      try{
+        var d = await api('/user/agents/'+currentAgentId+'/identity/accounts/'+id, {method:'DELETE'});
+        notify(d.message || 'Compte supprimé', 'success');
+        await loadIdentity(true);
+      }catch(err){ notify(err.message || 'Erreur', 'error'); }
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    var nav = e.target.closest('.nav-item[data-page="identite"]');
+    if(!nav) return;
+    var id = nav.getAttribute('data-agent-id');
+    if(id){
+      currentAgentId = String(id);
+      window.currentAgentId = currentAgentId;
+      agentSelect.value = currentAgentId;
+    }
+    if(!agents.length){
+      loadAgents();
+    } else {
+      showContent();
+      loadIdentity(true);
+    }
+  });
+
+  if(pageEl.classList.contains('active')) loadAgents();
+})();
+
+// Studio des Publications handling
+(function(){
+  var pageEl = document.getElementById('page-studio');
+  var listEl = document.getElementById('studioPublicationsList');
+  var detailEl = document.getElementById('studioDetail');
+  var countEl = document.getElementById('studioCount');
+  var refreshBtn = document.getElementById('studioRefreshBtn');
+  if(!pageEl || !listEl || !detailEl || !countEl || !refreshBtn) return;
+
+  var csrf = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
+  var publications = [];
+  var selectedId = null;
+  var generatedText = '';
+
+  var EMPTY_DETAIL = '<div class="studio-detail-empty">Sélectionnez une publication dans la liste pour afficher toutes ses informations jusqu\'au visuel.</div>';
+
+  function notify(msg, type){
+    if(window.Swal){
+      return Swal.fire({toast:true, position:'bottom', icon:type||'success', title:msg, showConfirmButton:false, timer:type==='error'?3500:1800, timerProgressBar:true});
+    }
+  }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&','<':'<','>':'>','"':'"',"'":'\''}[c]; }); }
+
+  async function api(url, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({'Accept':'application/json','X-CSRF-TOKEN':csrf,'X-Requested-With':'XMLHttpRequest'}, opts.headers||{});
+    if(opts.body && !(opts.body instanceof FormData) && !opts.headers['Content-Type']){
+      opts.headers['Content-Type'] = 'application/json';
+    }
+    var res = await fetch(url, opts);
+    var data = {};
+    try{ data = await res.json(); }catch(e){}
+    if(!res.ok) throw Object.assign(new Error(data.message||'Erreur'), {data:data,status:res.status});
+    return data;
+  }
+
+  function formatDate(iso){
+    var d = new Date(iso);
+    if(isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('fr-FR', {weekday:'short', day:'2-digit', month:'2-digit'}) + ' — ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+  }
+
+  function platformLabel(platform){
+    var labels = {facebook:'Facebook', instagram:'Instagram', linkedin:'LinkedIn', tiktok:'TikTok', youtube:'YouTube', x:'X (Twitter)', other:'Autre'};
+    return labels[platform] || platform || 'Autre';
+  }
+
+  function getSelected(){
+    for(var i=0;i<publications.length;i++){ if(String(publications[i].id)===String(selectedId)) return publications[i]; }
+    return null;
+  }
+
+  function renderList(){
+    if(!publications.length){
+      listEl.innerHTML = '<div class="empty-box">Aucune publication validée. Validez une entrée du calendrier éditorial.</div>';
+      countEl.textContent = '0 publication(s)';
+      return;
+    }
+    countEl.textContent = publications.length + ' publication(s)';
+    listEl.innerHTML = publications.map(function(p){
+      var thumb = p.visual_url
+        ? '<img class="studio-list-thumb" src="'+esc(p.visual_url)+'" alt="">'
+        : '<div class="studio-list-thumb"></div>';
+      return '<button type="button" class="studio-list-item" data-studio-select="'+p.id+'">'
+        + thumb
+        + '<div class="studio-list-body">'
+        + '<h4>'+esc(p.title || 'Publication')+'</h4>'
+        + '<div class="studio-list-meta">'+esc(p.agent_name)+' · '+esc(platformLabel(p.platform))+'</div>'
+        + '<div class="studio-list-meta">'+esc(formatDate(p.published_at))+'</div>'
+        + '</div>'
+        + '</button>';
+    }).join('');
+    highlight();
+  }
+
+  function highlight(){
+    Array.prototype.forEach.call(listEl.querySelectorAll('[data-studio-select]'), function(el){
+      el.classList.toggle('active', String(el.getAttribute('data-studio-select'))===String(selectedId));
+    });
+  }
+
+  function renderDetail(p){
+    generatedText = '';
+    var visualImage = p.visual_url
+      ? '<img class="studio-visual-preview" id="studioVisualImage" src="'+esc(p.visual_url)+'" alt="Visuel généré" style="display:block;">'
+      : '<img class="studio-visual-preview" id="studioVisualImage" alt="Visuel généré">';
+    var visualMeta = p.visual_theme ? 'Thème : '+esc(p.visual_theme) : '';
+
+    detailEl.innerHTML = '<div class="studio-detail-head">'
+      + '<div class="studio-meta" style="margin-bottom:0;">'
+      + '<span class="pill v">'+esc(p.agent_name)+'</span>'
+      + '<span class="pill o">'+esc(platformLabel(p.platform))+'</span>'
+      + '<span class="pill g">'+esc(formatDate(p.published_at))+'</span>'
+      + (p.pillar ? '<span class="pill">'+esc(p.pillar)+'</span>' : '')
+      + '</div>'
+      + '<h2 class="studio-detail-title">'+esc(p.title || 'Publication')+'</h2>'
+      + '</div>'
+      + (p.caption ? '<div class="field"><label>Légende</label><textarea rows="4" readonly>'+esc(p.caption)+'</textarea></div>' : '')
+      + (p.hashtags ? '<div class="field"><label>Hashtags</label><input value="'+esc(p.hashtags)+'" readonly></div>' : '')
+      + (p.visual_prompt ? '<div class="field"><label>Prompt visuel</label><textarea rows="3" readonly>'+esc(p.visual_prompt)+'</textarea></div>' : '')
+      + '<div class="studio-generated" id="studioGeneratedBox" style="display:none;">'
+      + '<div class="field"><label>Texte de la publication</label><textarea rows="8" readonly id="studioGeneratedText"></textarea></div>'
+      + '<div class="field" style="margin-bottom:0;"><label>Appel à l\'action</label><input id="studioGeneratedCta" readonly></div>'
+      + '</div>'
+      + '<div class="studio-actions" style="justify-content:flex-start;gap:8px;flex-wrap:wrap;">'
+      + '<button type="button" class="btn-inline primary" id="studioGenerateBtn" data-entry="'+p.id+'">Générer la publication</button>'
+      + '<button type="button" class="btn-inline" id="studioCopyBtn" style="display:none;">Copier la publication</button>'
+      + '</div>'
+      + '<div class="studio-visual-box">'
+      + '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">'
+      + '<button type="button" class="btn-inline primary" id="studioGenerateVisualBtn" data-entry="'+p.id+'">Générer le visuel avec ComfyUI</button>'
+      + '<span id="studioVisualStatus" class="sub" style="color:var(--muted);font-size:12.5px;">Prêt. La génération peut prendre plusieurs minutes sur CPU.</span>'
+      + '</div>'
+      + visualImage
+      + '<div id="studioVisualMeta" class="studio-visual-meta">'+visualMeta+'</div>'
+      + '</div>';
+  }
+
+  function selectPublication(id){
+    stopVisualPoll();
+    selectedId = id;
+    var p = getSelected();
+    highlight();
+    if(p){ renderDetail(p); }
+  }
+
+  async function load(){
+    stopVisualPoll();
+    listEl.innerHTML = '<div class="empty-box">Chargement…</div>';
+    try{
+      var d = await api('/user/publications/validated');
+      publications = d.entries || [];
+      if(selectedId && !getSelected()) selectedId = null;
+      renderList();
+      var p = getSelected();
+      if(p){ renderDetail(p); } else { detailEl.innerHTML = EMPTY_DETAIL; }
+    }catch(e){
+      listEl.innerHTML = '<div class="empty-box">Impossible de charger les publications.</div>';
+      detailEl.innerHTML = EMPTY_DETAIL;
+      notify('Erreur de chargement', 'error');
+    }
+  }
+
+  var visualPollTimer = null;
+
+  function stopVisualPoll(){
+    if(visualPollTimer){
+      clearTimeout(visualPollTimer);
+      visualPollTimer = null;
+    }
+  }
+
+  async function pollVisual(visualId, btn){
+    var p = getSelected();
+    var imageEl = document.getElementById('studioVisualImage');
+    var statusEl = document.getElementById('studioVisualStatus');
+    var metaEl = document.getElementById('studioVisualMeta');
+
+    if(!statusEl || !imageEl) return;
+
+    try{
+      var d = await api('/user/publications/visuals/'+visualId);
+      var v = d.visual || {};
+      var st = d.status || v.status || 'pending';
+
+      if(st === 'generated'){
+        stopVisualPoll();
+        if(p){ p.visual_url = v.url; p.visual_theme = v.theme; p.visual_id = v.id; }
+        if(v.url){ imageEl.src = v.url; imageEl.style.display = 'block'; }
+        if(metaEl){ metaEl.textContent = 'Thème : '+(v.theme||'')+' · Modèle : '+(v.model||'ComfyUI'); }
+        statusEl.textContent = 'Visuel généré.';
+        if(btn) btn.disabled = false;
+        if(p){
+          var item = listEl.querySelector('[data-studio-select="'+p.id+'"]');
+          var oldThumb = item ? item.querySelector('.studio-list-thumb') : null;
+          if(oldThumb && v.url){
+            if(oldThumb.tagName === 'IMG'){ oldThumb.src = v.url; }
+            else {
+              var img = document.createElement('img');
+              img.className = 'studio-list-thumb';
+              img.alt = '';
+              img.src = v.url;
+              oldThumb.replaceWith(img);
+            }
+          }
+        }
+        notify('Visuel généré', 'success');
+        return;
+      }
+
+      if(st === 'failed'){
+        stopVisualPoll();
+        statusEl.textContent = d.message || 'Génération échouée.';
+        if(btn) btn.disabled = false;
+        notify(d.message || 'Génération échouée', 'error');
+        return;
+      }
+
+      statusEl.textContent = 'Génération ComfyUI en cours…';
+      visualPollTimer = setTimeout(function(){ pollVisual(visualId, btn); }, 3000);
+    }catch(err){
+      stopVisualPoll();
+      statusEl.textContent = err.message || 'Erreur';
+      if(btn) btn.disabled = false;
+      notify(err.message || 'Erreur', 'error');
+    }
+  }
+
+  async function generateVisual(entryId, btn){
+    var statusEl = document.getElementById('studioVisualStatus');
+
+    stopVisualPoll();
+
+    if(btn) btn.disabled = true;
+    if(statusEl) statusEl.textContent = 'Envoi à ComfyUI…';
+
+    try{
+      var d = await api('/user/publications/'+entryId+'/visual', {method:'POST'});
+      var v = d.visual || {};
+      var st = d.status || 'pending';
+
+      if(st === 'generated' && v.url){
+        stopVisualPoll();
+        var p = getSelected();
+        if(p){ p.visual_url = v.url; p.visual_theme = v.theme; p.visual_id = v.id; }
+        var imageEl = document.getElementById('studioVisualImage');
+        var metaEl = document.getElementById('studioVisualMeta');
+        if(imageEl){ imageEl.src = v.url; imageEl.style.display = 'block'; }
+        if(metaEl){ metaEl.textContent = 'Thème : '+(v.theme||'')+' · Modèle : '+(v.model||'ComfyUI'); }
+        if(statusEl) statusEl.textContent = 'Visuel généré.';
+        if(btn) btn.disabled = false;
+        renderList();
+        notify(d.message || 'Visuel généré', 'success');
+        return;
+      }
+
+      if(statusEl) statusEl.textContent = 'Génération ComfyUI en cours…';
+      pollVisual(v.id, btn);
+    }catch(err){
+      stopVisualPoll();
+      if(statusEl) statusEl.textContent = err.message || 'Erreur';
+      if(btn) btn.disabled = false;
+      notify(err.message || 'Erreur', 'error');
+    }
+  }
+
+  async function generatePublication(entryId, btn){
+    var original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Génération…';
+    try{
+      var d = await api('/user/publications/'+entryId+'/generate', {method:'POST'});
+      var pub = d.publication || {};
+      generatedText = pub.text || '';
+      var box = document.getElementById('studioGeneratedBox');
+      var textEl = document.getElementById('studioGeneratedText');
+      var ctaEl = document.getElementById('studioGeneratedCta');
+      var copy = document.getElementById('studioCopyBtn');
+      if(textEl) textEl.value = generatedText;
+      if(ctaEl) ctaEl.value = pub.cta || '';
+      if(box) box.style.display = 'block';
+      if(copy) copy.style.display = 'inline-flex';
+      notify(d.message || 'Publication générée', 'success');
+    }catch(err){
+      notify(err.message || 'Erreur', 'error');
+    }finally{
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  }
+
+  listEl.addEventListener('click', function(e){
+    var item = e.target.closest('[data-studio-select]');
+    if(!item) return;
+    selectPublication(item.getAttribute('data-studio-select'));
+  });
+
+  detailEl.addEventListener('click', function(e){
+    var genBtn = e.target.closest('#studioGenerateBtn');
+    if(genBtn){ generatePublication(genBtn.getAttribute('data-entry'), genBtn); return; }
+
+    var visBtn = e.target.closest('#studioGenerateVisualBtn');
+    if(visBtn){ generateVisual(visBtn.getAttribute('data-entry'), visBtn); return; }
+
+    var copy = e.target.closest('#studioCopyBtn');
+    if(copy){
+      if(!generatedText){ notify('Générez d\'abord la publication', 'error'); return; }
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(generatedText).then(function(){ notify('Publication copiée', 'success'); }, function(){ notify('Copie impossible', 'error'); });
+      } else {
+        notify('Copie impossible', 'error');
+      }
+    }
+  });
+
+  refreshBtn.addEventListener('click', load);
+
+  if(pageEl.classList.contains('active')) load();
+  document.addEventListener('click', function(e){
+    var nav = e.target.closest('.nav-item[data-page="studio"]');
+    if(nav) load();
+  });
+})();
+
+// Calendrier Éditorial handling
+(function(){
+  var pageEl = document.getElementById('page-calendrier');
+  var agentSelect = document.getElementById('calendarAgentSelect');
+  var modelSelect = document.getElementById('calendarModelSelect');
+  var startDateInput = document.getElementById('calendarStartDate');
+  var weeksInput = document.getElementById('calendarWeeks');
+  var postsPerWeekInput = document.getElementById('calendarPostsPerWeek');
+  var generateBtn = document.getElementById('calendarGenerateBtn');
+  var clearBtn = document.getElementById('calendarClearBtn');
+  var statusEl = document.getElementById('calendarStatus');
+  var listEl = document.getElementById('calendarList');
+  var countEl = document.getElementById('calendarCount');
+  var menuEl = document.getElementById('calendarActionMenu');
+  var editModal = document.getElementById('calendarEditModal');
+  if(!pageEl || !agentSelect || !modelSelect || !startDateInput || !weeksInput || !postsPerWeekInput || !generateBtn || !clearBtn || !statusEl || !listEl || !countEl || !menuEl || !editModal) return;
+
+  var csrf = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
+  var agents = [];
+  var models = [];
+  var entries = [];
+  var currentAgentId = window.currentAgentId ? String(window.currentAgentId) : '';
+
+  function notify(msg, type){
+    if(window.Swal){
+      return Swal.fire({toast:true,position:'bottom',icon:type||'success',title:msg,showConfirmButton:false,timer:type==='error'?4000:2000,timerProgressBar:true});
+    }
+  }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&','<':'<','>':'>','"':'"',"'":'\''}[c]; }); }
+
+  async function api(url, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({'Accept':'application/json','X-CSRF-TOKEN':csrf,'X-Requested-With':'XMLHttpRequest'}, opts.headers||{});
+    if(opts.body && !(opts.body instanceof FormData) && !opts.headers['Content-Type']){
+      opts.headers['Content-Type'] = 'application/json';
+    }
+    var res = await fetch(url, opts);
+    var data = {};
+    try{ data = await res.json(); }catch(e){}
+    if(!res.ok) throw Object.assign(new Error(data.message||'Erreur'), {data:data,status:res.status});
+    return data;
+  }
+
+  function nextMonday(){
+    var d = new Date();
+    var iso = d.getDay() === 0 ? 7 : d.getDay();
+    var add = (8 - iso) % 7;
+    if(add === 0) add = 7;
+    d.setDate(d.getDate() + add);
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  startDateInput.value = nextMonday();
+
+  function statusPill(status){
+    if(status === 'validated') return '<span class="pill g">Validée</span>';
+    if(status === 'published') return '<span class="pill v">Publiée</span>';
+    if(status === 'draft') return '<span class="pill">Brouillon</span>';
+    return '<span class="pill o">En attente</span>';
+  }
+
+  function formatDate(iso){
+    var d = new Date(iso);
+    if(isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('fr-FR', {weekday:'short', day:'2-digit', month:'2-digit'}) + ' — ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+  }
+
+  var menuEntryId = '';
+
+  function closeMenu(){
+    menuEl.classList.remove('open');
+    menuEntryId = '';
+  }
+
+  function openMenu(btn){
+    var id = btn.getAttribute('data-cal-menu');
+    var entry = entries.find(function(x){ return String(x.id)===String(id); });
+    if(!entry) return;
+
+    if(menuEntryId === String(id) && menuEl.classList.contains('open')){
+      closeMenu();
+      return;
+    }
+
+    menuEntryId = String(id);
+    var validateItem = menuEl.querySelector('[data-menu-action="validate"]');
+    var publishItem = menuEl.querySelector('[data-menu-action="publish"]');
+    if(validateItem) validateItem.style.display = (entry.status === 'validated' || entry.status === 'published') ? 'none' : '';
+    if(publishItem) publishItem.style.display = entry.status === 'validated' ? '' : 'none';
+
+    menuEl.classList.add('open');
+    menuEl.style.visibility = 'hidden';
+
+    var rect = btn.getBoundingClientRect();
+    var mw = menuEl.offsetWidth;
+    var mh = menuEl.offsetHeight;
+    var left = Math.min(rect.right - mw, window.innerWidth - mw - 8);
+    var top = rect.bottom + 4;
+
+    if(top + mh > window.innerHeight - 8){
+      top = rect.top - mh - 4;
+    }
+
+    menuEl.style.left = Math.max(8, left) + 'px';
+    menuEl.style.top = Math.max(8, top) + 'px';
+    menuEl.style.visibility = '';
+  }
+
+  function openEditModal(entry){
+    document.getElementById('calendarEditId').value = entry.id;
+    document.getElementById('calendarEditPublishedAt').value = (entry.published_at || '').slice(0, 16);
+    document.getElementById('calendarEditPlatform').value = entry.platform || 'facebook';
+    document.getElementById('calendarEditPillar').value = entry.pillar || '';
+    document.getElementById('calendarEditTitle').value = entry.title || '';
+    document.getElementById('calendarEditCaption').value = entry.caption || '';
+    document.getElementById('calendarEditVisual').value = entry.visual_prompt || '';
+    document.getElementById('calendarEditHashtags').value = entry.hashtags || '';
+    document.getElementById('calendarEditStatus').value = entry.status || 'pending';
+    editModal.classList.add('open');
+  }
+
+  function closeEditModal(){
+    editModal.classList.remove('open');
+  }
+
+  function render(){
+    if(!entries.length){
+      listEl.innerHTML = '<div class="empty-box">Aucun calendrier généré. Cliquez sur « Générer avec Ollama ».</div>';
+      countEl.textContent = '0 publication(s)';
+      return;
+    }
+    countEl.textContent = entries.length + ' publication(s)';
+    listEl.innerHTML = '<div style="overflow-x:auto;"><table class="data"><thead><tr>'
+      + '<th>Date</th><th>Plateforme</th><th>Pilier</th><th>Publication</th><th class="col-statut">Statut</th><th>Actions</th>'
+      + '</tr></thead><tbody>'
+      + entries.map(function(e){
+          var title = e.title ? '<div style="font-weight:600;">'+esc(e.title)+'</div>' : '';
+          var caption = e.caption ? '<div style="margin-top:4px;white-space:pre-wrap;">'+esc(e.caption)+'</div>' : '';
+          var visual = e.visual_prompt ? '<div style="margin-top:4px;color:var(--muted);font-size:12.5px;"><b>Prompt visuel :</b> '+esc(e.visual_prompt)+'</div>' : '';
+          var hashtags = e.hashtags ? '<div style="margin-top:2px;color:var(--cyan);font-size:12.5px;">'+esc(e.hashtags)+'</div>' : '';
+          var actions = '<button type="button" class="btn-inline cal-menu-btn" data-cal-menu="'+e.id+'" aria-label="Actions">•••</button>';
+          return '<tr>'
+            + '<td style="white-space:nowrap;">'+esc(formatDate(e.published_at))+'</td>'
+            + '<td>'+esc((e.platform||'facebook').toUpperCase())+'</td>'
+            + '<td>'+esc(e.pillar||'—')+'</td>'
+            + '<td style="min-width:280px;max-width:440px;">'+title+caption+visual+hashtags+'</td>'
+            + '<td class="col-statut">'+statusPill(e.status)+'</td>'
+            + '<td>'+actions+'</td>'
+            + '</tr>';
+        }).join('')
+      + '</tbody></table></div>';
+  }
+
+  function populateModels(){
+    if(!models.length){
+      modelSelect.innerHTML = '<option value="">Aucun modèle Ollama</option>';
+      statusEl.textContent = 'Ollama : aucun modèle détecté. Installez un modèle (ollama pull qwen3:4b).';
+      return;
+    }
+    modelSelect.innerHTML = models.map(function(m){
+      return '<option value="'+esc(m)+'">'+esc(m)+'</option>';
+    }).join('');
+    statusEl.textContent = 'Ollama local : ' + models.length + ' modèle(s) disponible(s).';
+  }
+
+  async function loadModels(){
+    try{
+      var data = await api('/user/agents/calendar/models');
+      models = data.models || [];
+      populateModels();
+      if(data.default_model && models.indexOf(data.default_model) !== -1){
+        modelSelect.value = data.default_model;
+      }
+    }catch(e){
+      models = [];
+      populateModels();
+      statusEl.textContent = 'Ollama injoignable. Vérifiez qu\'Ollama est démarré (http://127.0.0.1:11434).';
+    }
+  }
+
+  async function loadAgents(){
+    try{
+      var data = await api('/user/agents');
+      agents = data.userAgents || [];
+      agentSelect.innerHTML = '<option value="">Sélectionnez un agent</option>' + agents.map(function(a){
+        var name = a.custom_name || (a.agent && a.agent.name) || ('Agent #' + a.id);
+        return '<option value="'+a.id+'">'+esc(name)+'</option>';
+      }).join('');
+      if(!agents.length){
+        currentAgentId = '';
+        agentSelect.value = '';
+        listEl.innerHTML = '<div class="empty-box">Créez d\'abord un agent dans « Gérer mes agents ».</div>';
+        return;
+      }
+      if(!currentAgentId || !agents.some(function(a){ return String(a.id)===String(currentAgentId); })){
+        currentAgentId = String(agents[0].id);
+      }
+      window.currentAgentId = currentAgentId;
+      agentSelect.value = currentAgentId;
+      await loadCalendar();
+    }catch(e){
+      listEl.innerHTML = '<div class="empty-box">Impossible de charger vos agents.</div>';
+      notify('Impossible de charger vos agents.', 'error');
+    }
+  }
+
+  async function loadCalendar(){
+    if(!currentAgentId) return;
+    try{
+      var data = await api('/user/agents/'+currentAgentId+'/calendar');
+      entries = data.entries || [];
+      if(data.models){
+        models = data.models;
+        populateModels();
+        if(data.default_model && models.indexOf(data.default_model) !== -1){
+          modelSelect.value = data.default_model;
+        }
+      }
+      render();
+      statusEl.textContent = entries.length
+        ? (entries.length + ' publication(s) chargée(s). Modèle : ' + esc(entries[0].model || '—') + '.')
+        : 'Ollama local : prêt. Aucun calendrier généré pour le moment.';
+    }catch(e){
+      notify('Impossible de charger le calendrier.', 'error');
+      if(!models.length) loadModels();
+    }
+  }
+
+  generateBtn.addEventListener('click', async function(){
+    if(!currentAgentId){ notify('Sélectionnez un agent.', 'error'); return; }
+    var model = modelSelect.value;
+    if(!model){ notify('Aucun modèle Ollama disponible.', 'error'); return; }
+
+    var payload = {
+      model: model,
+      start_date: startDateInput.value || null,
+      weeks: weeksInput.value,
+      posts_per_week: postsPerWeekInput.value
+    };
+
+    generateBtn.disabled = true;
+    generateBtn.style.opacity = '0.6';
+    statusEl.textContent = 'Génération en cours avec ' + model + '… (cela peut prendre 1 à 5 minutes selon le modèle et le PC).';
+
+    try{
+      var data = await api('/user/agents/'+currentAgentId+'/calendar/generate', {method:'POST', body:JSON.stringify(payload)});
+      entries = data.entries || [];
+      render();
+      statusEl.textContent = data.message || 'Calendrier généré.';
+      notify(data.message || 'Calendrier généré', 'success');
+    }catch(err){
+      if(err.data && err.data.errors){
+        statusEl.textContent = Object.values(err.data.errors).flat().join(' ');
+      } else {
+        statusEl.textContent = err.message || 'Erreur lors de la génération.';
+      }
+      notify(err.message || 'Erreur lors de la génération', 'error');
+    }finally{
+      generateBtn.disabled = false;
+      generateBtn.style.opacity = '1';
+    }
+  });
+
+  clearBtn.addEventListener('click', async function(){
+    if(!currentAgentId) return;
+    if(window.Swal){
+      var r = await Swal.fire({title:'Vider le calendrier ?', text:'Toutes les publications générées seront supprimées.', icon:'warning', showCancelButton:true, confirmButtonText:'Vider', cancelButtonText:'Annuler', confirmButtonColor:'#e85a5a'});
+      if(!r.isConfirmed) return;
+    }
+    try{
+      var d = await api('/user/agents/'+currentAgentId+'/calendar', {method:'DELETE'});
+      entries = [];
+      render();
+      statusEl.textContent = d.message || 'Calendrier vidé.';
+      notify(d.message || 'Calendrier vidé', 'success');
+    }catch(err){ notify(err.message || 'Erreur', 'error'); }
+  });
+
+  menuEl.addEventListener('click', async function(e){
+    var btn = e.target.closest('[data-menu-action]');
+    if(!btn) return;
+
+    var action = btn.getAttribute('data-menu-action');
+    var id = menuEntryId;
+    closeMenu();
+    if(!id) return;
+
+    var entry = entries.find(function(x){ return String(x.id)===String(id); });
+
+    if(action === 'edit'){
+      if(entry) openEditModal(entry);
+      return;
+    }
+
+    if(action === 'validate' || action === 'publish'){
+      var status = action === 'publish' ? 'published' : 'validated';
+      try{
+        var d = await api('/user/agents/'+currentAgentId+'/calendar/'+id+'/status', {method:'PATCH', body:JSON.stringify({status:status})});
+        if(entry && d.entry) entry.status = d.entry.status;
+        render();
+        notify(d.message || 'Statut mis à jour', 'success');
+      }catch(err){ notify(err.message || 'Erreur', 'error'); }
+      return;
+    }
+
+    if(action === 'delete'){
+      if(window.Swal){
+        var r = await Swal.fire({title:'Supprimer cette publication ?', text:'Cette action est irréversible.', icon:'warning', showCancelButton:true, confirmButtonText:'Supprimer', cancelButtonText:'Annuler', confirmButtonColor:'#e85a5a'});
+        if(!r.isConfirmed) return;
+      }
+      try{
+        var d2 = await api('/user/agents/'+currentAgentId+'/calendar/'+id, {method:'DELETE'});
+        entries = entries.filter(function(x){ return String(x.id)!==String(id); });
+        render();
+        notify(d2.message || 'Publication supprimée', 'success');
+      }catch(err){ notify(err.message || 'Erreur', 'error'); }
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    var trigger = e.target.closest('[data-cal-menu]');
+    if(trigger){
+      e.stopPropagation();
+      openMenu(trigger);
+      return;
+    }
+    if(!e.target.closest('#calendarActionMenu')) closeMenu();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      closeMenu();
+      closeEditModal();
+    }
+  });
+
+  window.addEventListener('resize', closeMenu);
+  window.addEventListener('scroll', closeMenu, true);
+
+  ['calendarEditClose', 'calendarEditCancel'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.addEventListener('click', closeEditModal);
+  });
+
+  editModal.addEventListener('click', function(e){
+    if(e.target === editModal) closeEditModal();
+  });
+
+  document.getElementById('calendarEditForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    var id = document.getElementById('calendarEditId').value;
+    if(!id) return;
+
+    var payload = {
+      published_at: document.getElementById('calendarEditPublishedAt').value,
+      platform: document.getElementById('calendarEditPlatform').value,
+      pillar: document.getElementById('calendarEditPillar').value.trim(),
+      title: document.getElementById('calendarEditTitle').value.trim(),
+      caption: document.getElementById('calendarEditCaption').value.trim(),
+      visual_prompt: document.getElementById('calendarEditVisual').value.trim(),
+      hashtags: document.getElementById('calendarEditHashtags').value.trim(),
+      status: document.getElementById('calendarEditStatus').value
+    };
+
+    try{
+      var d = await api('/user/agents/'+currentAgentId+'/calendar/'+id, {method:'PATCH', body:JSON.stringify(payload)});
+      var entry = entries.find(function(x){ return String(x.id)===String(id); });
+      if(entry && d.entry){
+        Object.keys(d.entry).forEach(function(key){ entry[key] = d.entry[key]; });
+      }
+      render();
+      closeEditModal();
+      notify(d.message || 'Publication mise à jour', 'success');
+    }catch(err){
+      if(err.data && err.data.errors){
+        notify(Object.values(err.data.errors).flat().join(' '), 'error');
+      } else {
+        notify(err.message || 'Erreur', 'error');
+      }
+    }
+  });
+
+  agentSelect.addEventListener('change', async function(){
+    currentAgentId = agentSelect.value || '';
+    window.currentAgentId = currentAgentId;
+    if(currentAgentId){
+      await loadCalendar();
+    } else {
+      entries = [];
+      render();
+    }
+  });
+
+  document.addEventListener('click', function(e){
+    var nav = e.target.closest('.nav-item[data-page="calendrier"]');
+    if(!nav) return;
+    var id = nav.getAttribute('data-agent-id');
+    if(id){
+      currentAgentId = String(id);
+      window.currentAgentId = currentAgentId;
+      agentSelect.value = currentAgentId;
+    }
+    if(!agents.length){
+      loadAgents();
+    } else {
+      loadCalendar();
+    }
+  });
+
+  if(pageEl.classList.contains('active')){
+    loadAgents();
+  }
 })();
 </script>
 </body>
