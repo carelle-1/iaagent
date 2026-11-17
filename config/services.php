@@ -50,10 +50,10 @@ return [
     'comfyui' => [
         'url' => env('COMFYUI_URL', 'http://127.0.0.1:8188'),
         'checkpoint' => env('COMFYUI_CHECKPOINT', 'v1-5-pruned-emaonly.safetensors'),
-        'steps' => (int) env('COMFYUI_STEPS', 10),
+        'steps' => (int) env('COMFYUI_STEPS', 6),
         'cfg' => (float) env('COMFYUI_CFG', 7),
-        'width' => (int) env('COMFYUI_WIDTH', 512),
-        'height' => (int) env('COMFYUI_HEIGHT', 512),
+        'width' => (int) env('COMFYUI_WIDTH', 384),
+        'height' => (int) env('COMFYUI_HEIGHT', 384),
         'sampler' => env('COMFYUI_SAMPLER', 'euler'),
         'scheduler' => env('COMFYUI_SCHEDULER', 'normal'),
         'timeout' => (int) env('COMFYUI_TIMEOUT', 300),

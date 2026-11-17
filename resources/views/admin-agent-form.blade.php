@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', $agent ? 'Modifier l\'agent' : 'Nouvel agent')
 
@@ -8,7 +8,7 @@
     <h1>{{ $agent ? 'Modifier l\'agent' : 'Nouvel agent' }}</h1>
     <p>{{ $agent ? 'Modifiez les détails de l\'agent.' : 'Créez un nouvel agent IA.' }}</p>
   </div>
-  <a href="{{ route('admin.agents.index') }}" class="btn secondary"><svg class="ico"><use href="#i-arrow-left"/></svg> Retour</a>
+  <a href="{{ route('admin.agents.index') }}" class="btn secondary"><x-lucide-arrow-left class="ico" /> Retour</a>
 </div>
 
 @if($errors->any())
@@ -36,6 +36,19 @@
       <label>Description</label>
       <textarea name="description" rows="4" placeholder="Description de l'agent...">{{ old('description', $agent ? $agent->description : '') }}</textarea>
       <div class="help">Description affichée dans la liste des agents.</div>
+    </div>
+
+    <div class="form-group col-full">
+      <label>Catégorie <small>Optionnel - permet de grouper les agents</small></label>
+      <select name="category_id" style="width:100%; padding:10px 14px; border:1px solid var(--border); border-radius:8px; background:var(--bg); color:var(--fg); font-size:14px;">
+        <option value="">— Aucune catégorie —</option>
+        @foreach($categories as $category)
+          <option value="{{ $category->id }}" {{ (old('category_id', $agent ? $agent->category_id : '') == $category->id) ? 'selected' : '' }}>
+            {{ $category->name }}
+          </option>
+        @endforeach
+      </select>
+      <div class="help">Sélectionnez une catégorie pour organiser vos agents.</div>
     </div>
 
     <div class="form-group col-full">

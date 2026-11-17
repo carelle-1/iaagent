@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', $subscription ? 'Modifier l\'abonnement' : 'Nouvel abonnement')
 
@@ -8,7 +8,7 @@
     <h1>{{ $subscription ? 'Modifier l\'abonnement' : 'Nouvel abonnement' }}</h1>
     <p>{{ $subscription ? 'Modifiez les détails du forfait existant.' : 'Créez un nouveau forfait d\'abonnement pour la plateforme.' }}</p>
   </div>
-  <a href="{{ route('admin.subscriptions.index') }}" class="btn secondary"><svg class="ico"><use href="#i-arrow-left"/></svg> Retour</a>
+  <a href="{{ route('admin.subscriptions.index') }}" class="btn secondary"><x-lucide-arrow-left class="ico" /> Retour</a>
 </div>
 
 @if($errors->any())
@@ -90,3 +90,5 @@ Plusieurs comptes Meta">{{ old('features', $subscription && $subscription->featu
   </form>
 </div>
 @endsection
+
+

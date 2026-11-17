@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Abonnements')
 
@@ -8,7 +8,7 @@
     <h1>Abonnements & Facturation</h1>
     <p>Créez, modifiez et gérez les forfaits d'abonnement de la plateforme.</p>
   </div>
-  <a href="{{ route('admin.subscriptions.create') }}" class="btn primary"><svg class="ico"><use href="#i-plus"/></svg> Nouvel abonnement</a>
+  <a href="{{ route('admin.subscriptions.create') }}" class="btn primary"><x-lucide-plus class="ico" /> Nouvel abonnement</a>
 </div>
 
 <div class="panel">
@@ -42,11 +42,11 @@
           </td>
           <td><span class="pill {{ $sub->is_active ? 'g' : 'r' }}">{{ $sub->is_active ? 'Actif' : 'Inactif' }}</span></td>
           <td class="row-actions">
-            <a href="{{ route('admin.subscriptions.show', $sub->id) }}" class="icbtn" title="Voir"><svg class="ico"><use href="#i-eye"/></svg></a>
-            <a href="{{ route('admin.subscriptions.edit', $sub->id) }}" class="icbtn" title="Modifier"><svg class="ico"><use href="#i-edit"/></svg></a>
+            <a href="{{ route('admin.subscriptions.show', $sub->id) }}" class="icbtn" title="Voir"><x-lucide-eye class="ico" /></a>
+            <a href="{{ route('admin.subscriptions.edit', $sub->id) }}" class="icbtn" title="Modifier"><x-lucide-edit class="ico" /></a>
             <form action="{{ route('admin.subscriptions.destroy', $sub->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer cet abonnement ? Cette action est irréversible.');">
               @csrf @method('DELETE')
-              <button type="submit" class="icbtn btn-danger" title="Supprimer"><svg class="ico"><use href="#i-trash"/></svg></button>
+              <button type="submit" class="icbtn btn-danger" title="Supprimer"><x-lucide-trash-2 class="ico" /></button>
             </form>
           </td>
         </tr>
@@ -58,7 +58,7 @@
 </div>
 
 <div class="panel">
-  <div class="panel-head"><div><h2>Factures récentes</h2><p>Derniers paiements traités</p></div><span class="link">Tout voir →</span></div>
+  <div class="panel-head"><div><h2>Factures récentes</h2><p>Derniers paiements traités</p></div><span class="link">Tout voir â†’</span></div>
   <div class="table-wrap">
     <table class="data">
       <tr><th>Client</th><th>Montant</th><th>Date</th><th>Statut</th></tr>
@@ -69,3 +69,5 @@
   </div>
 </div>
 @endsection
+
+

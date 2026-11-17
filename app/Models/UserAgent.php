@@ -52,4 +52,14 @@ class UserAgent extends Model
     {
         return $this->hasMany(UserAgentCalendarEntry::class)->orderBy('published_at');
     }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(UserAgentContact::class)->latest();
+    }
+
+    public function websites(): HasMany
+    {
+        return $this->hasMany(UserAgentWebsite::class)->latest();
+    }
 }

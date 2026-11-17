@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Dashboard')
 
@@ -8,15 +8,15 @@
   <div class="page-head"><div><h1>Vue d'ensemble de la plateforme</h1><p>Santé globale d'IA Agent Studio, tous clients confondus.</p></div></div>
 
   <div class="kpis">
-    <div class="kpi c1"><div class="top"><div class="ic"><svg class="ico"><use href="#i-clients"/></svg></div><span class="delta">+{{ $newUsersMonth ?? 0 }} ce mois</span></div><div class="num">{{ $totalUsers ?? 0 }}</div><div class="lbl">Clients (utilisateurs)</div></div>
-    <div class="kpi c2"><div class="top"><div class="ic"><svg class="ico"><use href="#i-check"/></svg></div><span class="delta">{{ $metaTotal ?? 0 }} au total</span></div><div class="num">{{ $metaConnected ?? 0 }}</div><div class="lbl">Comptes Meta connectés</div></div>
-    <div class="kpi c3"><div class="top"><div class="ic"><svg class="ico"><use href="#i-dashboard"/></svg></div><span class="delta">{{ $metaConnected ?? 0 }} connectés</span></div><div class="num">{{ $metaTotal ?? 0 }}</div><div class="lbl">Comptes Meta (total)</div></div>
-    <div class="kpi c4"><div class="top"><div class="ic"><svg class="ico"><use href="#i-alert"/></svg></div><span class="delta {{ ($metaPending ?? 0) > 0 ? 'down' : '' }}">{{ $metaDisconnected ?? 0 }} déconnectés</span></div><div class="num">{{ $metaPending ?? 0 }}</div><div class="lbl">Comptes Meta en attente</div></div>
+    <div class="kpi c1"><div class="top"><div class="ic"><x-lucide-users class="ico" /></div><span class="delta">+{{ $newUsersMonth ?? 0 }} ce mois</span></div><div class="num">{{ $totalUsers ?? 0 }}</div><div class="lbl">Clients (utilisateurs)</div></div>
+    <div class="kpi c2"><div class="top"><div class="ic"><x-lucide-check class="ico" /></div><span class="delta">{{ $metaTotal ?? 0 }} au total</span></div><div class="num">{{ $metaConnected ?? 0 }}</div><div class="lbl">Comptes Meta connectés</div></div>
+    <div class="kpi c3"><div class="top"><div class="ic"><x-lucide-layout-dashboard class="ico" /></div><span class="delta">{{ $metaConnected ?? 0 }} connectés</span></div><div class="num">{{ $metaTotal ?? 0 }}</div><div class="lbl">Comptes Meta (total)</div></div>
+    <div class="kpi c4"><div class="top"><div class="ic"><x-lucide-alert-triangle class="ico" /></div><span class="delta {{ ($metaPending ?? 0) > 0 ? 'down' : '' }}">{{ $metaDisconnected ?? 0 }} déconnectés</span></div><div class="num">{{ $metaPending ?? 0 }}</div><div class="lbl">Comptes Meta en attente</div></div>
   </div>
 
   <div class="two-col">
     <div class="panel">
-      <div class="panel-head"><div><h2>Croissance des clients</h2><p>Nouveaux comptes créés par mois</p></div><span class="link">Exporter <svg class="ico" style="width:14px;height:14px;vertical-align:-2px"><use href="#i-arrow-tr"/></svg></span></div>
+      <div class="panel-head"><div><h2>Croissance des clients</h2><p>Nouveaux comptes créés par mois</p></div><span class="link">Exporter <x-lucide-arrow-up-right class="ico" style="width:17px;height:17px;vertical-align:-2px" /></span></div>
       <div class="bars">
         @php
           $growthData = $growthData ?? [];
@@ -63,7 +63,7 @@
             <td>{{ $acc->name }} <span style="color:var(--muted);font-size:12px;">({{ strtoupper($acc->platform ?? 'facebook') }})</span></td>
             <td>{{ $isDisc ? 'Compte Meta déconnecté' : 'Compte Meta en attente' }}</td>
             <td><span class="pill {{ $isDisc ? 'r' : 'o' }}">{{ $isDisc ? 'Déconnecté' : 'En attente' }}</span></td>
-            <td class="row-actions"><div class="icbtn" title="ID: {{ $acc->meta_id ?? '-' }}"><svg class="ico"><use href="#i-arrow-tr"/></svg></div></td>
+            <td class="row-actions"><div class="icbtn" title="ID: {{ $acc->meta_id ?? '-' }}"><x-lucide-arrow-up-right class="ico" /></div></td>
           </tr>
         @empty
           <tr><td colspan="5" style="color:var(--muted);padding:18px;">Aucun client ne nécessite d'attention pour le moment.</td></tr>
@@ -115,7 +115,7 @@
             <td>{{ $totalMeta }}</td>
             <td>-</td>
             <td><span class="pill {{ $statusClass }}">{{ $statusLabel }}</span></td>
-            <td class="row-actions"><a href="{{ route('admin.clients.show', $client->id) }}" class="icbtn" title="Détails"><svg class="ico"><use href="#i-settings"/></svg></a><a href="{{ route('admin.clients.show', $client->id) }}" class="icbtn" target="_blank" title="Ouvrir"><svg class="ico"><use href="#i-arrow-tr"/></svg></a></td>
+            <td class="row-actions"><a href="{{ route('admin.clients.show', $client->id) }}" class="icbtn" title="Détails"><x-lucide-settings class="ico" /></a><a href="{{ route('admin.clients.show', $client->id) }}" class="icbtn" target="_blank" title="Ouvrir"><x-lucide-arrow-up-right class="ico" /></a></td>
           </tr>
         @empty
           <tr><td colspan="6" style="color:var(--muted);padding:18px;">Aucun client trouvé dans la base de données.</td></tr>
@@ -127,7 +127,7 @@
 
 <!-- AGENTS IA -->
 <section class="page" id="page-agents" data-page="agents">
-  <div class="page-head"><div><h1>Agents IA</h1><p>Gestion des agents IA de la plateforme.</p></div><a href="{{ route('admin.agents.index') }}" class="btn" style="padding:6px 12px; font-size:12.5px;">Gérer les agents <svg class="ico" style="width:12px;height:12px;vertical-align:-1px"><use href="#i-arrow-tr"/></svg></a></div>
+  <div class="page-head"><div><h1>Agents IA</h1><p>Gestion des agents IA de la plateforme.</p></div><a href="{{ route('admin.agents.index') }}" class="btn" style="padding:6px 12px; font-size:12.5px;">Gérer les agents <x-lucide-arrow-up-right class="ico" style="width:16px;height:16px;vertical-align:-1px" /></a></div>
   <div class="plan-grid">
     @forelse(($agents ?? []) as $agent)
       <div class="plan-card {{ $agent->is_active ? '' : 'opacity-50' }}">
@@ -157,7 +157,7 @@
 
 <!-- FACTURATION -->
 <section class="page" id="page-facturation" data-page="facturation">
-  <div class="page-head"><div><h1>Abonnements & Facturation</h1><p>Répartition des forfaits et revenus récurrents.</p></div><a href="{{ route('admin.subscriptions.index') }}" class="btn" style="padding:6px 12px; font-size:12.5px;">Gérer les abonnements <svg class="ico" style="width:12px;height:12px;vertical-align:-1px"><use href="#i-arrow-tr"/></svg></a></div>
+  <div class="page-head"><div><h1>Abonnements & Facturation</h1><p>Répartition des forfaits et revenus récurrents.</p></div><a href="{{ route('admin.subscriptions.index') }}" class="btn" style="padding:6px 12px; font-size:12.5px;">Gérer les abonnements <x-lucide-arrow-up-right class="ico" style="width:16px;height:16px;vertical-align:-1px" /></a></div>
   <div class="plan-grid">
     @forelse(($subscriptions ?? []) as $sub)
       @php
@@ -188,7 +188,7 @@
     @endforelse
   </div>
   <div class="panel">
-    <div class="panel-head"><div><h2>Factures récentes</h2><p>Derniers paiements traités</p></div><span class="link">Tout voir →</span></div>
+    <div class="panel-head"><div><h2>Factures récentes</h2><p>Derniers paiements traités</p></div><span class="link">Tout voir â†’</span></div>
     <div class="table-wrap">
       <table class="data">
         <tr><th>Client</th><th>Montant</th><th>Date</th><th>Statut</th></tr>
@@ -247,3 +247,9 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 @endpush
+
+
+
+
+
+

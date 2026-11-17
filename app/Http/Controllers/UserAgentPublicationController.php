@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MetaAccount;
 use App\Models\UserAgent;
 use App\Models\UserAgentCalendarEntry;
 use App\Models\UserAgentPublicationVisual;
 use App\Services\ComfyUIClient;
+use App\Services\MetaGraphService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class UserAgentPublicationController extends Controller
 {
-    public function __construct(private ComfyUIClient $comfyui)
-    {
+    public function __construct(
+        private ComfyUIClient $comfyui,
+        private MetaGraphService $meta,
+    ) {
     }
 
     public function index(): JsonResponse
@@ -23,7 +27,7 @@ class UserAgentPublicationController extends Controller
 
         $entries = UserAgentCalendarEntry::with(['userAgent.agent', 'visuals'])
             ->whereIn('user_agent_id', $userAgentIds)
-            ->where('status', 'validated')
+            ->whereIn('status', ['validated', 'published'])
             ->orderBy('published_at')
             ->get();
 
@@ -210,6 +214,203 @@ class UserAgentPublicationController extends Controller
         ]);
     }
 
+    public function save(Request $request, UserAgentCalendarEntry $entry): JsonResponse
+    {
+        $userAgentIds = UserAgent::where('user_id', Auth::id())->pluck('id');
+
+        abort_unless($userAgentIds->contains($entry->user_agent_id), 403);
+        abort_unless($entry->status === 'validated', 422, 'Cette publication doit être validée avant enregistrement.');
+
+        $validated = $request->validate([
+            'generated_content' => 'nullable|string',
+        ]);
+
+        $entry->update([
+            'generated_content' => $validated['generated_content'] ?? null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Contenu enregistré dans l\'entrée.',
+            'entry' => $this->serializeEntry($entry->fresh()),
+        ]);
+    }
+
+    public function publish(UserAgentCalendarEntry $entry): JsonResponse
+    {
+        $userAgentIds = UserAgent::where('user_id', Auth::id())->pluck('id');
+
+        abort_unless($userAgentIds->contains($entry->user_agent_id), 403);
+        abort_unless(empty($entry->platform_post_id), 422, 'Cette publication est déjà publiée.');
+
+        $platform = strtolower((string) $entry->platform);
+        abort_unless(in_array($platform, ['facebook', 'instagram'], true), 422, 'La publication automatique n’est pas disponible pour cette plateforme.');
+
+        $account = $this->resolveAccount($entry, $platform);
+
+        $message = trim((string) ($entry->generated_content ?: $this->buildPublishText($entry)));
+        abort_if($message === '', 422, 'Aucun contenu à publier. Générez d’abord la publication.');
+
+        $visual = $entry->visuals()->where('status', 'generated')->first();
+
+        if ($platform === 'instagram') {
+            abort_if(! $visual || ! $visual->image_path, 422, 'Instagram nécessite un visuel généré avant publication.');
+        }
+
+        try {
+            if ($platform === 'instagram') {
+                $result = $this->meta->publishInstagram($account, $message, url('storage/' . $visual->image_path));
+            } else {
+                $result = $this->meta->publishFacebook(
+                    $account,
+                    $message,
+                    $visual?->image_path,
+                    $visual?->image_name
+                );
+            }
+        } catch (\Throwable $e) {
+            report($e);
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 502);
+        }
+
+        $entry->update([
+            'status' => 'published',
+            'meta_account_id' => $account->id,
+            'platform_post_id' => $result['id'],
+            'published_permalink' => $result['permalink'] ?? null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Publication publiée sur ' . ($platform === 'instagram' ? 'Instagram' : 'Facebook') . '.',
+            'entry' => $this->serializeEntry($entry->fresh(['userAgent.agent', 'visuals'])),
+        ]);
+    }
+
+    public function insights(UserAgentCalendarEntry $entry): JsonResponse
+    {
+        $userAgentIds = UserAgent::where('user_id', Auth::id())->pluck('id');
+
+        abort_unless($userAgentIds->contains($entry->user_agent_id), 403);
+        abort_unless(! empty($entry->platform_post_id), 422, 'Cette publication n’a pas encore été publiée.');
+
+        $platform = strtolower((string) $entry->platform);
+        $account = $this->resolveAccount($entry, $platform);
+
+        try {
+            $stats = $this->meta->getInsights($account, $entry->platform_post_id, $platform);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 502);
+        }
+
+        return response()->json([
+            'success' => true,
+            'insights' => $stats,
+        ]);
+    }
+
+    public function comments(UserAgentCalendarEntry $entry): JsonResponse
+    {
+        $userAgentIds = UserAgent::where('user_id', Auth::id())->pluck('id');
+
+        abort_unless($userAgentIds->contains($entry->user_agent_id), 403);
+        abort_unless(! empty($entry->platform_post_id), 422, 'Cette publication n’a pas encore été publiée.');
+
+        $platform = strtolower((string) $entry->platform);
+        $account = $this->resolveAccount($entry, $platform);
+
+        try {
+            $items = $this->meta->getComments($account, $entry->platform_post_id, $platform);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 502);
+        }
+
+        return response()->json([
+            'success' => true,
+            'comments' => $items,
+        ]);
+    }
+
+    public function replyComment(Request $request, UserAgentCalendarEntry $entry): JsonResponse
+    {
+        $userAgentIds = UserAgent::where('user_id', Auth::id())->pluck('id');
+
+        abort_unless($userAgentIds->contains($entry->user_agent_id), 403);
+        abort_unless(! empty($entry->platform_post_id), 422, 'Cette publication n’a pas encore été publiée.');
+
+        $validated = $request->validate([
+            'comment_id' => 'required|string|max:255',
+            'message' => 'required|string|max:2000',
+        ]);
+
+        $platform = strtolower((string) $entry->platform);
+        $account = $this->resolveAccount($entry, $platform);
+
+        try {
+            $reply = $this->meta->replyToComment($account, $validated['comment_id'], $validated['message'], $platform);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 502);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Réponse publiée.',
+            'reply' => $reply,
+        ]);
+    }
+
+    private function resolveAccount(UserAgentCalendarEntry $entry, string $platform): MetaAccount
+    {
+        $account = $entry->meta_account_id
+            ? MetaAccount::where('id', $entry->meta_account_id)
+                ->where('user_id', Auth::id())
+                ->where('platform', $platform)
+                ->first()
+            : null;
+
+        if (! $account) {
+            $account = Auth::user()->metaAccounts()
+                ->where('platform', $platform)
+                ->where('status', 'connected')
+                ->first();
+        }
+
+        $label = $platform === 'instagram' ? 'Instagram' : 'Facebook';
+
+        abort_if(! $account, 422, 'Aucun compte Meta connecté pour ' . $label . '. Connectez-le dans la rubrique Comptes Meta.');
+        abort_if(empty($account->access_token), 422, 'Le compte Meta sélectionné ne possède pas de jeton d’accès. Renseignez-le dans la rubrique Comptes Meta.');
+
+        return $account;
+    }
+
+    private function buildPublishText(UserAgentCalendarEntry $entry): string
+    {
+        return implode("\n\n", array_filter([
+            $entry->title,
+            $entry->caption,
+            $entry->hashtags,
+        ]));
+    }
+
     private function monthlyTheme(Carbon $date): array
     {
         $themes = [
@@ -237,35 +438,21 @@ class UserAgentPublicationController extends Controller
     private function buildVisualPrompt(UserAgentCalendarEntry $entry, UserAgent $agent, $identity, array $theme): string
     {
         $agentName = $agent->custom_name ?: ($agent->agent?->name ?? 'Agent IA');
-        $objective = mb_substr((string) ($identity?->objective ?? ''), 0, 180) ?: 'mission de communication';
-        $charter = mb_substr((string) ($identity?->charter ?? ''), 0, 180) ?: 'style professionnel';
+        $platform = strtolower((string) $entry->platform);
+        $visual = rtrim($entry->visual_prompt ?: 'visuel professionnel', " .");
         $palette = implode(', ', array_filter(array_column($identity?->palette ?? [], 'hex')));
-        $paletteText = $palette !== '' ? "Palette de marque: {$palette}." : '';
-        $inspirations = $agent->inspiringAccounts()->take(3)->get()
-            ->map(fn ($account) => '@' . $account->handle)
-            ->implode(', ');
-        $inspirationText = $inspirations !== '' ? "Références inspirantes: {$inspirations}." : '';
-        $platform = strtoupper((string) $entry->platform);
-        $title = $entry->title ?: 'publication';
-        $pillar = $entry->pillar ?: 'thème éditorial';
-        $visual = $entry->visual_prompt ?: 'visuel professionnel';
-        $domain = $agent->domain ?: 'secteur professionnel';
-        $tone = $agent->tone ?: 'ton professionnel';
-        $description = mb_substr((string) ($agent->agent?->description ?? ''), 0, 180);
-        $descriptionText = $description !== '' ? "Description de l'agent: {$description}." : '';
-        $month = $theme['label'];
         $keywords = $theme['keywords'];
 
-        return "Visuel de publication réseaux sociaux pour {$agentName}, {$platform}. "
-            . "Secteur: {$domain}. Ton: {$tone}. "
-            . ($descriptionText !== '' ? $descriptionText . ' ' : '')
-            . "Objectif de l'agent: {$objective}. "
-            . "Thème éditorial: {$pillar}. Titre: {$title}. "
-            . "Prompt visuel: {$visual}. "
-            . "Ambiance mensuelle {$month} ({$theme['month']}): {$keywords}. "
-            . trim($paletteText . ' ' . $inspirationText) . ' '
-            . "Style: moderne, professionnel, haute qualité, composition claire, cohérent avec la charte: {$charter}. "
-            . 'Sans texte, sans logo, sans watermark.';
+        $parts = [
+            $visual,
+            "pour {$agentName} ({$platform})",
+            $palette !== '' ? "palette {$palette}" : '',
+            "ambiance {$keywords}",
+            'moderne, professionnel, haute qualité',
+            'sans texte, sans logo, sans watermark',
+        ];
+
+        return trim(preg_replace('/\s+/', ' ', implode('. ', array_filter($parts)))) . '.';
     }
 
     private function serializeEntry(UserAgentCalendarEntry $entry): array
@@ -283,11 +470,16 @@ class UserAgentPublicationController extends Controller
             'pillar' => $entry->pillar,
             'title' => $entry->title,
             'caption' => $entry->caption,
+            'generated_content' => $entry->generated_content,
             'visual_prompt' => $entry->visual_prompt,
+            'visual_prompt_used' => $visual?->prompt,
             'hashtags' => $entry->hashtags,
             'status' => $entry->status,
+            'platform_post_id' => $entry->platform_post_id,
+            'published_permalink' => $entry->published_permalink,
+            'is_published' => ! empty($entry->platform_post_id),
             'visual_id' => $visual?->id,
-            'visual_url' => ($visual && $visual->image_path) ? Storage::disk('public')->url($visual->image_path) : null,
+            'visual_url' => ($visual && $visual->image_path) ? url('storage/' . $visual->image_path) : null,
             'visual_theme' => $visual?->theme,
         ];
     }
@@ -296,7 +488,7 @@ class UserAgentPublicationController extends Controller
     {
         return [
             'id' => $visual->id,
-            'url' => $visual->image_path ? Storage::disk('public')->url($visual->image_path) : null,
+            'url' => $visual->image_path ? url('storage/' . $visual->image_path) : null,
             'prompt' => $visual->prompt,
             'negative_prompt' => $visual->negative_prompt,
             'theme' => $visual->theme,

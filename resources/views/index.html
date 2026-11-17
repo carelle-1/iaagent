@@ -16,7 +16,7 @@
   --pill-bg:rgba(139,123,240,.12); --pill-border:rgba(139,123,240,.35);
 }
 html{box-sizing:border-box; scroll-padding-top:env(safe-area-inset-top,0px);}
-*,*::before,*::after{box-sizing:inherit;}
+*, *::before, *::after{box-sizing:inherit;}
 body{
   margin:0; background:var(--bg); color:var(--text);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
@@ -215,65 +215,42 @@ footer{border-top:1px solid var(--border); padding:28px 0; font-size:13px; color
     <div class="grid-3">
       <div class="card">
         <div class="feat-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
+          <x-lucide-calendar class="ico" style="width:20px;height:20px;" />
         </div>
         <h3>Calendrier hebdomadaire intelligent</h3>
         <p>Répartition automatique des piliers (pédagogie, preuve, offre, coulisses) sur les fenêtres de lecture des décideurs.</p>
       </div>
       <div class="card">
         <div class="feat-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
+          <x-lucide-file-text class="ico" style="width:20px;height:20px;" />
         </div>
         <h3>Rédaction Facebook native</h3>
         <p>Hooks accrocheurs, structure lisible, CTA explicite, hashtags pertinents et conversion de la mise en forme en rendu compatible Facebook.</p>
       </div>
       <div class="card">
         <div class="feat-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            <circle cx="8.5" cy="8.5" r="1.5"></circle>
-            <polyline points="21 15 16 10 5 21"></polyline>
-          </svg>
+          <x-lucide-image class="ico" style="width:20px;height:20px;" />
         </div>
         <h3>Visuels générés et versionnés</h3>
         <p>Chaque publication arrive avec un visuel 1200×630 à la charte de la marque. Modifiez le prompt ou demandez une variante.</p>
       </div>
       <div class="card">
         <div class="feat-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
+          <x-lucide-users class="ico" style="width:20px;height:20px;" />
         </div>
         <h3>Multi-pages, multi-utilisateurs</h3>
         <p>Un agent peut piloter plusieurs pages. Chaque compte dispose de son espace, de ses agents et de ses validations.</p>
       </div>
       <div class="card">
         <div class="feat-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
+          <x-lucide-shield class="ico" style="width:20px;height:20px;" />
         </div>
         <h3>Jetons Meta chiffrés</h3>
         <p>App ID, secret et jeton d'accès stockés chiffrés. Mode sandbox pour tester sans risque, mode live pour publier via l'API Graph.</p>
       </div>
       <div class="card">
         <div class="feat-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
+          <x-lucide-clock class="ico" style="width:20px;height:20px;" />
         </div>
         <h3>Publication planifiée</h3>
         <p>Un cron cPanel appelle l'endpoint de publication : les contenus validés partent seuls au meilleur moment.</p>

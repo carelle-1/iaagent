@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', $agent->name)
 
@@ -9,19 +9,19 @@
     <p>{{ $agent->description ?? 'Aucune description.' }}</p>
   </div>
   <div class="actions">
-    <a href="{{ route('admin.agents.edit', $agent->id) }}" class="btn"><svg class="ico"><use href="#i-edit"/></svg> Modifier</a>
+    <a href="{{ route('admin.agents.edit', $agent->id) }}" class="btn"><x-lucide-edit class="ico" /> Modifier</a>
     <form action="{{ route('admin.agents.destroy', $agent->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer cet agent ? Cette action est irréversible.');">
       @csrf @method('DELETE')
-      <button type="submit" class="btn danger"><svg class="ico"><use href="#i-trash"/></svg> Supprimer</button>
+      <button type="submit" class="btn danger"><x-lucide-trash-2 class="ico" /> Supprimer</button>
     </form>
-    <a href="{{ route('admin.agents.index') }}" class="btn primary"><svg class="ico"><use href="#i-arrow-left"/></svg> Retour</a>
+    <a href="{{ route('admin.agents.index') }}" class="btn primary"><x-lucide-arrow-left class="ico" /> Retour</a>
   </div>
 </div>
 
 <div class="kpis">
-  <div class="kpi c1"><div class="top"><div class="ic"><svg class="ico"><use href="#i-check"/></svg></div></div><div class="num">{{ $agent->is_active ? 'Actif' : 'Inactif' }}</div><div class="lbl">Statut</div></div>
-  <div class="kpi c2"><div class="top"><div class="ic"><svg class="ico"><use href="#i-link"/></svg></div></div><div class="num">{{ $agent->subscriptions->count() }}</div><div class="lbl">Abonnements liés</div></div>
-  <div class="kpi c3"><div class="top"><div class="ic"><svg class="ico"><use href="#i-dashboard"/></svg></div></div><div class="num">{{ \Illuminate\Support\Carbon::parse($agent->created_at)->format('d/m/Y') }}</div><div class="lbl">Créé le</div></div>
+  <div class="kpi c1"><div class="top"><div class="ic"><x-lucide-check class="ico" /></div></div><div class="num">{{ $agent->is_active ? 'Actif' : 'Inactif' }}</div><div class="lbl">Statut</div></div>
+  <div class="kpi c2"><div class="top"><div class="ic"><x-lucide-link class="ico" /></div></div><div class="num">{{ $agent->subscriptions->count() }}</div><div class="lbl">Abonnements liés</div></div>
+  <div class="kpi c3"><div class="top"><div class="ic"><x-lucide-layout-dashboard class="ico" /></div></div><div class="num">{{ \Illuminate\Support\Carbon::parse($agent->created_at)->format('d/m/Y') }}</div><div class="lbl">Créé le</div></div>
 </div>
 
 <div class="panel">
@@ -61,3 +61,5 @@
   </div>
 </div>
 @endsection
+
+

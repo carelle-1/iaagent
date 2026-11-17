@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserAgent;
+use App\Models\UserAgentContact;
 use App\Models\UserAgentIdentity;
 use App\Models\UserAgentIdentityImage;
 use App\Models\UserAgentInspiringAccount;
+use App\Models\UserAgentWebsite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -23,6 +25,8 @@ class UserAgentIdentityController extends Controller
             'identity' => $userAgent->identity ? $this->serializeIdentity($userAgent->identity) : null,
             'accounts' => $userAgent->inspiringAccounts()->get(),
             'images' => $this->serializeImages($userAgent->identityImages),
+            'contacts' => $userAgent->contacts()->get(),
+            'websites' => $userAgent->websites()->get(),
         ]);
     }
 
@@ -107,6 +111,86 @@ class UserAgentIdentityController extends Controller
         $account->delete();
 
         return response()->json(['success' => true, 'message' => 'Compte inspirant supprimé.']);
+    }
+
+    public function storeContact(Request $request, UserAgent $userAgent)
+    {
+        $this->authorizeAgent($userAgent);
+
+        $contact = $userAgent->contacts()->create($this->validateContact($request));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Contact ajouté.',
+            'contact' => $contact->fresh(),
+        ], 201);
+    }
+
+    public function updateContact(Request $request, UserAgent $userAgent, UserAgentContact $contact)
+    {
+        $this->authorizeAgent($userAgent);
+        abort_unless($contact->user_agent_id === $userAgent->id, 403);
+
+        $contact->update($this->validateContact($request));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Contact mis à jour.',
+            'contact' => $contact->fresh(),
+        ]);
+    }
+
+    public function destroyContact(UserAgent $userAgent, UserAgentContact $contact)
+    {
+        $this->authorizeAgent($userAgent);
+        abort_unless($contact->user_agent_id === $userAgent->id, 403);
+
+        $contact->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Contact supprimé.',
+        ]);
+    }
+
+    public function storeWebsite(Request $request, UserAgent $userAgent)
+    {
+        $this->authorizeAgent($userAgent);
+
+        $website = $userAgent->websites()->create($this->validateWebsite($request));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Site web ajouté.',
+            'website' => $website->fresh(),
+        ], 201);
+    }
+
+    public function updateWebsite(Request $request, UserAgent $userAgent, UserAgentWebsite $website)
+    {
+        $this->authorizeAgent($userAgent);
+        abort_unless($website->user_agent_id === $userAgent->id, 403);
+
+        $website->update($this->validateWebsite($request));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Site web mis à jour.',
+            'website' => $website->fresh(),
+        ]);
+    }
+
+    public function destroyWebsite(UserAgent $userAgent, UserAgentWebsite $website)
+    {
+        $this->authorizeAgent($userAgent);
+        abort_unless($website->user_agent_id === $userAgent->id, 403);
+
+        $website->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Site web supprimé.',
+        ]);
     }
 
     public function serveLogo(string $filename): Response
@@ -198,6 +282,24 @@ class UserAgentIdentityController extends Controller
             'platform' => 'required|string|in:instagram,facebook,tiktok,linkedin,youtube,x,other',
             'handle' => 'required|string|max:255',
             'url' => 'nullable|url|max:500',
+            'notes' => 'nullable|string|max:2000',
+        ]);
+    }
+
+    private function validateContact(Request $request): array
+    {
+        return $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:50',
+            'notes' => 'nullable|string|max:2000',
+        ]);
+    }
+
+    private function validateWebsite(Request $request): array
+    {
+        return $request->validate([
+            'label' => 'required|string|max:255',
+            'url' => 'required|url|max:1000',
             'notes' => 'nullable|string|max:2000',
         ]);
     }

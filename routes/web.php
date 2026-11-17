@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MetaAccountController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\AgentCategoryController;
 use App\Http\Controllers\UserAgentController;
 use App\Http\Controllers\UserAgentCalendarController;
 use App\Http\Controllers\UserAgentIdentityController;
@@ -110,6 +111,17 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::get('/{agent}/edit', [AgentController::class, 'edit'])->name('edit');
         Route::put('/{agent}', [AgentController::class, 'update'])->name('update');
         Route::delete('/{agent}', [AgentController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::middleware(['role:admin'])->prefix('admin/agent-categories')->name('admin.agent-categories.')->group(function () {
+        Route::get('/', [AgentCategoryController::class, 'index'])->name('index');
+        Route::get('/create', [AgentCategoryController::class, 'create'])->name('create');
+        Route::post('/', [AgentCategoryController::class, 'store'])->name('store');
+        Route::get('/{category}', [AgentCategoryController::class, 'show'])->name('show');
+        Route::get('/{category}/edit', [AgentCategoryController::class, 'edit'])->name('edit');
+        Route::put('/{category}', [AgentCategoryController::class, 'update'])->name('update');
+        Route::delete('/{category}', [AgentCategoryController::class, 'destroy'])->name('destroy');
+        Route::post('/{category}/assign-agents', [AgentCategoryController::class, 'assignAgents'])->name('assign-agents');
     });
 
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -315,7 +327,12 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::middleware(['role:user'])->prefix('user/publications')->name('user.publications.')->group(function () {
         Route::get('/validated', [UserAgentPublicationController::class, 'index'])->name('validated');
         Route::post('/{entry}/generate', [UserAgentPublicationController::class, 'generate'])->name('generate');
+        Route::post('/{entry}/save', [UserAgentPublicationController::class, 'save'])->name('save');
         Route::post('/{entry}/visual', [UserAgentPublicationController::class, 'generateVisual'])->name('visual');
+        Route::post('/{entry}/publish', [UserAgentPublicationController::class, 'publish'])->name('publish');
+        Route::get('/{entry}/insights', [UserAgentPublicationController::class, 'insights'])->name('insights');
+        Route::get('/{entry}/comments', [UserAgentPublicationController::class, 'comments'])->name('comments');
+        Route::post('/{entry}/comments/reply', [UserAgentPublicationController::class, 'replyComment'])->name('comments.reply');
         Route::get('/visuals/{visual}', [UserAgentPublicationController::class, 'visualStatus'])->name('visuals.status');
     });
 
@@ -343,5 +360,11 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::delete('/{userAgent}/identity/images/{image}', [UserAgentIdentityController::class, 'destroyImage'])->name('identity.images.destroy');
         Route::put('/{userAgent}/identity/accounts/{account}', [UserAgentIdentityController::class, 'updateAccount'])->name('identity.accounts.update');
         Route::delete('/{userAgent}/identity/accounts/{account}', [UserAgentIdentityController::class, 'destroyAccount'])->name('identity.accounts.destroy');
+        Route::post('/{userAgent}/contacts', [UserAgentIdentityController::class, 'storeContact'])->name('identity.contacts.store');
+        Route::put('/{userAgent}/contacts/{contact}', [UserAgentIdentityController::class, 'updateContact'])->name('identity.contacts.update');
+        Route::delete('/{userAgent}/contacts/{contact}', [UserAgentIdentityController::class, 'destroyContact'])->name('identity.contacts.destroy');
+        Route::post('/{userAgent}/websites', [UserAgentIdentityController::class, 'storeWebsite'])->name('identity.websites.store');
+        Route::put('/{userAgent}/websites/{website}', [UserAgentIdentityController::class, 'updateWebsite'])->name('identity.websites.update');
+        Route::delete('/{userAgent}/websites/{website}', [UserAgentIdentityController::class, 'destroyWebsite'])->name('identity.websites.destroy');
     });
 });

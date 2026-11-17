@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
 <script>(function(){try{var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
@@ -51,7 +51,7 @@ html[data-theme="light"] .brand-logo-light{display:block !important;}
 .nav-item:hover{background:var(--nav-hover);}
 .nav-item.active{background: #17B9FF; color:#FFF; font-weight:600;}
 .sub .nav-item.active{background: #17B9FF; color:#FFF; font-weight:600;}
-.nav-item .ic{width:17px; text-align:center; flex-shrink:0;}
+.nav-item .ic{width:22px; text-align:center; flex-shrink:0;}
 .nav-item .chev{margin-left:auto; font-size:11px; opacity:.6;}
 .sub{padding-left:10px; max-height:0; overflow:hidden; transition:max-height .22s ease;}
 .sub.open{max-height:1000px;}
@@ -162,7 +162,7 @@ table.data .col-statut{width:150px; min-width:150px; white-space:nowrap;}
 .cal-action-menu button:hover{background:var(--dropdown-hover);}
 .cal-action-menu button.danger{color:var(--red);}
 .cal-action-menu button.primary{color:var(--cyan);}
-.cal-action-menu button .ico{width:15px; height:15px;}
+.cal-action-menu button .ico{width:18px; height:18px;}
 .identity-images-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:10px;}
 .identity-image-card{border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--panel-2);}
 .identity-image-card img{display:block; width:100%; height:110px; object-fit:cover;}
@@ -253,47 +253,16 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
   .hero-banner{flex-direction:column.}
   .card-grid{grid-template-columns:1fr.}
 }
-.ico{width:1em;height:1em;display:inline-block;vertical-align:-0.125em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0.}
+.ico{width:1.15em;height:1.15em;display:inline-block;vertical-align:-0.125em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
 .ico-fill{fill:currentColor;stroke:none.}
-.ic .ico,.icon-btn .ico,.logo-ic{width:18px;height:18px.}
-.hbtn .ico,.act .ico,.status-ok .ico,.sidebar-foot .ico{width:16px;height:16px.}
-.nav-item .ic{display:inline-flex;align-items:center;justify-content:center.}
+.ic .ico,.icon-btn .ico,.logo-ic{width:22px;height:22px;}
+.hbtn .ico,.act .ico,.status-ok .ico,.sidebar-foot .ico{width:18px;height:18px;}
+.nav-item .ic{display:inline-flex;align-items:center;justify-content:center;}
 </style>
 </head>
 <body>
 <script>window.addEventListener('pageshow', function(e){ if(e.persisted){ window.location.reload(); } });</script>
 <div class="app">
-
-  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
-    <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></symbol>
-    <symbol id="i-agents" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6M9 13h4"/></symbol>
-    <symbol id="i-services" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M3 12h4M17 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></symbol>
-    <symbol id="i-community" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></symbol>
-    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
-    <symbol id="i-studio" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 14l-5-5-4 4-2-2-5 5"/></symbol>
-    <symbol id="i-identity" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></symbol>
-    <symbol id="i-trend" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2H19l-4.2 3 1.6 5.3L12 13.4 7.6 16.5l1.6-5.3L5 8.2h5.2z"/></symbol>
-    <symbol id="i-billing" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
-    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.1 0l2.1-2.1a5 5 0 0 0-7.1-7.1L11 5"/><path d="M14 11a5 5 0 0 0-7.1 0L4.8 13.1a5 5 0 0 0 7.1 7.1L13 19"/></symbol>
-    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></symbol>
-    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a2 2 0 1 1-4 0v-.1a1 1 0 0 0-.7-.9 1 1 0 0 0-1.1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a2 2 0 1 1 0-4h.1a1 1 0 0 0 .9-.7 1 1 0 0 0-.2-1.1l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1 1 0 0 0 1.1.2h.1a1 1 0 0 0 .6-.9V4a2 2 0 1 1 4 0v.1a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1 1 0 0 0-.2 1.1v.1a1 1 0 0 0 .9.6H20a2 2 0 1 1 0 4h-.1a1 1 0 0 0-.9.6z"/></symbol>
-    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
-    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
-    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
-    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
-    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M7 11V8a2 2 0 1 1 4 0v2"/><path d="M11 10V7a2 2 0 1 1 4 0v4"/><path d="M15 11V9a2 2 0 1 1 4 0v5a7 7 0 0 1-7 7h-1a7 7 0 0 1-6-3l-2-3a2 2 0 0 1 3-2l2 2v-4"/></symbol>
-    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol>
-    <symbol id="i-arrow-tr" viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></symbol>
-    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
-    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
-    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></symbol>
-    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M7 16V9"/><path d="M12 16V5"/><path d="M17 16v-4"/></symbol>
-    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
-    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></symbol>
-  </svg>
 
   <aside class="sidebar" id="sidebar">
     <div class="brand">
@@ -301,38 +270,38 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
       <img class="brand-logo brand-logo-light" src="/assets/4.png" alt="IA Agent Studio" style="height:48px;width:auto;">
     </div>
 
-    <div class="nav-item active" data-page="dashboard"><span class="ic"><svg class="ico"><use href="#i-dashboard"/></svg></span> Tableau de bord</div>
+    <div class="nav-item active" data-page="dashboard"><span class="ic"><x-lucide-layout-dashboard class="ico" /></span> Tableau de bord</div>
 
-    <div class="nav-item" id="servicesToggle"><span class="ic"><svg class="ico"><use href="#i-services"/></svg></span> Services <span class="chev">▾</span></div>
+    <div class="nav-item" id="servicesToggle"><span class="ic"><x-lucide-settings class="ico" /></span> Services <span class="chev">▾</span></div>
     <div class="sub open" id="servicesSub">
       <button class="nav-item nav-toggle" id="userAgentsToggle" type="button" aria-expanded="false" aria-controls="userAgentsSub">
-        <span class="ic"><svg class="ico"><use href="#i-agents"/></svg></span> Agents IA <span class="chev">▾</span>
+        <span class="ic"><x-lucide-bot class="ico" /></span> Agents IA <span class="chev">▾</span>
       </button>
       <div class="sub" id="userAgentsSub">
-        <div class="nav-item" data-page="my-agents"><span class="ic"><svg class="ico"><use href="#i-agents"/></svg></span> Gérer mes agents</div>
+        <div class="nav-item" data-page="my-agents"><span class="ic"><x-lucide-bot class="ico" /></span> Gérer mes agents</div>
         <div id="userAgentNavList">
           <div class="empty-box" style="padding:10px;font-size:12px;">Ouvrez le menu pour charger vos agents.</div>
         </div>
       </div>
     </div>
 
-    <div class="nav-item" data-page="pages-meta"><span class="ic"><svg class="ico"><use href="#i-link"/></svg></span> Pages & Comptes Meta</div>
-    <div class="nav-item" data-page="messagerie"><span class="ic"><svg class="ico"><use href="#i-mail"/></svg></span> Messagerie Support</div>
-    <div class="nav-item" data-page="parametres"><span class="ic"><svg class="ico"><use href="#i-settings"/></svg></span> Paramètres</div>
+    <div class="nav-item" data-page="pages-meta"><span class="ic"><x-lucide-link class="ico" /></span> Pages & Comptes Meta</div>
+    <div class="nav-item" data-page="messagerie"><span class="ic"><x-lucide-mail class="ico" /></span> Messagerie Support</div>
+    <div class="nav-item" data-page="parametres"><span class="ic"><x-lucide-settings class="ico" /></span> Paramètres</div>
 
     <div class="sidebar-foot">
-      <div class="row"><span><svg class="ico"><use href="#i-bolt"/></svg> Pack Premium</span><span>4/9999 posts</span></div>
+      <div class="row"><span><x-lucide-zap class="ico" /> Pack Premium</span><span>4/9999 posts</span></div>
       <div class="bar"><i></i></div>
-      <div class="meta"><span>Validation requise</span><span><svg class="ico"><use href="#i-check"/></svg> 100% sécurisé</span></div>
+      <div class="meta"><span>Validation requise</span><span><x-lucide-check class="ico" /> 100% sécurisé</span></div>
     </div>
   </aside>
 
   <div class="main">
     <div class="topbar">
-      <button class="menu-btn" id="menuBtn"><svg class="ico"><use href="#i-menu"/></svg></button>
-      <button class="icon-btn" id="themeToggle" title="Changer le thème"><svg class="ico"><use id="themeToggleIcon" href="#i-sun"/></svg></button>
-      <div class="lang"><svg class="ico"><use href="#i-globe"/></svg> FR</div>
-      <button class="icon-btn"><svg class="ico"><use href="#i-bell"/></svg><span class="dot-badge">7</span></button>
+      <button class="menu-btn" id="menuBtn"><x-lucide-menu class="ico" /></button>
+      <button class="icon-btn" id="themeToggle" title="Changer le thème"><x-lucide-sun class="ico" id="themeToggleIcon" /></button>
+      <div class="lang"><x-lucide-globe class="ico" /> FR</div>
+      <button class="icon-btn"><x-lucide-bell class="ico" /><span class="dot-badge">7</span></button>
       <div class="user-menu" id="userMenu">
         <div class="user-chip" id="userChip">
           <div class="avatar">{{ strtoupper(mb_substr(auth()->user()->first_name ?? 'U', 0, 1) . mb_substr(auth()->user()->last_name ?? '', 0, 1)) }}</div>
@@ -340,7 +309,7 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
           <span style="color:var(--muted)">▾</span>
         </div>
         <div class="user-dropdown" id="userDropdown">
-          <a href="/logout" class="danger"><svg class="ico"><use href="#i-logout"/></svg> Déconnexion</a>
+          <a href="/logout" class="danger"><x-lucide-log-out class="ico" /> Déconnexion</a>
         </div>
       </div>
     </div>
@@ -351,22 +320,22 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
         <div class="hero-banner">
           <div>
             <div class="eyebrow"><span class="tag">PLATEFORME SAAS</span> IA Agent Studio</div>
-            <h1>Bonjour, {{ auth()->user()->first_name ?? 'vous' }} <svg class="ico" style="width:22px;height:22px;vertical-align:-3px"><use href="#i-wave"/></svg></h1>
+            <h1>Bonjour, {{ auth()->user()->first_name ?? 'vous' }} <x-lucide-waves class="ico" style="width:26px;height:26px;vertical-align:-3px" /></h1>
             <p>Vos agents IA gèrent le contenu de vos pages sociales avec une rigueur absolue. Chaque publication reste soumise à votre validation avant mise en ligne.</p>
           </div>
           <div class="hero-actions">
-            <button class="hbtn light">Examiner les publications <svg class="ico"><use href="#i-arrow-r"/></svg></button>
-            <button class="hbtn ghost"><svg class="ico"><use href="#i-calendar"/></svg> Calendrier</button>
+            <button class="hbtn light">Examiner les publications <x-lucide-arrow-right class="ico" /></button>
+            <button class="hbtn ghost"><x-lucide-calendar class="ico" /> Calendrier</button>
           </div>
         </div>
 
         <div class="alert">
-          <div class="ic"><svg class="ico" style="width:18px;height:18px"><use href="#i-alert"/></svg></div>
+          <div class="ic"><x-lucide-alert-triangle class="ico" style="width:22px;height:22px" /></div>
           <div class="body">
             <div class="t1">4 publication(s) en attente de votre validation explicite <span class="chip-req">Règle Obligatoire</span></div>
             <div class="t2">Conformément aux règles de sécurité Meta Colab, aucun contenu ne sera programmé ou publié sans votre approbation expresse.</div>
           </div>
-          <div class="act">Valider maintenant <svg class="ico"><use href="#i-arrow-r"/></svg></div>
+          <div class="act">Valider maintenant <x-lucide-arrow-right class="ico" /></div>
         </div>
 
         <div class="stats">
@@ -381,7 +350,7 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
           <div class="panel">
               <div class="panel-head">
                 <div><h2>Comptes Meta Connectés & Statut</h2><p>Surveillance continue des jetons OAuth et des autorisations de publication</p></div>
-                <span class="link" data-page-link="pages-meta" style="cursor:pointer">Gérer <svg class="ico"><use href="#i-arrow-tr"/></svg></span>
+                <span class="link" data-page-link="pages-meta" style="cursor:pointer">Gérer <x-lucide-arrow-up-right class="ico" /></span>
               </div>
               <div class="meta-row">
                 <div class="av">M</div>
@@ -389,16 +358,16 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
                   <div class="nm">Mira <span class="tag-fb">FACEBOOK</span></div>
                   <div class="sub">0 abonnés · Agent : Community manager</div>
                 </div>
-                <span class="status-ok"><svg class="ico"><use href="#i-check"/></svg> Connecté</span>
+                <span class="status-ok"><x-lucide-check class="ico" /> Connecté</span>
               </div>
             </div>
 
             <div class="panel">
               <div class="panel-head"><div><h2>Accès Rapides</h2><p>Opérations rapides pour piloter vos réseaux</p></div></div>
               <div class="quick">
-                <div class="qbtn b1"><span class="ic"><svg class="ico"><use href="#i-plus"/></svg></span><span class="lbl">Créer un nouvel agent IA</span><span class="arr"><svg class="ico"><use href="#i-arrow-r"/></svg></span></div>
-                <div class="qbtn b2"><span class="ic"><svg class="ico"><use href="#i-services"/></svg></span><span class="lbl">Générer calendrier hebdo</span><span class="arr"><svg class="ico"><use href="#i-arrow-r"/></svg></span></div>
-                <div class="qbtn b3"><span class="ic"><svg class="ico"><use href="#i-chart"/></svg></span><span class="lbl">Veille concurrentielle IA</span><span class="arr"><svg class="ico"><use href="#i-arrow-r"/></svg></span></div>
+                <div class="qbtn b1"><span class="ic"><x-lucide-plus class="ico" /></span><span class="lbl">Créer un nouvel agent IA</span><span class="arr"><x-lucide-arrow-right class="ico" /></span></div>
+                <div class="qbtn b2"><span class="ic"><x-lucide-settings class="ico" /></span><span class="lbl">Générer calendrier hebdo</span><span class="arr"><x-lucide-arrow-right class="ico" /></span></div>
+                <div class="qbtn b3"><span class="ic"><x-lucide-chart-bar class="ico" /></span><span class="lbl">Veille concurrentielle IA</span><span class="arr"><x-lucide-arrow-right class="ico" /></span></div>
               </div>
             <div class="panel-foot"><span>Forfait : <b style="color:var(--text)">Pack Premium</b></span><a href="#">Voir détails</a></div>
           </div>
@@ -408,7 +377,7 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
       <section class="page" id="page-my-agents">
         <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;">
           <div><h1>Mes Agents IA</h1><p>Vos agents configurés et leur périmètre d'action.</p></div>
-          <button class="btn-inline primary" id="agentAddBtn"><svg class="ico"><use href="#i-plus"/></svg> Créer un agent</button>
+          <button class="btn-inline primary" id="agentAddBtn"><x-lucide-plus class="ico" /> Créer un agent</button>
         </div>
         <div id="userAgentsList" class="card-grid">
           <div class="empty-box">Chargement de vos agents…</div>
@@ -445,8 +414,8 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
               <label>Posts / semaine</label>
               <input type="number" id="calendarPostsPerWeek" min="1" max="10" value="3">
             </div>
-            <button class="btn-inline primary" id="calendarGenerateBtn"><svg class="ico"><use href="#i-bolt"/></svg> Générer avec Ollama</button>
-            <button class="btn-inline danger" id="calendarClearBtn"><svg class="ico"><use href="#i-trash"/></svg> Vider</button>
+            <button class="btn-inline primary" id="calendarGenerateBtn"><x-lucide-zap class="ico" /> Générer avec Ollama</button>
+            <button class="btn-inline danger" id="calendarClearBtn"><x-lucide-trash-2 class="ico" /> Vider</button>
           </div>
           <div id="calendarStatus" style="margin-top:10px;font-size:12.5px;color:var(--muted);">Ollama local : vérification…</div>
         </div>
@@ -497,16 +466,16 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
       </div>
 
       <div class="cal-action-menu" id="calendarActionMenu">
-        <button type="button" data-menu-action="edit"><svg class="ico"><use href="#i-edit"/></svg> Modifier</button>
-        <button type="button" data-menu-action="delete" class="danger"><svg class="ico"><use href="#i-trash"/></svg> Supprimer</button>
-        <button type="button" data-menu-action="validate" class="primary"><svg class="ico"><use href="#i-check"/></svg> Valider</button>
-        <button type="button" data-menu-action="publish" class="primary" style="display:none;"><svg class="ico"><use href="#i-check"/></svg> Publier</button>
+        <button type="button" data-menu-action="edit"><x-lucide-edit class="ico" /> Modifier</button>
+        <button type="button" data-menu-action="delete" class="danger"><x-lucide-trash-2 class="ico" /> Supprimer</button>
+        <button type="button" data-menu-action="validate" class="primary"><x-lucide-check class="ico" /> Valider</button>
+        <button type="button" data-menu-action="publish" class="primary" style="display:none;"><x-lucide-check class="ico" /> Publier</button>
       </div>
 
       <section class="page" id="page-studio">
         <div class="page-head">
           <div><h1>Studio des Publications</h1><p>Publications validées dans le calendrier éditorial, prêtes à générer.</p></div>
-          <button type="button" class="btn-inline" id="studioRefreshBtn"><svg class="ico"><use href="#i-calendar"/></svg> Actualiser</button>
+          <button type="button" class="btn-inline" id="studioRefreshBtn"><x-lucide-calendar class="ico" /> Actualiser</button>
         </div>
         <div class="panel">
           <div class="panel-head">
@@ -530,7 +499,7 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
               <label>Agent</label>
               <select id="identityAgentSelect"><option value="">Sélectionnez un agent</option></select>
             </div>
-            <button class="btn-inline primary" id="identitySaveBtn"><svg class="ico"><use href="#i-check"/></svg> Enregistrer l'identité</button>
+            <button class="btn-inline primary" id="identitySaveBtn"><x-lucide-check class="ico" /> Enregistrer l'identité</button>
           </div>
         </div>
 
@@ -561,7 +530,7 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
                       <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:4px;">Couleur</label>
                       <input id="paletteColor" type="color" value="#2bc7e8" style="width:54px;height:40px;padding:2px;">
                     </div>
-                    <button type="button" class="btn-inline" id="paletteAddBtn"><svg class="ico"><use href="#i-plus"/></svg> Ajouter</button>
+                    <button type="button" class="btn-inline" id="paletteAddBtn"><x-lucide-plus class="ico" /> Ajouter</button>
                   </div>
                 </div>
                 <div class="field" style="margin:0;">
@@ -576,13 +545,13 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
                 <div class="panel-head"><div><h2>Logo</h2><p>Logo utilisé par l'agent.</p></div></div>
                 <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
                   <div id="identityLogoPreview" style="width:84px;height:84px;border-radius:12px;background:var(--panel-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;">
-                    <svg class="ico" style="width:28px;height:28px;color:var(--muted);"><use href="#i-identity"/></svg>
+                    <x-lucide-image class="ico" style="width:32px;height:32px;color:var(--muted);" />
                   </div>
                   <div>
                     <input type="file" id="identityLogoInput" accept="image/*" style="display:none;">
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                      <button type="button" class="btn-inline" id="identityLogoSelectBtn"><svg class="ico"><use href="#i-plus"/></svg> Choisir un logo</button>
-                      <button type="button" class="btn-inline danger" id="identityLogoRemoveBtn" style="display:none;"><svg class="ico"><use href="#i-trash"/></svg> Retirer</button>
+                      <button type="button" class="btn-inline" id="identityLogoSelectBtn"><x-lucide-plus class="ico" /> Choisir un logo</button>
+                      <button type="button" class="btn-inline danger" id="identityLogoRemoveBtn" style="display:none;"><x-lucide-trash-2 class="ico" /> Retirer</button>
                     </div>
                     <div class="sub" style="margin-top:6px;color:var(--muted);font-size:12.5px;">JPG, PNG, WebP. Max 2 Mo. Carré recommandé.</div>
                   </div>
@@ -592,7 +561,7 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
               <div class="panel" style="margin-bottom:16px;">
                 <div class="panel-head">
                   <div><h2>Images</h2><p>Visuels de référence uploadés pour l'agent.</p></div>
-                  <button type="button" class="btn-inline" id="identityImagesAddBtn"><svg class="ico"><use href="#i-plus"/></svg> Ajouter des images</button>
+                  <button type="button" class="btn-inline" id="identityImagesAddBtn"><x-lucide-plus class="ico" /> Ajouter des images</button>
                 </div>
                 <input type="file" id="identityImagesInput" accept="image/*" multiple style="display:none;">
                 <div id="identityImagesList" class="identity-images-grid"><div class="empty-box">Aucune image.</div></div>
@@ -602,7 +571,7 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
               <div class="panel">
                 <div class="panel-head">
                   <div><h2>Comptes inspirants</h2><p>Comptes de référence pour le style éditorial.</p></div>
-                  <button type="button" class="btn-inline" id="accountAddBtn"><svg class="ico"><use href="#i-plus"/></svg> Ajouter</button>
+                  <button type="button" class="btn-inline" id="accountAddBtn"><x-lucide-plus class="ico" /> Ajouter</button>
                 </div>
                 <div id="inspiringAccountsList"><div class="empty-box">Aucun compte inspirant.</div></div>
               </div>
@@ -668,7 +637,7 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
       <section class="page" id="page-pages-meta">
         <div class="page-head" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;">
           <div><h1>Pages & Comptes Meta</h1><p>Gérez vos connexions Meta : afficher, modifier, déconnecter ou supprimer vos comptes/pages sur la plateforme.</p></div>
-          <button class="btn-inline primary" id="metaAddBtn"><svg class="ico"><use href="#i-plus"/></svg> Ajouter un compte</button>
+          <button class="btn-inline primary" id="metaAddBtn"><x-lucide-plus class="ico" /> Ajouter un compte</button>
         </div>
         <div class="panel" style="margin-bottom:16px;">
           <div style="font-size:13px;color:var(--muted);">Configuration Meta App (serveur) : App ID <b style="color:var(--text)">{{ config('services.meta.app_id') ? 'configuré' : 'non configuré' }}</b> · Version Graph <b style="color:var(--text)">{{ config('services.meta.graph_version') }}</b>. Les jetons d'accès sont stockés côté serveur et ne sont pas affichés.</div>
@@ -708,12 +677,12 @@ html[data-theme="light"] .swal2-title,html[data-theme="light"] .swal2-html-conta
                 <label>Photo de profil</label>
                 <div style="display:flex; align-items:center; gap:16px;">
                   <div id="agentPhotoPreview" style="width:60px; height:60px; border-radius:50%; background:var(--panel-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
-                    <svg class="ico" style="width:24px; height:24px; color:var(--muted);"><use href="#i-identity"/></svg>
+                    <x-lucide-image class="ico" style="width:32px; height:32px; color:var(--muted);" />
                   </div>
                   <div style="flex:1;">
                     <input type="file" id="agentProfilePhoto" accept="image/*" style="display:none;">
-                    <button type="button" class="btn-inline" id="agentPhotoSelectBtn"><svg class="ico"><use href="#i-plus"/></svg> Choisir une photo</button>
-                    <button type="button" class="btn-inline" id="agentPhotoRemoveBtn" style="display:none;"><svg class="ico"><use href="#i-trash"/></svg> Retirer</button>
+                    <button type="button" class="btn-inline" id="agentPhotoSelectBtn"><x-lucide-plus class="ico" /> Choisir une photo</button>
+                    <button type="button" class="btn-inline" id="agentPhotoRemoveBtn" style="display:none;"><x-lucide-trash-2 class="ico" /> Retirer</button>
                     <input type="hidden" id="agentRemovePhoto" value="0">
                     <div class="sub" style="margin-top:6px;color:var(--muted);font-size:12.5px;">Format: JPG, PNG, WebP. Max 2Mo. Carré recommandé.</div>
                   </div>
@@ -868,6 +837,21 @@ document.querySelectorAll('[data-page-link]').forEach(function(el){
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+var ICO = {
+  check: '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+  edit: '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  'trash-2': '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+  calendar: '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>',
+  'user-round': '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>',
+  'chart-bar': '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16h8"/><path d="M7 11h12"/><path d="M7 6h3"/></svg>',
+  'credit-card': '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 14h2"/></svg>',
+  bot: '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>',
+  image: '<svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>'
+};
+function iconSvg(name, css){
+  var s = ICO[name] || '';
+  return css ? s.replace('class="ico"', 'class="ico" style="' + css + '"') : s;
+}
 (function(){
   var csrf = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
   var listEl = document.getElementById('metaAccountsList');
@@ -880,12 +864,12 @@ document.querySelectorAll('[data-page-link]').forEach(function(el){
       return Swal.fire({toast:true,position:'bottom',icon:type||'success',title:msg,showConfirmButton:false,timer:type==='error'?3500:1800,timerProgressBar:true});
     }
   }
-  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&','<':'<','>':'>','"':'"',"'":'\''}[c]; }); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]; }); }
   function statusPill(st){
     var s = st || 'connected';
     var cls = s==='connected' ? 'ok' : (s==='disconnected' ? 'off' : 'pending');
     var label = s==='connected' ? 'Connecté' : (s==='disconnected' ? 'Déconnecté' : 'En attente');
-    return '<span class="status-pill '+cls+'"><svg class="ico"><use href="#i-check"/></svg> '+label+'</span>';
+    return '<span class="status-pill '+cls+'">'+ICO.check+' '+label+'</span>';
   }
   function render(accounts){
     if(!accounts || !accounts.length){
@@ -1033,22 +1017,24 @@ document.querySelectorAll('[data-page-link]').forEach(function(el){
 
 // Agent handling
 (function(){
+  console.log('Agent handling IIFE started');
   var csrf = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
   var listEl = document.getElementById('userAgentsList');
   var modal = document.getElementById('agentModal');
   var form = document.getElementById('agentForm');
   var agentsMenuEl = document.getElementById('userAgentNavList');
   var agentsToggle = document.getElementById('userAgentsToggle');
-  if(!listEl || !modal || !form || !agentsMenuEl || !agentsToggle) return;
+  console.log('Elements found:', {listEl, modal, form, agentsMenuEl, agentsToggle});
+  if(!listEl || !modal || !form || !agentsMenuEl || !agentsToggle) { console.log('Missing elements, returning'); return; }
 
   function notify(msg, type){
     if(window.Swal){
       return Swal.fire({toast:true,position:'bottom',icon:type||'success',title:msg,showConfirmButton:false,timer:type==='error'?3500:1800,timerProgressBar:true});
     }
   }
-  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&','<':'<','>':'>','"':'"',"'":'\''}[c]; }); }
-function agentPill(st){
-      return '<span class="status-pill ok"><svg class="ico"><use href="#i-check"/></svg> Actif</span>';
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]; }); }
+  function agentPill(st){
+      return '<span class="status-pill ok">'+ICO.check+' Actif</span>';
     }
     function getPhotoUrl(photo) {
       if (!photo) return null;
@@ -1058,7 +1044,7 @@ function agentPill(st){
     }
     function render(userAgents){
       if(!userAgents || !userAgents.length){
-        listEl.innerHTML = '<div class="empty-box">Aucun agent configuré. Cliquez sur « Créer un agent » pour commencer.</div>';
+        listEl.innerHTML = '<div class="empty-box">Aucun agent n’est encore associé à votre compte. Cliquez sur « Créer un agent » pour choisir un modèle.</div>';
         return;
       }
       listEl.innerHTML = userAgents.map(function(ua){
@@ -1069,8 +1055,8 @@ function agentPill(st){
         var domain = ua.domain ? ua.domain.replace('-', ' ').replace(/\b\w/g, function(l){ return l.toUpperCase(); }) : 'Non défini';
         var tone = ua.tone ? ua.tone.charAt(0).toUpperCase() + ua.tone.slice(1) : 'Non défini';
         var sub = [domain, tone];
-        var actions = '<button class="btn-inline" data-action="edit" data-id="'+ua.id+'"><svg class="ico"><use href="#i-edit"/></svg> Modifier</button>' +
-                      '<button class="btn-inline danger" data-action="delete" data-id="'+ua.id+'"><svg class="ico"><use href="#i-trash"/></svg> Supprimer</button>';
+        var actions = '<button class="btn-inline" data-action="edit" data-id="'+ua.id+'">'+ICO.edit+' Modifier</button>' +
+                      '<button class="btn-inline danger" data-action="delete" data-id="'+ua.id+'">'+ICO['trash-2']+' Supprimer</button>';
         var avatarHtml = photoUrl
           ? '<div class="av" style="width:48px;height:48px;overflow:hidden;border-radius:50%;background:var(--panel-2);flex-shrink:0;"><img src="'+esc(photoUrl)+'" alt="" style="width:100%;height:100%;object-fit:cover;"></div>'
           : '<div class="av" style="width:48px;height:48px;border-radius:50%;background:var(--panel-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;">'+avText+'</div>';
@@ -1108,7 +1094,7 @@ function agentPill(st){
   function renderAgentNavigation(userAgents){
     if(!userAgents.length){
       activeUserAgentId = null;
-      agentsMenuEl.innerHTML = '<div class="empty-box" style="padding:10px;font-size:12px;">Aucun agent créé. Utilisez « Gérer mes agents » pour en ajouter un.</div>';
+      agentsMenuEl.innerHTML = '<div class="empty-box" style="padding:10px;font-size:12px;">Aucun agent n’est encore associé à votre compte.</div>';
       return;
     }
 
@@ -1117,11 +1103,11 @@ function agentPill(st){
     }
 
     var modules = [
-      {page:'calendrier', icon:'i-calendar', label:'Calendrier Éditorial'},
-      {page:'studio', icon:'i-studio', label:'Studio des Publications'},
-      {page:'identite', icon:'i-identity', label:'Identité & Inspiration'},
-      {page:'veille', icon:'i-trend', label:'Veille & Tendances'},
-      {page:'abonnements', icon:'i-billing', label:'Abonnements & Quotas'}
+      {page:'calendrier', icon:ICO.calendar, label:'Calendrier Éditorial'},
+      {page:'studio', icon:ICO.edit, label:'Studio des Publications'},
+      {page:'identite', icon:ICO['user-round'], label:'Identité & Inspiration'},
+      {page:'veille', icon:ICO['chart-bar'], label:'Veille & Tendances'},
+      {page:'abonnements', icon:ICO['credit-card'], label:'Abonnements & Quotas'}
     ];
 
     agentsMenuEl.innerHTML = userAgents.map(function(userAgent){
@@ -1130,13 +1116,13 @@ function agentPill(st){
       var name = esc(userAgent.custom_name || (userAgent.agent && userAgent.agent.name) || 'Agent IA');
       var options = modules.map(function(module){
         return '<div class="nav-item" data-page="'+module.page+'" data-agent-id="'+id+'">'
-          + '<span class="ic"><svg class="ico"><use href="#'+module.icon+'"/></svg></span> '+module.label
+          + '<span class="ic">'+module.icon+'</span> '+module.label
           + '</div>';
       }).join('');
 
       return '<div class="agent-nav-entry">'
         + '<button class="nav-item nav-toggle user-agent-toggle'+(isSelected?' selected':'')+'" type="button" data-user-agent-toggle data-user-agent-id="'+id+'" aria-expanded="'+(isSelected?'true':'false')+'">'
-        + '<span class="ic"><svg class="ico"><use href="#i-agents"/></svg></span> '+name+' <span class="chev">▾</span>'
+        + '<span class="ic">'+ICO.bot+'</span> '+name+' <span class="chev">▾</span>'
         + '</button>'
         + '<div class="sub agent-tools'+(isSelected?' open':'')+'" data-user-agent-tools="'+id+'">'+options+'</div>'
         + '</div>';
@@ -1208,7 +1194,8 @@ function agentPill(st){
     toggleCustomDomainField();
   }
 
-  function openModal(userAgent){
+function openModal(userAgent){
+    console.log('openModal called', userAgent);
     document.getElementById('agentUserAgentId').value = userAgent ? userAgent.id : '';
     document.getElementById('agentAgentId').value = userAgent ? (userAgent.agent_id||'') : '';
     document.getElementById('agentCustomName').value = userAgent ? (userAgent.custom_name||'') : '';
@@ -1229,7 +1216,7 @@ function agentPill(st){
       removeBtn.style.display = 'inline-flex';
       removeInput.value = '0';
     } else {
-      previewEl.innerHTML = '<svg class="ico" style="width:24px; height:24px; color:var(--muted);"><use href="#i-identity"/></svg>';
+      previewEl.innerHTML = iconSvg('image','width:28px;height:28px;color:var(--muted);');
       removeBtn.style.display = 'none';
       removeInput.value = '0';
     }
@@ -1250,10 +1237,13 @@ function agentPill(st){
       customInput.value = '';
     }
   }
-  document.getElementById('agentDomain').addEventListener('change', toggleCustomDomainField);
-  function closeModal(){ modal.classList.remove('open'); form.reset(); document.getElementById('agentDomainCustom').style.display = 'none'; document.getElementById('agentDomainCustom').required = false; document.getElementById('agentPhotoPreview').innerHTML = '<svg class="ico" style="width:24px; height:24px; color:var(--muted);"><use href="#i-identity"/></svg>'; document.getElementById('agentPhotoRemoveBtn').style.display = 'none'; document.getElementById('agentRemovePhoto').value = '0'; }
+document.getElementById('agentDomain').addEventListener('change', toggleCustomDomainField);
+  function closeModal(){ modal.classList.remove('open'); form.reset(); document.getElementById('agentDomainCustom').style.display = 'none'; document.getElementById('agentDomainCustom').required = false; document.getElementById('agentPhotoPreview').innerHTML = iconSvg('image','width:28px;height:28px;color:var(--muted);'); document.getElementById('agentPhotoRemoveBtn').style.display = 'none'; document.getElementById('agentRemovePhoto').value = '0'; }
 
-  document.getElementById('agentAddBtn').addEventListener('click', function(){ openModal(null); });
+  var agentAddBtn = document.getElementById('agentAddBtn');
+  if (agentAddBtn) {
+    agentAddBtn.addEventListener('click', function(){ console.log('agentAddBtn clicked'); openModal(null); });
+  }
   document.getElementById('agentModalClose').addEventListener('click', closeModal);
   document.getElementById('agentCancelBtn').addEventListener('click', closeModal);
   modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
@@ -1276,7 +1266,7 @@ function agentPill(st){
   });
   document.getElementById('agentPhotoRemoveBtn').addEventListener('click', function(){
     document.getElementById('agentProfilePhoto').value = '';
-    document.getElementById('agentPhotoPreview').innerHTML = '<svg class="ico" style="width:24px; height:24px; color:var(--muted);"><use href="#i-identity"/></svg>';
+    document.getElementById('agentPhotoPreview').innerHTML = iconSvg('image','width:28px;height:28px;color:var(--muted);');
     document.getElementById('agentPhotoRemoveBtn').style.display = 'none';
     document.getElementById('agentRemovePhoto').value = '1';
   });
@@ -1367,6 +1357,8 @@ function agentPill(st){
 
   var agentsLoaded = false;
   function ensureAgentsLoad(){ if(!agentsLoaded){ agentsLoaded = true; loadUserAgents(); loadAdminAgents(); } }
+  var manageAgentsItem = document.querySelector('.nav-item[data-page="my-agents"]');
+  if(manageAgentsItem){ manageAgentsItem.addEventListener('click', ensureAgentsLoad); }
   agentsToggle.addEventListener('click', function(){
     setTimeout(ensureAgentsLoad, 0);
   });
@@ -1410,7 +1402,7 @@ function agentPill(st){
   if(!pageEl || !contentEl || !emptyEl || !agentSelect || !saveBtn || !paletteListEl || !accountsListEl || !imagesListEl || !imagesInput || !accountModal || !accountForm) return;
 
   var csrf = document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '';
-  var placeholderLogo = '<svg class="ico" style="width:28px;height:28px;color:var(--muted);"><use href="#i-identity"/></svg>';
+    var placeholderLogo = iconSvg('image','width:32px;height:32px;color:var(--muted);');
   var agents = [];
   var currentAgentId = window.currentAgentId ? String(window.currentAgentId) : '';
   var identity = null;
@@ -1427,7 +1419,7 @@ function agentPill(st){
       return Swal.fire({toast:true,position:'bottom',icon:type||'success',title:msg,showConfirmButton:false,timer:type==='error'?3500:1800,timerProgressBar:true});
     }
   }
-  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&','<':'<','>':'>','"':'"',"'":'\''}[c]; }); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]; }); }
 
   async function api(url, opts){
     opts = opts || {};
@@ -1486,7 +1478,7 @@ function agentPill(st){
       return '<div style="display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:var(--panel-2);">'
         + '<span style="width:26px;height:26px;border-radius:7px;border:1px solid var(--border-2);background:'+esc(c.hex)+';flex-shrink:0;"></span>'
         + '<span style="flex:1;font-size:13px;">'+esc(c.name||c.hex)+' <span style="color:var(--muted);">'+esc(c.hex)+'</span></span>'
-        + '<button type="button" class="btn-inline danger" data-palette-remove="'+i+'"><svg class="ico"><use href="#i-trash"/></svg> Retirer</button>'
+        + '<button type="button" class="btn-inline danger" data-palette-remove="'+i+'">'+ICO['trash-2']+' Retirer</button>'
         + '</div>';
     }).join('');
   }
@@ -1505,8 +1497,8 @@ function agentPill(st){
       return '<div class="meta-card">'
         + '<div class="info"><div class="nm">'+esc(a.handle)+' <span class="tag-fb">'+platform+'</span></div>'+link+notes+'</div>'
         + '<div class="meta-actions">'
-        + '<button class="btn-inline" data-account-edit="'+a.id+'"><svg class="ico"><use href="#i-edit"/></svg> Modifier</button>'
-        + '<button class="btn-inline danger" data-account-delete="'+a.id+'"><svg class="ico"><use href="#i-trash"/></svg> Supprimer</button>'
+        + '<button class="btn-inline" data-account-edit="'+a.id+'">'+ICO.edit+' Modifier</button>'
+        + '<button class="btn-inline danger" data-account-delete="'+a.id+'">'+ICO['trash-2']+' Supprimer</button>'
         + '</div></div>';
     }).join('');
   }
@@ -1521,7 +1513,7 @@ function agentPill(st){
       return '<div class="identity-image-card">'
         + '<img src="'+esc(img.url||'')+'" alt="'+esc(img.caption||'')+'">'
         + caption
-        + '<div class="identity-image-actions"><button type="button" class="btn-inline danger" data-identity-image-delete="'+img.id+'"><svg class="ico"><use href="#i-trash"/></svg> Supprimer</button></div>'
+        + '<div class="identity-image-actions"><button type="button" class="btn-inline danger" data-identity-image-delete="'+img.id+'">'+ICO['trash-2']+' Supprimer</button></div>'
         + '</div>';
     }).join('');
   }
@@ -1829,7 +1821,7 @@ function agentPill(st){
       return Swal.fire({toast:true, position:'bottom', icon:type||'success', title:msg, showConfirmButton:false, timer:type==='error'?3500:1800, timerProgressBar:true});
     }
   }
-  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&','<':'<','>':'>','"':'"',"'":'\''}[c]; }); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]; }); }
 
   async function api(url, opts){
     opts = opts || {};
@@ -2140,7 +2132,7 @@ function agentPill(st){
       return Swal.fire({toast:true,position:'bottom',icon:type||'success',title:msg,showConfirmButton:false,timer:type==='error'?4000:2000,timerProgressBar:true});
     }
   }
-  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&','<':'<','>':'>','"':'"',"'":'\''}[c]; }); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]; }); }
 
   async function api(url, opts){
     opts = opts || {};
@@ -2528,3 +2520,9 @@ function agentPill(st){
 </script>
 </body>
 </html>
+
+
+
+
+
+

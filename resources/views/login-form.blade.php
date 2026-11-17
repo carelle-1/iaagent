@@ -94,7 +94,7 @@ a{color:var(--cyan); text-decoration:none;}
 
         <button class="btn-main" type="submit" id="loginBtn">Se connecter</button>
         <div class="divider">ou</div>
-        <button class="btn-google" type="button">🔵 Continuer avec Google</button>
+        <button class="btn-google" type="button"><x-lucide-globe class="ico" style="width:16px;height:16px;" /> Continuer avec Google</button>
         <div class="switch-line">Pas encore de compte ? <a href="/register">Créer un compte</a></div>
       </form>
     </div>

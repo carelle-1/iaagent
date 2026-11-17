@@ -15,10 +15,14 @@ class UserAgentCalendarEntry extends Model
         'pillar',
         'title',
         'caption',
+        'generated_content',
         'visual_prompt',
         'hashtags',
         'status',
         'model',
+        'meta_account_id',
+        'platform_post_id',
+        'published_permalink',
     ];
 
     protected $casts = [

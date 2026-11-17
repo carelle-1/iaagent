@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Client ' . $display)
 
@@ -8,14 +8,14 @@
     <h1>Détail client</h1>
     <p>Informations et comptes Meta de {{ $display }}.</p>
   </div>
-  <a href="{{ route('admin.dashboard') }}" class="btn"><svg class="ico"><use href="#i-arrow-left"/></svg> Retour</a>
+  <a href="{{ route('admin.dashboard') }}" class="btn"><x-lucide-arrow-left class="ico" /> Retour</a>
 </div>
 
 <div class="kpis">
-  <div class="kpi c1"><div class="top"><div class="ic"><svg class="ico"><use href="#i-user"/></svg></div></div><div class="num">{{ $initials }}</div><div class="lbl">Client</div></div>
-  <div class="kpi c2"><div class="top"><div class="ic"><svg class="ico"><use href="#i-link"/></svg></div></div><div class="num">{{ $totalMeta }}</div><div class="lbl">Comptes Meta</div></div>
-  <div class="kpi c3"><div class="top"><div class="ic"><svg class="ico"><use href="#i-check"/></svg></div><span class="delta">{{ $connectedCount }} connecté{{ $connectedCount > 1 ? 's' : '' }}</span></div><div class="num">{{ $client->email }}</div><div class="lbl">E-mail</div></div>
-  <div class="kpi c4"><div class="top"><div class="ic"><svg class="ico"><use href="#i-dashboard"/></svg></div></div><div class="num">{{ $client->created_at ? \Illuminate\Support\Carbon::parse($client->created_at)->format('d/m/Y') : '—' }}</div><div class="lbl">Inscrit le</div></div>
+  <div class="kpi c1"><div class="top"><div class="ic"><x-lucide-user-round class="ico" /></div></div><div class="num">{{ $initials }}</div><div class="lbl">Client</div></div>
+  <div class="kpi c2"><div class="top"><div class="ic"><x-lucide-link class="ico" /></div></div><div class="num">{{ $totalMeta }}</div><div class="lbl">Comptes Meta</div></div>
+  <div class="kpi c3"><div class="top"><div class="ic"><x-lucide-check class="ico" /></div><span class="delta">{{ $connectedCount }} connecté{{ $connectedCount > 1 ? 's' : '' }}</span></div><div class="num">{{ $client->email }}</div><div class="lbl">E-mail</div></div>
+  <div class="kpi c4"><div class="top"><div class="ic"><x-lucide-layout-dashboard class="ico" /></div></div><div class="num">{{ $client->created_at ? \Illuminate\Support\Carbon::parse($client->created_at)->format('d/m/Y') : '—' }}</div><div class="lbl">Inscrit le</div></div>
 </div>
 
 <div class="panel">
@@ -55,3 +55,5 @@
   </div>
 </div>
 @endsection
+
+
