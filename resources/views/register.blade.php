@@ -7,7 +7,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Century+Gothic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <style>
 :root{
@@ -17,7 +17,7 @@
 }
 html{box-sizing:border-box; scroll-padding-top:env(safe-area-inset-top,0px);}
 *,*::before,*::after{box-sizing:inherit;}
-body{margin:0; min-height:100vh; background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
+body{margin:0; min-height:100vh; background:var(--bg); color:var(--text); font-family:'Century Gothic',system-ui,sans-serif;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); -webkit-font-smoothing:antialiased; overflow:hidden;}
 button,input{font-family:inherit;}
 a{color:var(--cyan); text-decoration:none;}

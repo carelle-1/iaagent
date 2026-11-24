@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UserAgentCalendarController extends Controller
 {
-    private const PLATFORMS = ['facebook', 'instagram', 'linkedin', 'tiktok', 'youtube', 'x', 'other'];
+    private const PLATFORMS = ['facebook'];
+    private const DEFAULT_PLATFORM = 'facebook';
     private const STATUSES = ['pending', 'validated', 'published', 'draft'];
 
     public function __construct(private OllamaService $ollama)
@@ -58,7 +59,7 @@ class UserAgentCalendarController extends Controller
         if (empty($availableModels)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ollama est injoignable ou aucun modèle n\'est installé. Démarrez Ollama et installez un modèle (ex: ollama pull qwen3:4b).',
+                'message' => 'Le moteur de génération est injoignable ou aucun modèle n\'est installé. Réessayez dans quelques instants.',
             ], 422);
         }
 
@@ -67,7 +68,7 @@ class UserAgentCalendarController extends Controller
         if (!in_array($model, $availableModels, true)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Modèle Ollama introuvable : ' . $model . '. Modèles disponibles : ' . implode(', ', $availableModels),
+                'message' => 'Le modèle de génération sélectionné est introuvable. Choisissez un autre modèle.',
             ], 422);
         }
 
@@ -78,7 +79,16 @@ class UserAgentCalendarController extends Controller
             : $this->nextMonday();
 
         $identity = $userAgent->identity;
+
+        if ($identity === null || trim((string) $identity->objective) === '') {
+            return response()->json([
+                'success' => false,
+                'message' => 'L\'identité de votre agent n\'est pas encore renseignée. Complétez au minimum l\'objectif dans « Identité & inspiration » avant de générer le calendrier.',
+            ], 422);
+        }
+
         $accounts = $userAgent->inspiringAccounts()->get();
+        $userAgent->loadMissing('identityImages');
 
         $prompt = $this->buildPrompt($userAgent, $identity, $accounts, $startDate, $weeks, $postsPerWeek);
 
@@ -88,7 +98,7 @@ class UserAgentCalendarController extends Controller
         if (!($result['ok'] ?? false)) {
             return response()->json([
                 'success' => false,
-                'message' => $result['error'] ?? 'Erreur lors de la génération Ollama.',
+                'message' => $result['error'] ?? 'Erreur lors de la génération.',
             ], 502);
         }
 
@@ -102,7 +112,7 @@ class UserAgentCalendarController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Ollama n\'a pas retourné de calendrier exploitable. Réessayez ou choisissez un autre modèle.',
+                'message' => 'Le moteur n\'a pas retourné de calendrier exploitable. Réessayez ou choisissez un autre modèle.',
             ], 422);
         }
 
@@ -134,8 +144,8 @@ class UserAgentCalendarController extends Controller
             }
 
             $agentName = $userAgent->custom_name ?: ($userAgent->agent->name ?? 'Agent IA');
-            $fallbackCaption = $identity->objective ?: 'Découvrez notre approche et nos solutions.';
-            $fallbackVisual = $identity->charter ?: 'Visuel professionnel cohérent avec la charte de la marque.';
+            $fallbackCaption = $identity?->objective ?: 'Découvrez notre approche et nos solutions.';
+            $fallbackVisual = $identity?->charter ?: 'Visuel professionnel cohérent avec la charte de la marque.';
 
             $title = $this->cleanContent($this->text($post['title'] ?? ''), $agentName);
             $caption = $this->cleanContent($this->text($post['caption'] ?? ''), $agentName);
@@ -184,7 +194,7 @@ class UserAgentCalendarController extends Controller
         if (empty($rows)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Le calendrier retourné par Ollama est vide. Réessayez.',
+                'message' => 'Le calendrier retourné est vide. Réessayez.',
             ], 422);
         }
 
@@ -192,7 +202,7 @@ class UserAgentCalendarController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => count($rows) . ' publication(s) générée(s) avec ' . $model . '.',
+            'message' => count($rows) . ' publication(s) générée(s).',
             'entries' => $this->serializeEntries($userAgent->calendarEntries()->get()),
         ]);
     }
@@ -281,19 +291,29 @@ class UserAgentCalendarController extends Controller
         int $weeks,
         int $postsPerWeek
     ): string {
-        $agentModelName = $userAgent->agent->name ?? 'Non défini';
+        $agentModelName = $userAgent->agent?->name ?: 'Non défini';
+        $agentDescription = trim((string) ($userAgent->agent?->description ?? ''));
+        $categoryName = $userAgent->agent?->category?->name ?: 'Non définie';
         $agentName = $userAgent->custom_name ?: $agentModelName;
         $domain = $userAgent->domain ?: 'Non défini';
         $tone = $userAgent->tone ?: 'Non défini';
-        $objective = $identity->objective ?? 'Non défini';
-        $charter = $identity->charter ?? 'Non défini';
+        $objective = trim((string) ($identity?->objective ?? ''));
+        $secteurActivite = trim((string) ($identity?->secteur_activite ?? ''));
+        $localisation = trim((string) ($identity?->localisation ?? ''));
+        $cible = trim((string) ($identity?->cible ?? ''));
+        $charter = trim((string) ($identity?->charter ?? ''));
+        $logo = $identity?->logo_path ? 'Oui' : 'Non';
 
-        $palette = collect($identity->palette ?? [])
+        $palette = collect($identity?->palette ?? [])
             ->map(function ($color) {
                 $name = trim((string) ($color['name'] ?? ''));
                 $hex = trim((string) ($color['hex'] ?? ''));
 
-                return trim($name . ' ' . $hex);
+                if ($name === '' || $name === $hex) {
+                    return $hex;
+                }
+
+                return $name . ' ' . $hex;
             })
             ->filter()
             ->implode(', ');
@@ -302,38 +322,108 @@ class UserAgentCalendarController extends Controller
 
         $inspiring = $accounts
             ->map(function ($account) {
-                return trim(($account->platform ?? '') . ' ' . ($account->handle ?? ''));
+                $label = trim(($account->platform ?? '') . ' ' . ($account->handle ?? ''));
+                $notes = trim((string) ($account->notes ?? ''));
+
+                return $notes !== '' ? $label . ' — ' . $notes : $label;
             })
             ->filter()
-            ->implode(', ');
+            ->implode(' ; ');
 
-        $inspiring = $inspiring !== '' ? $inspiring : 'Aucun';
+        $inspiring = $inspiring !== '' ? $inspiring : 'Aucun compte de référence renseigné';
+
+        $contacts = $userAgent->contacts
+            ->map(function ($contact) {
+                $label = trim(($contact->name ?? '') . ' — ' . ($contact->phone ?? ''));
+                $notes = trim((string) ($contact->notes ?? ''));
+
+                return $notes !== '' ? $label . ' (' . $notes . ')' : $label;
+            })
+            ->filter()
+            ->implode(' ; ');
+
+        $contacts = $contacts !== '' ? $contacts : 'Aucun contact renseigné';
+
+        $websites = $userAgent->websites
+            ->map(function ($website) {
+                $label = trim(($website->label ?? '') . ' — ' . ($website->url ?? ''));
+                $notes = trim((string) ($website->notes ?? ''));
+
+                return $notes !== '' ? $label . ' (' . $notes . ')' : $label;
+            })
+            ->filter()
+            ->implode(' ; ');
+
+        $websites = $websites !== '' ? $websites : 'Aucun site web renseigné';
+
+        $images = $userAgent->identityImages ?? collect();
+        $imageDescriptions = $images
+            ->map(function ($img) {
+                return $img->caption ?: 'Image de référence';
+            })
+            ->filter()
+            ->implode(' ; ');
+
+        $imageDescriptions = $imageDescriptions !== '' ? $imageDescriptions : 'Aucune image de référence';
+
+        $agentDescription = $agentDescription !== '' ? $agentDescription : 'Non renseignée';
+        $charter = $charter !== '' ? $charter : 'Aucune charte particulière : respecte la tonalité et la palette.';
+        $objective = $objective !== '' ? $objective : 'Non renseigné';
+        $secteurActivite = $secteurActivite !== '' ? $secteurActivite : 'Non renseigné';
+        $localisation = $localisation !== '' ? $localisation : 'Non renseignée';
+        $cible = $cible !== '' ? $cible : 'Non renseignée';
 
         return <<<PROMPT
-Tu es un stratège éditorial expert en réseaux sociaux.
-Génère un calendrier éditorial détaillé et prêt à publier pour l'agent IA suivant.
+Tu es un stratège éditorial expert en réseaux sociaux pour une agence de communication digitale.
 
-Agent: {$agentName}
+Rédige un calendrier éditorial détaillé et prêt à publier sur Facebook pour la marque de l'utilisateur.
+
+=== CONTEXTE DE L'AGENT ===
+Nom affiché: {$agentName}
 Modèle d'agent: {$agentModelName}
+Catégorie: {$categoryName}
+Description du modèle d'agent: {$agentDescription}
 Domaine d'activité: {$domain}
 Tonalité: {$tone}
-Objectif: {$objective}
-Palette & charte: {$palette}
-Charte éditoriale: {$charter}
-Comptes inspirants: {$inspiring}
 
-Consignes:
-- Génère exactement {$weeks} semaine(s) de calendrier, soit {$postsPerWeek} publication(s) par semaine, à partir du {$startDate->toDateString()}.
-- Ne génère pas une publication par plateforme : choisis librement les plateformes les plus pertinentes.
+=== IDENTITÉ DE LA MARQUE (à respecter impérativement) ===
+Objectif principal: {$objective}
+Secteur d'activité: {$secteurActivite}
+Localisation: {$localisation}
+Cible commerciale: {$cible}
+Charte éditoriale: {$charter}
+Palette & couleurs: {$palette}
+Logo disponible: {$logo}
+Sites web: {$websites}
+Contacts: {$contacts}
+Images de référence: {$imageDescriptions}
+
+=== COMPTES INSPIRANTS (référence de style, ne pas citer) ===
+{$inspiring}
+
+=== CONTRAINTES STRICTES ===
+- Plateforme: Facebook uniquement. Le champ "platform" vaut toujours "facebook".
+- Chaque publication doit faire progresser l'objectif principal ci-dessus.
+- Les sujets proviennent du domaine d'activité, de l'objectif, de la charte, des comptes inspirants et des images de référence.
+- Interdit de mentionner l'application, l'agent IA, le calendrier, les piliers, la tonalité ou un quelconque réglage interne : ce sont des consignes, jamais des sujets de publication.
+- N'invente aucune fonctionnalité produit ni aucun service non lié au domaine d'activité.
 - Varie les piliers éditoriaux (pédagogie, preuve, offre, coulisses, inspiration, etc.).
-- Chaque publication doit refléter l'objectif, la charte et la palette.
+- Génère exactement {$weeks} semaine(s), soit {$postsPerWeek} publication(s) par semaine, à partir du {$startDate->toDateString()}.
 - Rédige des légendes concises (2 phrases maximum) prêtes à publier, avec 3 à 5 hashtags pertinents.
-- Donne un prompt de visuel court (12 mots maximum) cohérent avec la charte et la palette.
+- Donne un "visual_prompt" concret et descriptif (15-25 mots) : une scène réelle liée au sujet de la publication (lieu, objet, action, lumière, personnages), cohérente avec la charte et la palette. Le visuel sera généré comme une affiche publicitaire professionnelle format portrait 4:5 (style agence de communication).
+- Le "visual_prompt" ne doit jamais décrire une interface (écran, application, bouton, menu, calendrier, logiciel, capture d'écran) ni contenir de texte à afficher.
 - Statut initial: "pending".
+
+=== EXEMPLES DE VISUAL_PROMPT SELON LE PILIER ===
+- Pédagogie: "Jeune femme africaine professionnelle bras croisés, chemise verte, fond blanc géométrique, liste 5 conseils icônes vertes, affiche corporate 4:5"
+- Preuve: "Équipe en réunion tableau de bord métriques écran, lumière naturelle bureau moderne, résultat concret, style reportage corporate"
+- Offre: "Interface app épurée smartphone main, cubes 3D verts abstrait, fond blanc minimaliste, composition équilibrée, rendu premium"
+- Coulisses: "Collaborateurs discutent devant écrans code, plantes bureau, lumière traversante fenêtres, ambiance authentique chaleureuse"
+- Inspiration: "Personne face fenêtre carnet ouvert, plante verte, lumière douce matinale, espace travail épuré, ambiance sereine aspirante"
 
 Réponds UNIQUEMENT avec un objet JSON valide par ligne (JSON Lines), sans tableau, sans texte autour.
 Chaque ligne doit respecter exactement ce format:
-{"date":"YYYY-MM-DD","time":"HH:MM","platform":"facebook|instagram|linkedin|tiktok|youtube|x|other","pillar":"Nom du pilier","title":"Titre court","caption":"Légende concise","visual_prompt":"Prompt visuel court","hashtags":"#hashtag1 #hashtag2","status":"pending"}
+{"date":"YYYY-MM-DD","time":"HH:MM","platform":"facebook","pillar":"Nom du pilier","title":"Titre court","caption":"Légende concise","visual_prompt":"Prompt visuel détaillé 15-25 mots","hashtags":"#hashtag1 #hashtag2","status":"pending"}
 PROMPT;
     }
 
@@ -593,7 +683,7 @@ PROMPT;
             }
         }
 
-        return 'facebook';
+        return self::DEFAULT_PLATFORM;
     }
 
     private function cleanContent(string $value, string $agentName): string

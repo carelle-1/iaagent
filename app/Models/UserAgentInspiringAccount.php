@@ -13,6 +13,7 @@ class UserAgentInspiringAccount extends Model
         'handle',
         'url',
         'notes',
+        'style',
     ];
 
     public function userAgent(): BelongsTo

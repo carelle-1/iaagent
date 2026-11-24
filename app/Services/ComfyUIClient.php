@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Exceptions\ComfyUIGenerationException;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -9,99 +12,54 @@ use RuntimeException;
 
 class ComfyUIClient
 {
-    public function generate(string $prompt, string $negativePrompt, string $agentId, array $overrides = []): array
+    public function isAvailable(): bool
     {
-        @set_time_limit(0);
-
         $baseUrl = rtrim((string) config('services.comfyui.url'), '/');
 
         if ($baseUrl === '') {
-            throw new RuntimeException('ComfyUI est indisponible : URL non configurée.');
+            Log::warning('ComfyUI health check failed: URL is not configured.');
+
+            return false;
         }
 
-        $workflow = $this->workflow($prompt, $negativePrompt, $overrides);
-        $clientId = (string) Str::uuid();
-        $timeout = (int) config('services.comfyui.timeout', 300);
-
-        $response = Http::timeout($timeout)
-            ->acceptJson()
-            ->post($baseUrl . '/prompt', [
-                'prompt' => $workflow,
-                'client_id' => $clientId,
+        try {
+            $response = Http::timeout(5)->get($baseUrl . '/system_stats');
+        } catch (ConnectionException $e) {
+            Log::warning('ComfyUI health check could not connect.', [
+                'url' => $baseUrl,
+                'exception' => $e->getMessage(),
             ]);
 
-        if ($response->failed()) {
-            $error = $response->json('error');
-
-            if (is_array($error)) {
-                $error = $error['message'] ?? json_encode($error);
-            }
-
-            throw new RuntimeException('ComfyUI a refusé la requête : ' . ($error ?: $response->body()));
+            return false;
         }
 
-        $promptId = $response->json('prompt_id');
+        if (! $response->successful()) {
+            Log::warning('ComfyUI health check returned an unsuccessful response.', [
+                'url' => $baseUrl,
+                'http_status' => $response->status(),
+            ]);
 
-        if (!$promptId) {
-            throw new RuntimeException('ComfyUI n\'a pas retourné de prompt_id.');
+            return false;
         }
 
-        $image = $this->waitForImage($baseUrl, $promptId, $timeout);
-
-        $extension = strtolower(pathinfo($image['filename'], PATHINFO_EXTENSION)) ?: 'png';
-
-        if (!in_array($extension, ['png', 'jpg', 'jpeg', 'webp'], true)) {
-            $extension = 'png';
-        }
-
-        $path = 'user-agent-publication-visuals/' . $agentId . '/' . Str::uuid() . '.' . $extension;
-        Storage::disk('public')->put($path, $image['contents']);
-
-        return [
-            'path' => $path,
-            'url' => Storage::disk('public')->url($path),
-            'filename' => $image['filename'],
-            'prompt_id' => $promptId,
-            'model' => $overrides['checkpoint'] ?? config('services.comfyui.checkpoint'),
-        ];
+        return true;
     }
 
     public function submit(string $prompt, string $negativePrompt, array $overrides = []): array
     {
-        @set_time_limit(0);
-
         $baseUrl = rtrim((string) config('services.comfyui.url'), '/');
 
         if ($baseUrl === '') {
             throw new RuntimeException('ComfyUI est indisponible : URL non configurée.');
         }
 
+        if (!$this->isAvailable()) {
+            throw new RuntimeException('ComfyUI est indisponible : serveur non accessible.');
+        }
+
         $workflow = $this->workflow($prompt, $negativePrompt, $overrides);
         $clientId = (string) Str::uuid();
-        $timeout = (int) config('services.comfyui.timeout', 300);
-
-        $response = Http::timeout($timeout)
-            ->acceptJson()
-            ->post($baseUrl . '/prompt', [
-                'prompt' => $workflow,
-                'client_id' => $clientId,
-            ]);
-
-        if ($response->failed()) {
-            $error = $response->json('error');
-
-            if (is_array($error)) {
-                $error = $error['message'] ?? json_encode($error);
-            }
-
-            throw new RuntimeException('ComfyUI a refusé la requête : ' . ($error ?: $response->body()));
-        }
-
-        $promptId = $response->json('prompt_id');
-
-        if (!$promptId) {
-            throw new RuntimeException('ComfyUI n\'a pas retourné de prompt_id.');
-        }
+        $promptId = $this->queuePrompt($baseUrl, $workflow, $clientId);
 
         return [
             'prompt_id' => $promptId,
@@ -118,59 +76,287 @@ class ComfyUIClient
             throw new RuntimeException('ComfyUI est indisponible : URL non configurée.');
         }
 
-        $response = Http::timeout(30)->acceptJson()->get($baseUrl . '/history/' . $promptId);
+        $history = $this->history($promptId);
 
-        if ($response->failed()) {
+        if ($history === [] || isset($history['_transient_http_status'])) {
             return null;
         }
 
-        $history = $response->json($promptId) ?? [];
+        $status = $history['status']['status_str'] ?? null;
+        Log::debug('ComfyUI history response received.', [
+            'prompt_id' => $promptId,
+            'status' => $status,
+            'output_nodes' => array_keys($history['outputs'] ?? []),
+        ]);
 
-        if (($history['status']['status_str'] ?? null) === 'error') {
-            throw new RuntimeException('ComfyUI a signalé une erreur pendant la génération.');
+        if ($status === 'error') {
+            $message = $this->generationError($history);
+            Log::error('ComfyUI generation failed.', [
+                'prompt_id' => $promptId,
+                'error' => $message,
+            ]);
+
+            throw new ComfyUIGenerationException($message);
         }
 
         foreach ($history['outputs'] ?? [] as $output) {
-            $image = $output['images'][0] ?? null;
+            foreach ($output['images'] ?? [] as $image) {
+                if (empty($image['filename'])) {
+                    continue;
+                }
 
-            if (!$image || empty($image['filename'])) {
-                continue;
+                $contents = $this->downloadImage($baseUrl, $image, $promptId);
+                $path = $agentId !== null
+                    ? $this->storeImage($agentId, $image['filename'], $contents)
+                    : null;
+
+                return [
+                    'path' => $path,
+                    'url' => $path ? Storage::disk('public')->url($path) : null,
+                    'filename' => $image['filename'],
+                    'contents' => $contents,
+                ];
             }
+        }
 
-            $query = http_build_query([
-                'filename' => $image['filename'],
-                'subfolder' => $image['subfolder'] ?? '',
-                'type' => $image['type'] ?? 'output',
-            ]);
+        if ($status === 'success') {
+            $message = 'ComfyUI a terminé le workflow sans produire d’image SaveImage.';
+            Log::error($message, ['prompt_id' => $promptId]);
 
-            $download = Http::timeout(60)->get($baseUrl . '/view?' . $query);
-
-            if ($download->failed()) {
-                throw new RuntimeException('Impossible de télécharger le visuel généré par ComfyUI.');
-            }
-
-            $extension = strtolower(pathinfo($image['filename'], PATHINFO_EXTENSION)) ?: 'png';
-
-            if (!in_array($extension, ['png', 'jpg', 'jpeg', 'webp'], true)) {
-                $extension = 'png';
-            }
-
-            $path = null;
-
-            if ($agentId !== null) {
-                $path = 'user-agent-publication-visuals/' . $agentId . '/' . Str::uuid() . '.' . $extension;
-                Storage::disk('public')->put($path, $download->body());
-            }
-
-            return [
-                'path' => $path,
-                'url' => $path ? Storage::disk('public')->url($path) : null,
-                'filename' => $image['filename'],
-                'contents' => $download->body(),
-            ];
+            throw new ComfyUIGenerationException($message);
         }
 
         return null;
+    }
+
+    private function queuePrompt(string $baseUrl, array $workflow, string $clientId): string
+    {
+        Log::info('Submitting workflow to ComfyUI.', [
+            'url' => $baseUrl . '/prompt',
+            'client_id' => $clientId,
+            'checkpoint' => $workflow['4']['inputs']['ckpt_name'] ?? null,
+            'nodes' => array_map(fn (array $node) => $node['class_type'] ?? 'unknown', $workflow),
+        ]);
+
+        try {
+            $response = Http::timeout(15)
+                ->acceptJson()
+                ->post($baseUrl . '/prompt', [
+                    'prompt' => $workflow,
+                    'client_id' => $clientId,
+                ]);
+        } catch (ConnectionException $e) {
+            Log::error('ComfyUI prompt submission could not connect.', [
+                'url' => $baseUrl . '/prompt',
+                'client_id' => $clientId,
+                'exception' => $e->getMessage(),
+            ]);
+
+            throw new RuntimeException('ComfyUI est indisponible : impossible de se connecter au serveur.', 0, $e);
+        }
+
+        $promptId = $response->json('prompt_id');
+        $nodeErrors = $response->json('node_errors');
+        Log::info('ComfyUI prompt submission response received.', [
+            'http_status' => $response->status(),
+            'prompt_id' => $promptId,
+            'node_errors' => $nodeErrors,
+        ]);
+
+        if ($response->failed()) {
+            throw new RuntimeException('ComfyUI a refusé la requête : ' . $this->responseError($response->json() ?? [], $response->body()));
+        }
+
+        if (! is_string($promptId) || $promptId === '') {
+            throw new RuntimeException('ComfyUI n’a pas retourné de prompt_id : ' . $this->responseError($response->json() ?? [], $response->body()));
+        }
+
+        Log::info('ComfyUI generation queued.', ['prompt_id' => $promptId]);
+
+        return $promptId;
+    }
+
+    private function responseError(array $body, string $fallback): string
+    {
+        $details = array_filter([
+            'error' => $body['error'] ?? null,
+            'node_errors' => $body['node_errors'] ?? null,
+        ]);
+
+        return $details
+            ? (string) json_encode($details, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            : $fallback;
+    }
+
+    public function history(string $promptId): array
+    {
+        $baseUrl = rtrim((string) config('services.comfyui.url'), '/');
+
+        if ($baseUrl === '') {
+            throw new RuntimeException('ComfyUI est indisponible : URL non configurée.');
+        }
+
+        Log::debug('Checking ComfyUI generation history.', ['prompt_id' => $promptId]);
+
+        try {
+            $response = Http::timeout(15)->acceptJson()->get($baseUrl . '/history/' . $promptId);
+        } catch (ConnectionException $e) {
+            Log::warning('ComfyUI history request failed to connect.', [
+                'prompt_id' => $promptId,
+                'exception' => $e->getMessage(),
+            ]);
+
+            throw $e;
+        }
+
+        if ($response->serverError()) {
+            return ['_transient_http_status' => $response->status()];
+        }
+
+        if ($response->failed()) {
+            $message = 'ComfyUI history request failed (HTTP ' . $response->status() . '): '
+                . $this->responseError($response->json() ?? [], $response->body());
+            Log::error($message, ['prompt_id' => $promptId]);
+
+            throw new ComfyUIGenerationException($message);
+        }
+
+        $history = $response->json($promptId);
+
+        if (! is_array($history)) {
+            Log::debug('ComfyUI has no history entry yet.', ['prompt_id' => $promptId]);
+
+            return [];
+        }
+
+        Log::debug('ComfyUI history response received.', [
+            'prompt_id' => $promptId,
+            'status' => $history['status']['status_str'] ?? null,
+            'output_nodes' => array_keys($history['outputs'] ?? []),
+        ]);
+
+        return $history;
+    }
+
+    public function generationError(array $history): string
+    {
+        $messages = [];
+
+        foreach ($history['status']['messages'] ?? [] as $item) {
+            if (! is_array($item)) {
+                continue;
+            }
+
+            $details = $item[1] ?? [];
+            if (is_array($details)) {
+                $message = $details['exception_message'] ?? $details['message'] ?? null;
+                if (is_string($message) && $message !== '') {
+                    $messages[] = $message;
+                }
+            }
+        }
+
+        if ($messages === [] && ! empty($history['status']['node_errors'])) {
+            $messages[] = (string) json_encode($history['status']['node_errors'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
+        return $messages !== []
+            ? 'ComfyUI a échoué : ' . implode(' ; ', array_unique($messages))
+            : 'ComfyUI a signalé une erreur pendant la génération.';
+    }
+
+    private function downloadImage(string $baseUrl, array $image, string $promptId): string
+    {
+        $parameters = [
+            'filename' => $image['filename'],
+            'subfolder' => $image['subfolder'] ?? '',
+            'type' => $image['type'] ?? 'output',
+        ];
+
+        Log::info('Downloading ComfyUI SaveImage output.', [
+            'prompt_id' => $promptId,
+            'filename' => $parameters['filename'],
+            'subfolder' => $parameters['subfolder'],
+            'type' => $parameters['type'],
+        ]);
+
+        $response = Http::timeout(60)->get($baseUrl . '/view?' . http_build_query($parameters));
+
+        if ($response->failed()) {
+            throw new RuntimeException('Impossible de télécharger le visuel généré par ComfyUI (HTTP ' . $response->status() . ').');
+        }
+
+        $contents = $response->body();
+
+        if (! str_starts_with($contents, "\x89PNG\r\n\x1a\n")) {
+            throw new RuntimeException('ComfyUI n’a pas retourné une image PNG valide.');
+        }
+
+        Log::info('ComfyUI image downloaded.', [
+            'prompt_id' => $promptId,
+            'filename' => $parameters['filename'],
+            'bytes' => strlen($contents),
+        ]);
+
+        return $contents;
+    }
+
+    public function downloadAndStoreImage(
+        string $filename,
+        string $subfolder,
+        string $type,
+        string $agentId,
+        string $promptId
+    ): array {
+        $baseUrl = rtrim((string) config('services.comfyui.url'), '/');
+
+        if ($baseUrl === '') {
+            throw new RuntimeException('ComfyUI est indisponible : URL non configurée.');
+        }
+
+        if ($filename === '') {
+            throw new RuntimeException('ComfyUI n’a fourni aucun nom de fichier image.');
+        }
+
+        $contents = $this->downloadImage($baseUrl, [
+            'filename' => $filename,
+            'subfolder' => $subfolder,
+            'type' => $type,
+        ], $promptId);
+        $path = $this->storeImage($agentId, $filename, $contents);
+
+        return [
+            'path' => $path,
+            'url' => Storage::disk('public')->url($path),
+            'filename' => $filename,
+            'bytes' => strlen($contents),
+        ];
+    }
+
+    private function storeImage(string $agentId, string $filename, string $contents): string
+    {
+        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION)) ?: 'png';
+
+        if (! in_array($extension, ['png', 'jpg', 'jpeg', 'webp'], true)) {
+            $extension = 'png';
+        }
+
+        $path = 'user-agent-publication-visuals/' . $agentId . '/' . Str::uuid() . '.' . $extension;
+        $disk = Storage::disk('public');
+        $written = $disk->put($path, $contents);
+
+        if (! $written || ! $disk->exists($path) || $disk->size($path) <= 0) {
+            $disk->delete($path);
+
+            throw new RuntimeException('Le visuel ComfyUI n’a pas pu être enregistré dans le stockage public Laravel.');
+        }
+
+        Log::info('ComfyUI image stored in Laravel public storage.', [
+            'path' => $path,
+            'bytes' => $disk->size($path),
+        ]);
+
+        return $path;
     }
 
     private function workflow(string $prompt, string $negativePrompt, array $overrides): array
@@ -244,53 +430,4 @@ class ComfyUIClient
         ];
     }
 
-    private function waitForImage(string $baseUrl, string $promptId, int $timeout): array
-    {
-        $deadline = microtime(true) + $timeout;
-
-        while (microtime(true) < $deadline) {
-            $response = Http::timeout(30)->acceptJson()->get($baseUrl . '/history/' . $promptId);
-
-            if ($response->failed()) {
-                sleep(2);
-                continue;
-            }
-
-            $history = $response->json($promptId) ?? [];
-            $status = $history['status']['status_str'] ?? null;
-
-            if ($status === 'error') {
-                throw new RuntimeException('ComfyUI a signalé une erreur pendant la génération.');
-            }
-
-            foreach ($history['outputs'] ?? [] as $output) {
-                $image = $output['images'][0] ?? null;
-
-                if (!$image || empty($image['filename'])) {
-                    continue;
-                }
-
-                $query = http_build_query([
-                    'filename' => $image['filename'],
-                    'subfolder' => $image['subfolder'] ?? '',
-                    'type' => $image['type'] ?? 'output',
-                ]);
-
-                $download = Http::timeout(60)->get($baseUrl . '/view?' . $query);
-
-                if ($download->failed()) {
-                    throw new RuntimeException('Impossible de télécharger le visuel généré par ComfyUI.');
-                }
-
-                return [
-                    'filename' => $image['filename'],
-                    'contents' => $download->body(),
-                ];
-            }
-
-            sleep(2);
-        }
-
-        throw new RuntimeException('ComfyUI a mis trop de temps à générer le visuel.');
-    }
 }

@@ -19,6 +19,21 @@ class UserAgentPublicationVisual extends Model
         'theme',
         'status',
         'error',
+        'visual_subject',
+        'visual_style',
+        'aspect_ratio',
+        'visual_direction',
+        'comfy_filename',
+        'comfy_subfolder',
+        'comfy_type',
+        'started_at',
+        'completed_at',
+    ];
+
+    protected $casts = [
+        'started_at' => 'datetime',
+        'completed_at' => 'datetime',
+        'visual_direction' => 'array',
     ];
 
     public function entry(): BelongsTo

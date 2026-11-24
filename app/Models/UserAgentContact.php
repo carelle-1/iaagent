@@ -11,7 +11,13 @@ class UserAgentContact extends Model
         'user_agent_id',
         'name',
         'phone',
+        'email',
         'notes',
+        'is_public',
+    ];
+
+    protected $casts = [
+        'is_public' => 'boolean',
     ];
 
     public function userAgent(): BelongsTo

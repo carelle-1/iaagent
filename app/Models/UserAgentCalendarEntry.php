@@ -16,6 +16,12 @@ class UserAgentCalendarEntry extends Model
         'title',
         'caption',
         'generated_content',
+        'studio_caption',
+        'studio_hashtags',
+        'studio_visual_prompt',
+        'studio_cta',
+        'studio_generated_at',
+        'studio_generated',
         'visual_prompt',
         'hashtags',
         'status',
@@ -27,6 +33,7 @@ class UserAgentCalendarEntry extends Model
 
     protected $casts = [
         'published_at' => 'datetime',
+        'studio_generated_at' => 'datetime',
     ];
 
     public function userAgent(): BelongsTo

@@ -13,6 +13,9 @@ class UserAgentIdentity extends Model
         'palette',
         'charter',
         'logo_path',
+        'secteur_activite',
+        'localisation',
+        'cible',
     ];
 
     protected $casts = [

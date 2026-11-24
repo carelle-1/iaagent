@@ -38,6 +38,9 @@ class UserAgentIdentityController extends Controller
             'objective' => 'nullable|string|max:5000',
             'palette' => 'nullable|string',
             'charter' => 'nullable|string|max:5000',
+            'secteur_activite' => 'nullable|string|max:255',
+            'localisation' => 'nullable|string|max:255',
+            'cible' => 'nullable|string|max:5000',
             'logo' => 'nullable|image|max:2048',
             'remove_logo' => 'nullable|boolean',
         ]);
@@ -47,6 +50,9 @@ class UserAgentIdentityController extends Controller
         $identity->objective = ($validated['objective'] ?? '') !== '' ? $validated['objective'] : null;
         $identity->palette = $this->decodePalette($request->input('palette'));
         $identity->charter = ($validated['charter'] ?? '') !== '' ? $validated['charter'] : null;
+        $identity->secteur_activite = ($validated['secteur_activite'] ?? '') !== '' ? $validated['secteur_activite'] : null;
+        $identity->localisation = ($validated['localisation'] ?? '') !== '' ? $validated['localisation'] : null;
+        $identity->cible = ($validated['cible'] ?? '') !== '' ? $validated['cible'] : null;
 
         if ($request->hasFile('logo')) {
             if ($identity->logo_path) {
@@ -283,6 +289,7 @@ class UserAgentIdentityController extends Controller
             'handle' => 'required|string|max:255',
             'url' => 'nullable|url|max:500',
             'notes' => 'nullable|string|max:2000',
+            'style' => 'nullable|string|max:2000',
         ]);
     }
 
@@ -291,7 +298,9 @@ class UserAgentIdentityController extends Controller
         return $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:50',
+            'email' => 'nullable|email|max:255',
             'notes' => 'nullable|string|max:2000',
+            'is_public' => 'nullable|boolean',
         ]);
     }
 
@@ -346,6 +355,9 @@ class UserAgentIdentityController extends Controller
             'objective' => $identity->objective,
             'palette' => $identity->palette ?? [],
             'charter' => $identity->charter,
+            'secteur_activite' => $identity->secteur_activite,
+            'localisation' => $identity->localisation,
+            'cible' => $identity->cible,
             'logo_path' => $identity->logo_path,
             'logo_url' => $identity->logo_path
                 ? '/user/agents/logo/' . basename($identity->logo_path)

@@ -33,7 +33,20 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     })->name('dashboard');
 
     Route::get('/user/dashboard', function () {
-        return view('user-dashboard');
+        $userId = auth()->id();
+        $userAgentIds = \App\Models\UserAgent::where('user_id', $userId)->pluck('id');
+
+        $dashboardStats = [
+            'agents_operational' => (int) \App\Models\UserAgent::where('user_id', $userId)->count(),
+            'meta_connected' => (int) \App\Models\MetaAccount::where('user_id', $userId)->where('status', 'connected')->count(),
+            'pending_validation' => (int) \App\Models\UserAgentCalendarEntry::whereIn('user_agent_id', $userAgentIds)->where('status', 'validated')->count(),
+            'auto_ready' => (int) \App\Models\UserAgentCalendarEntry::whereIn('user_agent_id', $userAgentIds)->where('studio_generated', true)->where('status', '!=', 'published')->count(),
+            'online_meta' => (int) \App\Models\UserAgentCalendarEntry::whereIn('user_agent_id', $userAgentIds)->whereNotNull('platform_post_id')->count(),
+        ];
+
+        $metaAccounts = \App\Models\MetaAccount::where('user_id', $userId)->latest()->get();
+
+        return view('user-dashboard', compact('dashboardStats', 'metaAccounts'));
     })->name('user.dashboard')->middleware('role:user');
 
     Route::get('/admin/dashboard', function () {
@@ -316,6 +329,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
     Route::middleware(['role:user'])->prefix('user/meta-accounts')->name('user.meta-accounts.')->group(function () {
         Route::get('/', [MetaAccountController::class, 'index'])->name('index');
+        Route::get('/dashboard-stats', [UserAgentPublicationController::class, 'dashboardStats'])->name('dashboard-stats');
         Route::post('/', [MetaAccountController::class, 'store'])->name('store');
         Route::get('/{metaAccount}', [MetaAccountController::class, 'show'])->name('show');
         Route::put('/{metaAccount}', [MetaAccountController::class, 'update'])->name('update');
@@ -336,6 +350,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::get('/visuals/{visual}', [UserAgentPublicationController::class, 'visualStatus'])->name('visuals.status');
     });
 
+    Route::middleware(['role:user'])->get('/user/veille', [UserAgentPublicationController::class, 'veille'])->name('user.veille');
+    Route::middleware(['role:user'])->get('/user/subscription', [UserAgentPublicationController::class, 'subscription'])->name('user.subscription');
+
     Route::middleware(['role:user'])->prefix('user/agents')->name('user.agents.')->group(function () {
         Route::get('/', [UserAgentController::class, 'index'])->name('index');
         Route::post('/', [UserAgentController::class, 'store'])->name('store');
@@ -343,6 +360,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::post('/{userAgent}', [UserAgentController::class, 'update'])->name('update.post');
         Route::delete('/{userAgent}', [UserAgentController::class, 'destroy'])->name('destroy');
         Route::get('/admin-agents', [UserAgentController::class, 'adminAgents'])->name('admin-agents');
+        Route::get('/categories', [UserAgentController::class, 'categories'])->name('categories');
         Route::get('/photo/{filename}', [UserAgentController::class, 'servePhoto'])->name('photo');
         Route::get('/logo/{filename}', [UserAgentIdentityController::class, 'serveLogo'])->name('logo');
         Route::get('/identity-image/{filename}', [UserAgentIdentityController::class, 'serveImage'])->name('identity.images.serve');

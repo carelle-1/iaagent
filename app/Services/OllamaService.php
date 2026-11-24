@@ -35,14 +35,21 @@ class OllamaService
         }
     }
 
-    public function generate(string $model, string $prompt, ?int $timeout = null, ?int $numPredict = null): array
+    public function generate(
+        string $model,
+        string $prompt,
+        ?int $timeout = null,
+        ?int $numPredict = null,
+        array|string $format = 'json',
+        ?float $temperature = null
+    ): array
     {
         @set_time_limit(0);
 
         $timeout = $timeout ?: (int) config('services.ollama.timeout', 420);
 
         $options = [
-            'temperature' => 0.6,
+            'temperature' => $temperature ?? 0.6,
         ];
 
         if ($numPredict) {
@@ -56,7 +63,7 @@ class OllamaService
                     'model' => $model,
                     'prompt' => $prompt,
                     'stream' => false,
-                    'format' => 'json',
+                    'format' => $format,
                     'think' => false,
                     'options' => $options,
                 ]);
@@ -64,7 +71,7 @@ class OllamaService
             if (!$response->successful()) {
                 return [
                     'ok' => false,
-                    'error' => 'Ollama a retourné HTTP ' . $response->status() . '.',
+                    'error' => 'Le moteur de génération a retourné une erreur HTTP ' . $response->status() . '.',
                 ];
             }
 
@@ -85,13 +92,13 @@ class OllamaService
             return [
                 'ok' => false,
                 'error' => $isTimeout
-                    ? 'Ollama a mis trop de temps à répondre. Essayez un modèle plus petit (llama3.2:1b) ou réduisez le nombre de publications.'
-                    : 'Connexion à Ollama impossible (' . $this->baseUrl() . '). Vérifiez qu\'Ollama est démarré.',
+                    ? 'Le moteur de génération a mis trop de temps à répondre. Réduisez le nombre de publications ou réessayez.'
+                    : 'Connexion au moteur de génération impossible. Réessayez dans quelques instants.',
             ];
         } catch (Throwable $e) {
             return [
                 'ok' => false,
-                'error' => 'Erreur Ollama : ' . $e->getMessage(),
+                'error' => 'Erreur du moteur de génération.',
             ];
         }
     }

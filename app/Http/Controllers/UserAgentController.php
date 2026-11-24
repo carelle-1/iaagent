@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\AgentCategory;
 use App\Models\UserAgent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserAgentController extends Controller
@@ -14,16 +16,37 @@ class UserAgentController extends Controller
     public function index()
     {
         $userAgents = Auth::user()->userAgents()
-            ->with('agent')
+            ->with(['agent.category'])
             ->latest()
             ->get();
 
         return response()->json(['success' => true, 'userAgents' => $userAgents]);
     }
 
-    public function adminAgents()
+    public function categories()
     {
-        $agents = Agent::active()->orderBy('name')->get(['id', 'name', 'description']);
+        $categories = AgentCategory::active()
+            ->ordered()
+            ->with(['agents' => function ($query) {
+                $query->active()->orderBy('name')->get(['id', 'name', 'description', 'category_id']);
+            }])
+            ->get(['id', 'name', 'description']);
+
+        return response()->json(['success' => true, 'categories' => $categories]);
+    }
+
+    public function adminAgents(Request $request)
+    {
+        $query = Agent::active()
+            ->with('category:id,name')
+            ->orderBy('name');
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->integer('category_id'));
+        }
+
+        $agents = $query->get(['id', 'name', 'description', 'category_id']);
+
         return response()->json(['success' => true, 'agents' => $agents]);
     }
 
@@ -31,11 +54,21 @@ class UserAgentController extends Controller
     {
         $data = $request->validate([
             'agent_id' => 'required|exists:agents,id',
+            'category_id' => 'required|exists:agent_categories,id',
             'custom_name' => 'nullable|string|max:255',
             'domain' => 'nullable|string|max:255',
             'tone' => 'nullable|string|max:100',
             'profile_photo' => 'nullable|image|max:2048',
         ]);
+
+        $agent = Agent::findOrFail($data['agent_id']);
+        if ((int) $agent->category_id !== (int) $data['category_id']) {
+            throw ValidationException::withMessages([
+                'category_id' => "La catégorie sélectionnée ne correspond pas au modèle d'agent choisi.",
+            ]);
+        }
+
+        unset($data['category_id']);
 
         if ($request->hasFile('profile_photo')) {
             $data['profile_photo'] = $request->file('profile_photo')->store('user-agents', 'public');
@@ -58,12 +91,26 @@ class UserAgentController extends Controller
 
         $data = $request->validate([
             'agent_id' => 'sometimes|required|exists:agents,id',
+            'category_id' => 'sometimes|required|exists:agent_categories,id',
             'custom_name' => 'nullable|string|max:255',
             'domain' => 'nullable|string|max:255',
             'tone' => 'nullable|string|max:100',
             'profile_photo' => 'nullable|image|max:2048',
             'remove_photo' => 'nullable|boolean',
         ]);
+
+        $categoryId = $data['category_id'] ?? $userAgent->agent->category_id;
+        if (! empty($data['agent_id'])) {
+            $agent = Agent::findOrFail($data['agent_id']);
+            if ($categoryId && (int) $agent->category_id !== (int) $categoryId) {
+                throw ValidationException::withMessages([
+                    'category_id' => "La catégorie sélectionnée ne correspond pas au modèle d'agent choisi.",
+                ]);
+            }
+            $data['category_id'] = $agent->category_id;
+        }
+
+        unset($data['category_id']);
 
         if ($request->hasFile('profile_photo')) {
             if ($userAgent->profile_photo) {

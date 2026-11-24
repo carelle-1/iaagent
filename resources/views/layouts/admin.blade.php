@@ -9,8 +9,9 @@
 <meta http-equiv="Expires" content="0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Century+Gothic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
+<link rel="icon" href="{{ asset('assets/1.png') }}" type="image/png">
 <script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
 <style>
 :root{
@@ -22,7 +23,7 @@
 }
 html{box-sizing:border-box; scroll-padding-top:env(safe-area-inset-top,0px);}
 *, *::before, *::after{box-sizing:inherit;}
-body{margin:0; background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif;
+body{margin:0; background:var(--bg); color:var(--text); font-family:'Century Gothic',system-ui,sans-serif;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); -webkit-font-smoothing:antialiased;}
 button,input,select,textarea{font-family:inherit;}
 a{color:inherit; text-decoration:none;}
